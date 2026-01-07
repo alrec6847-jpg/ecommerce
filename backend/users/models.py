@@ -10,6 +10,7 @@ class User(AbstractUser):
     address = models.TextField(blank=True, null=True, verbose_name="العنوان")
     governorate = models.CharField(max_length=50, blank=True, null=True, verbose_name="المحافظة")
     is_customer = models.BooleanField(default=True, verbose_name="عميل")
+    is_wholesale = models.BooleanField(default=False, verbose_name="تاجر جملة")
     is_staff_member = models.BooleanField(default=False, verbose_name="موظف")
 
     USERNAME_FIELD = 'phone'

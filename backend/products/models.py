@@ -53,9 +53,16 @@ class Product(models.Model):
     
     # Pricing
     price = models.DecimalField(
-        'السعر',
+        'السعر (مفرد)',
         max_digits=10,
         decimal_places=2,
+        validators=[MinValueValidator(0)]
+    )
+    wholesale_price = models.DecimalField(
+        'سعر الجملة',
+        max_digits=10,
+        decimal_places=2,
+        default=0,
         validators=[MinValueValidator(0)]
     )
     discount_amount = models.DecimalField(
@@ -129,10 +136,22 @@ class Product(models.Model):
     
     @property
     def discounted_price(self):
-        """Calculate discounted price"""
+        """Calculate discounted price for display"""
+        # Note: This is used for general display. 
+        # The serializer will handle showing the correct price for authenticated wholesale users.
         if self.discount_amount > 0:
             final_price = self.price - self.discount_amount
-            return max(final_price, 0)  # لا يمكن أن يكون السعر سالباً
+            return max(final_price, 0)
+        return self.price
+    
+    def get_price_for_user(self, user):
+        """Helper to get appropriate price based on user type"""
+        if user and hasattr(user, 'is_wholesale') and user.is_wholesale:
+            return self.wholesale_price if self.wholesale_price > 0 else self.price
+        
+        # Retail price (with discount if applicable)
+        if self.discount_amount > 0:
+            return max(self.price - self.discount_amount, 0)
         return self.price
     
     @property

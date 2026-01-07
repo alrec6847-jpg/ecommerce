@@ -139,11 +139,11 @@ const Login = ({ setUser }) => {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <div className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white w-20 h-20 rounded-full flex items-center justify-center font-bold text-3xl mx-auto mb-4">
-            M
+          <div className="bg-white w-20 h-20 rounded-full flex items-center justify-center overflow-hidden mx-auto mb-4 border border-gray-100 shadow-md">
+            <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
-            MIMI STORE
+            شركة الريادة المتحدة
           </h2>
           <p className="text-gray-600">
             {isLogin ? 'مرحباً بعودتك!' : 'إنشاء حساب جديد'}
@@ -338,7 +338,7 @@ const Login = ({ setUser }) => {
         {/* Features */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
-            لماذا تختار MIMI STORE؟
+            لماذا تختار شركة الريادة المتحدة؟
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="text-center">

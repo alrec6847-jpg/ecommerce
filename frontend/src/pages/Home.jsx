@@ -257,15 +257,13 @@ const Home = ({ user, setUser }) => {
             {/* Logo and Title */}
             <div className="flex items-center space-x-2 md:space-x-4 space-x-reverse">
               <div className="relative">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-md flex items-center justify-center">
-                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden">
+                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
               <div>
-                <h1 className="text-lg md:text-2xl font-bold gradient-text">MIMI STORE</h1>
+                <h1 className="text-lg md:text-2xl font-bold gradient-text">شركة الريادة المتحدة</h1>
               </div>
             </div>
 
@@ -586,7 +584,7 @@ const Home = ({ user, setUser }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">MIMI STORE</h3>
+              <h3 className="text-xl font-bold mb-4">شركة الريادة المتحدة</h3>
               <p className="text-gray-300">
                 متجرك الإلكتروني المفضل للحصول على أفضل المنتجات بأسعار مميزة
               </p>
@@ -612,14 +610,14 @@ const Home = ({ user, setUser }) => {
             <div>
               <h4 className="font-semibold mb-4">تواصل معنا</h4>
               <div className="space-y-2 text-gray-300">
-                <a href="tel:+96407737698219" className="hover:text-white transition-colors block">📞 07737698219</a>
-                <a href="https://wa.me/9647737698219" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">💬 واتساب</a>
-                <a href="https://t.me/mimi_store10" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">📱 تيليجرام</a>
+                <a href="tel:07834950300" className="hover:text-white transition-colors block">📞 0783495 0300</a>
+                <a href="https://wa.me/9647834950300" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">💬 واتساب</a>
+                <a href="https://t.me/+9647834950300" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">📱 تيليجرام</a>
               </div>
             </div>
           </div>
           <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-            <p>&copy; 2025 MIMI STORE. جميع الحقوق محفوظة.</p>
+            <p>&copy; 2025 شركة الريادة المتحدة. جميع الحقوق محفوظة.</p>
           </div>
         </div>
       </footer>

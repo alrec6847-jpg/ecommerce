@@ -31,7 +31,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'price', 'discount_amount', 'discount_percentage', 'discounted_price', 
+        fields = ['id', 'name', 'price', 'wholesale_price', 'discount_amount', 'discount_percentage', 'discounted_price', 
                   'is_on_sale', 'stock_quantity', 'stock', 'category_name', 'main_image', 'image_2', 
                   'image_3', 'image_4', 'main_image_url', 'image', 'is_featured', 'show_on_homepage', 
                   'brand', 'is_in_stock']
@@ -55,7 +55,15 @@ class ProductListSerializer(serializers.ModelSerializer):
         return obj.discount_percentage
     
     def get_discounted_price(self, obj):
-        """Get discounted price from model property"""
+        """Get appropriate discounted price based on user type"""
+        request = self.context.get('request')
+        user = request.user if request else None
+        
+        if user and user.is_authenticated and hasattr(user, 'is_wholesale') and user.is_wholesale:
+            # For wholesale users, we return the wholesale price
+            return obj.wholesale_price if obj.wholesale_price > 0 else obj.price
+            
+        # For normal users, return normal discounted price
         return obj.discounted_price
     
     def get_is_on_sale(self, obj):
@@ -77,7 +85,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'id', 'name', 'description', 'category', 'category_name',
-            'price', 'discount_amount', 'discount_percentage', 'discounted_price', 'is_on_sale',
+            'price', 'wholesale_price', 'discount_amount', 'discount_percentage', 'discounted_price', 'is_on_sale',
             'stock_quantity', 'stock', 'low_stock_threshold',
             'main_image', 'image_2', 'image_3', 'image_4', 'main_image_url', 'image', 'all_images',
             'brand', 'model', 'color', 'size', 'weight',
@@ -113,7 +121,15 @@ class ProductSerializer(serializers.ModelSerializer):
         return obj.discount_percentage
     
     def get_discounted_price(self, obj):
-        """Get discounted price from model property"""
+        """Get appropriate discounted price based on user type"""
+        request = self.context.get('request')
+        user = request.user if request else None
+        
+        if user and user.is_authenticated and hasattr(user, 'is_wholesale') and user.is_wholesale:
+            # For wholesale users, we return the wholesale price
+            return obj.wholesale_price if obj.wholesale_price > 0 else obj.price
+            
+        # For normal users, return normal discounted price
         return obj.discounted_price
     
     def get_is_on_sale(self, obj):
