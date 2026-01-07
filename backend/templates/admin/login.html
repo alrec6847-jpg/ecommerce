@@ -1,13 +1,13 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static %}
 
-{% block title %}تسجيل الدخول | MIMI STORE Admin{% endblock %}
+{% block title %}تسجيل الدخول | شركة الريادة المتحدة Admin{% endblock %}
 
 {% block extrahead %}
     {{ block.super }}
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -26,7 +26,7 @@
         }
         
         .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%);
             color: white;
             text-align: center;
             padding: 40px 30px;
@@ -70,9 +70,9 @@
         
         .form-control:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #ff6600;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1);
         }
         
         .form-label {
@@ -92,14 +92,14 @@
             top: -8px;
             right: 15px;
             font-size: 0.85rem;
-            color: #667eea;
+            color: #ff6600;
             background: white;
         }
         
         .login-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -112,7 +112,7 @@
         
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 102, 0, 0.3);
         }
         
         .login-btn:active {
@@ -136,14 +136,14 @@
         }
         
         .forgot-password a {
-            color: #667eea;
+            color: #ff6600;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
         }
         
         .forgot-password a:hover {
-            color: #764ba2;
+            color: #cc0000;
             text-decoration: underline;
         }
         
@@ -166,7 +166,7 @@
         }
         
         .form-control:focus ~ .input-icon {
-            color: #667eea;
+            color: #ff6600;
         }
         
         /* Animation */
@@ -210,9 +210,9 @@
 <div class="login-container">
     <div class="login-header">
         <div class="login-logo">
-            <i class="fas fa-crown"></i>
+            <i class="fas fa-laptop"></i>
         </div>
-        <div class="login-title">MIMI STORE</div>
+        <div class="login-title">شركة الريادة المتحدة</div>
         <div class="login-subtitle">لوحة التحكم الإدارية</div>
     </div>
     
