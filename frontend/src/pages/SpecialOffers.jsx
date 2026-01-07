@@ -111,10 +111,10 @@ const SpecialOffers = ({ user }) => {
                 </svg>
               </button>
               <Link to="/" className="flex items-center space-x-2 space-x-reverse">
-                <div className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white w-8 h-8 rounded-lg flex items-center justify-center font-bold">
-                  M
+                <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-gray-100">
+                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
                 </div>
-                <span className="text-xl font-bold text-primary-600">MIMI STORE</span>
+                <span className="text-xl font-bold text-primary-600">شركة الريادة المتحدة</span>
               </Link>
             </div>
 

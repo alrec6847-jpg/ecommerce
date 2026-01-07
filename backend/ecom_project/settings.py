@@ -16,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.0.0.0.0,ecom-parent-project.onrender.com').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,complicated-selena-alihussen-8e9035d7.koyeb.app').split(',')
 
 # Application definition
 DJANGO_APPS = [
@@ -321,7 +321,7 @@ FIREBASE_CREDENTIALS_PATH = config('FIREBASE_CREDENTIALS_PATH', default=str(BASE
 FIREBASE_PROJECT_ID = config('FIREBASE_PROJECT_ID', default='ecomproject-a8173')
 
 # ImgBB Configuration
-IMGBB_API_KEY = config('IMGBB_API_KEY', default='a2cebbc3daff0b042082a5d5d7a3b80d')
+IMGBB_API_KEY = config('IMGBB_API_KEY', default='9de400bde23442bc3502acb058aa7473')
 
 # Security Settings
 if not DEBUG:
@@ -386,18 +386,18 @@ os.makedirs(BASE_DIR / 'logs', exist_ok=True)
 # Jazzmin settings
 JAZZMIN_SETTINGS = {
     # Site branding
-    "site_title": "MIMI STORE - لوحة الإدارة",
-    "site_header": "🛍️ MIMI STORE",
-    "site_brand": "MIMI STORE",
-    "site_logo": None,
-    "login_logo": None,
+    "site_title": "شركة الريادة المتحدة - لوحة الإدارة",
+    "site_header": "🏗️ شركة الريادة المتحدة",
+    "site_brand": "شركة الريادة المتحدة",
+    "site_logo": "https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png",
+    "login_logo": "https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png",
     "login_logo_dark": None,
     "site_logo_classes": "img-circle",
     "site_icon": None,
 
     # Welcome message
-    "welcome_sign": "مرحباً بك في لوحة تحكم متجر ميمي الاحترافية",
-    "copyright": "© 2024 MIMI STORE - جميع الحقوق محفوظة",
+    "welcome_sign": "مرحباً بك في لوحة تحكم شركة الريادة المتحدة",
+    "copyright": "© 2024 شركة الريادة المتحدة - جميع الحقوق محفوظة",
 
     # Search model
     "search_model": ["users.User", "products.Product", "products.Coupon", "orders.Order"],
@@ -579,8 +579,8 @@ try:
 
     if cred:
         firebase_admin.initialize_app(cred)
-        print("✅ Firebase initialized successfully.")
+        print("Firebase initialized successfully.")
     else:
-        print("⚠️ Firebase credentials not found. Skipping initialization.")
+        print("Firebase credentials not found. Skipping initialization.")
 except ModuleNotFoundError:
-    print("⚠️ مكتبة Firebase Admin غير مثبتة. يمكنك تثبيتها لاحقًا باستخدام pip install firebase-admin")
+    print("Firebase Admin library not installed. You can install it later using pip install firebase-admin")

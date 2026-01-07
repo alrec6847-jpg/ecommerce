@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">MIMI STORE</h3>
+            <h3 className="text-xl font-bold mb-4">شركة الريادة المتحدة</h3>
             <p className="text-gray-300">
               متجرك الإلكتروني المفضل للحصول على أفضل المنتجات بأسعار مميزة
             </p>
@@ -33,14 +33,14 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">تواصل معنا</h4>
             <div className="space-y-2 text-gray-300">
-              <a href="tel:+96407737698219" className="hover:text-white transition-colors block">📞 07737698219</a>
-              <a href="https://wa.me/9647737698219" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">💬 واتساب</a>
-              <a href="https://t.me/mimi_store10" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">📱 تيليجرام</a>
+              <a href="tel:07834950300" className="hover:text-white transition-colors block">📞 0783495 0300</a>
+              <a href="https://wa.me/9647834950300" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">💬 واتساب</a>
+              <a href="https://t.me/+9647834950300" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">📱 تيليجرام</a>
             </div>
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-          <p>&copy; 2025 MIMI STORE. جميع الحقوق محفوظة.</p>
+          <p>&copy; 2025 شركة الريادة المتحدة. جميع الحقوق محفوظة.</p>
         </div>
       </div>
     </footer>

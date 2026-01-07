@@ -36,10 +36,10 @@ class ProductAdminForm(forms.ModelForm):
 
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
-    list_display = ('product_image', 'name', 'category', 'brand', 'price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
+    list_display = ('product_image', 'name', 'category', 'brand', 'price', 'wholesale_price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
     list_filter = ('category', 'brand', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
     search_fields = ('name', 'description', 'brand', 'model')
-    list_editable = ('price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage')
+    list_editable = ('price', 'wholesale_price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage')
     
     def product_image(self, obj):
         """عرض صورة صغيرة من المنتج"""
@@ -53,7 +53,7 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('name', 'description', 'category', 'brand', 'model')
         }),
         ('💰 التسعير والخصومات', {
-            'fields': ('price', 'discount_amount')
+            'fields': ('price', 'wholesale_price', 'discount_amount')
         }),
         ('📊 إدارة المخزون', {
             'fields': ('stock_quantity', 'low_stock_threshold')

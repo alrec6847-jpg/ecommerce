@@ -508,11 +508,11 @@ const AdminPanel = ({ user, setUser }) => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4 space-x-reverse">
               <Link to="/" className="flex items-center space-x-2 space-x-reverse">
-                <div className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-xl">
-                  M
+                <div className="w-10 h-10 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden border border-gray-100">
+                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
                 </div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-                  MIMI STORE - لوحة الإدارة
+                  شركة الريادة المتحدة - لوحة الإدارة
                 </h1>
               </Link>
             </div>

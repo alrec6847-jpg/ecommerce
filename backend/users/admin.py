@@ -5,15 +5,15 @@ from .models import User
 
 
 class UserAdmin(BaseUserAdmin):
-    list_display = ('email', 'username', 'first_name', 'last_name', 'is_staff', 'is_customer')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'is_customer')
-    search_fields = ('email', 'username', 'first_name', 'last_name')
-    ordering = ('email',)
+    list_display = ('phone', 'username', 'first_name', 'last_name', 'is_staff', 'is_customer', 'is_wholesale')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'is_customer', 'is_wholesale')
+    search_fields = ('email', 'username', 'phone', 'first_name', 'last_name')
+    ordering = ('phone',)
 
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
-        ('المعلومات الشخصية', {'fields': ('first_name', 'last_name', 'phone', 'address')}),
-        ('الصلاحيات', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_customer', 'groups', 'user_permissions')}),
+        ('المعلومات الشخصية', {'fields': ('first_name', 'last_name', 'phone', 'address', 'governorate')}),
+        ('الصلاحيات', {'fields': ('is_active', 'is_staff', 'is_superuser', 'is_customer', 'is_wholesale', 'groups', 'user_permissions')}),
         ('التواريخ المهمة', {'fields': ('last_login', 'date_joined')}),
     )
 
