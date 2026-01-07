@@ -1,6 +1,6 @@
 {
-  "short_name": "MIMI STORE",
-  "name": "MIMI STORE - متجر ميمي الإلكتروني",
+  "short_name": "شركة الريادة المتحدة",
+  "name": "شركة الريادة المتحدة - Riyada Company",
   "description": "متجرك الإلكتروني المفضل للتسوق الآمن والسريع",
   "icons": [
     {
@@ -21,7 +21,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#8b5cf6",
+  "theme_color": "#f97316",
   "background_color": "#ffffff",
   "orientation": "portrait",
   "dir": "rtl",

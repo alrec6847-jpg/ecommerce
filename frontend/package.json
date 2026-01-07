@@ -1,7 +1,7 @@
 {
-  "name": "mimi-store-frontend",
+  "name": "riyada-company-frontend",
   "version": "1.0.6",
-  "description": "MIMI STORE - Frontend React Application",
+  "description": "شركة الريادة المتحدة - Frontend React Application",
   "private": true,
   "homepage": "/",
   "dependencies": {
