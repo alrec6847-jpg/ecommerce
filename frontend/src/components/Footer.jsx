@@ -33,7 +33,7 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">تواصل معنا</h4>
             <div className="space-y-2 text-gray-300">
-              <a href="tel:07834950300" className="hover:text-white transition-colors block">📞 0783495 0300</a>
+              <a href="tel:07834950300" className="hover:text-white transition-colors block">📞 07834950300</a>
               <a href="https://wa.me/9647834950300" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">💬 واتساب</a>
               <a href="https://t.me/+9647834950300" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors block">📱 تيليجرام</a>
             </div>

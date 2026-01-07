@@ -8,9 +8,9 @@ const Cart = ({ cart, onCartChange, onClose, handleCheckout }) => {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [loadingCoupon, setLoadingCoupon] = useState(false);
-  const whatsappLink = "https://wa.me/9647737698219";
-  const telegramLink = "https://t.me/mimi_store10";
-  const phoneLink = "tel:07737698219";
+  const whatsappLink = "https://wa.me/9647834950300";
+  const telegramLink = "https://t.me/+9647834950300";
+  const phoneLink = "tel:07834950300";
 
   const showNotification = (message, type = 'success') => {
     setNotification({ show: true, message, type });

@@ -81,22 +81,23 @@ WSGI_APPLICATION = 'ecom_project.wsgi.application'
 import warnings
 warnings.filterwarnings('ignore', category=RuntimeWarning)
 
-if config('DEBUG', default=False, cast=bool):
-    # بيئة التطوير: SQLite
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    # بيئة الإنتاج: PostgreSQL
+# Check if DATABASE_URL is provided - if so, use PostgreSQL regardless of DEBUG
+if config('DATABASE_URL', default=None):
+    # Use PostgreSQL (either local development with Supabase or production)
     DATABASES = {
         'default': dj_database_url.config(
             default=config('DATABASE_URL'),
             conn_max_age=600,
             conn_health_checks=True,
         )
+    }
+else:
+    # بيئة التطوير: SQLite (fallback if DATABASE_URL not provided)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
 
 # Custom User Model
