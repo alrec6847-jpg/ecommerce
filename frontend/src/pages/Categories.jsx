@@ -211,7 +211,7 @@ const Categories = ({ user }) => {
       </header>
 
       {/* Page Title */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-500 py-12">
+      <div className="bg-gradient-to-r from-primary-500 to-secondary-600 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">تصفح الفئات</h1>
           <p className="text-xl text-white opacity-90 max-w-2xl mx-auto">
@@ -246,8 +246,8 @@ const Categories = ({ user }) => {
                     onClick={() => setSelectedCategory(category.id)}
                   >
                     <div className="p-6 text-center">
-                      <div className="w-16 h-16 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="h-8 w-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-16 h-16 bg-gradient-to-r from-primary-100 to-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="h-8 w-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
                       </div>
@@ -255,7 +255,7 @@ const Categories = ({ user }) => {
                       <p className="text-gray-600 text-sm mb-4">
                         {category.description || 'اكتشف منتجات هذه الفئة'}
                       </p>
-                      <button className="text-indigo-600 font-medium hover:text-indigo-800 transition-colors flex items-center justify-center">
+                      <button className="text-primary-600 font-medium hover:text-primary-800 transition-colors flex items-center justify-center">
                         عرض المنتجات
                         <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -277,7 +277,7 @@ const Categories = ({ user }) => {
             <div className="flex items-center justify-between mb-8">
               <button
                 onClick={() => setSelectedCategory(null)}
-                className="flex items-center text-indigo-600 hover:text-indigo-800 transition-colors"
+                className="flex items-center text-primary-600 hover:text-primary-800 transition-colors"
               >
                 <svg className="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -375,7 +375,7 @@ const Categories = ({ user }) => {
                       <div className="flex items-center justify-between mb-2 pb-1 sm:pb-2 border-b border-gray-100">
                         {(product.discount_percentage || product.discount) > 0 ? (
                           <div className="flex items-center space-x-1 sm:space-x-2 space-x-reverse flex-1">
-                            <span className="text-xs sm:text-sm md:text-lg font-bold text-indigo-600">
+                            <span className="text-xs sm:text-sm md:text-lg font-bold text-primary-600">
                               {formatCurrency(product.discounted_price)}
                             </span>
                             <span className="text-xs text-gray-500 line-through">
@@ -430,7 +430,7 @@ const Categories = ({ user }) => {
                           disabled={product.stock === 0}
                           className={`flex-1 py-1.5 sm:py-2 md:py-2.5 rounded-lg font-semibold transition-all text-xs sm:text-sm ${
                             product.stock > 0
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg active:scale-95'
+                              ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:shadow-lg active:scale-95'
                               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                           }`}
                         >

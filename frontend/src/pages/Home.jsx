@@ -270,14 +270,14 @@ const Home = ({ user, setUser }) => {
             {/* Search + Icons */}
             <div className="flex items-center gap-4">
               {/* Search icon (mobile) */}
-              <button className="p-2.5 text-gray-600 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50 md:hidden">
+              <button className="p-2.5 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-primary-50 md:hidden">
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </button>
               {/* Cart */}
               <div className="relative">
-                <button onClick={toggleCart} className="p-2.5 text-gray-600 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50 relative">
+                <button onClick={toggleCart} className="p-2.5 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-primary-50 relative">
                   <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h8" />
                   </svg>
@@ -312,7 +312,7 @@ const Home = ({ user, setUser }) => {
                 {/* Categories Dropdown */}
                 {isMenuOpen && (
                   <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-xl py-2 z-50 border border-gray-100 overflow-hidden transition-all duration-300 transform origin-top-left">
-                    <div className="bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2 text-white text-sm font-medium">
+                    <div className="bg-gradient-to-r from-primary-500 to-secondary-600 px-4 py-2 text-white text-sm font-medium">
                       تصفح حسب الفئة
                     </div>
                     <button
@@ -320,7 +320,7 @@ const Home = ({ user, setUser }) => {
                         setSelectedCategory('');
                         setIsMenuOpen(false);
                       }}
-                      className="block w-full text-right px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center justify-start"
+                      className="block w-full text-right px-4 py-3 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors flex items-center justify-start"
                     >
                       <span className="ml-2">جميع المنتجات</span>
                       <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -335,7 +335,7 @@ const Home = ({ user, setUser }) => {
                           setSelectedCategory(category.id);
                           setIsMenuOpen(false);
                         }}
-                        className="block w-full text-right px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors flex items-center justify-start"
+                        className="block w-full text-right px-4 py-3 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors flex items-center justify-start"
                       >
                         <span className="ml-2">{category.name}</span>
                         <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -400,7 +400,7 @@ const Home = ({ user, setUser }) => {
               <div className="text-center mb-12">
                 <h3 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 inline-block relative">
                   {categories.find(c => c.id === selectedCategory)?.name || 'منتجاتنا'}
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-primary-500 to-secondary-600 rounded-full"></div>
                 </h3>
               </div>
 
@@ -484,7 +484,7 @@ const Home = ({ user, setUser }) => {
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-100">
                       {(product.discount_percentage || product.discount) > 0 ? (
                         <div className="flex items-center space-x-2 space-x-reverse flex-1">
-                          <span className="text-base md:text-lg font-bold text-indigo-600">
+                          <span className="text-base md:text-lg font-bold text-primary-600">
                             {formatCurrency(product.discounted_price || (product.price * (1 - (product.discount_percentage || product.discount) / 100)))}
                           </span>
                           <span className="text-xs md:text-sm text-gray-500 line-through">
@@ -493,7 +493,7 @@ const Home = ({ user, setUser }) => {
                         </div>
                       ) : (
                         <div className="flex-1">
-                          <span className="text-base md:text-lg font-bold text-indigo-600">
+                          <span className="text-base md:text-lg font-bold text-primary-600">
                             {formatCurrency(product.price)}
                           </span>
                         </div>
@@ -534,7 +534,7 @@ const Home = ({ user, setUser }) => {
                           e.stopPropagation();
                           navigate(`/product/${product.id}`);
                         }}
-                        className="px-2 py-2 border border-indigo-500 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors flex items-center text-xs"
+                        className="px-2 py-2 border border-primary-500 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors flex items-center text-xs"
                       >
                         <svg className="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

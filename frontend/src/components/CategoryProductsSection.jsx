@@ -107,7 +107,7 @@ const CategoryProductsSection = ({
           </h3>
           <Link
             to={`/categories/${category.id}`}
-            className="text-indigo-600 hover:text-indigo-700 font-medium text-sm md:text-base flex items-center gap-2 whitespace-nowrap"
+            className="text-primary-600 hover:text-primary-700 font-medium text-sm md:text-base flex items-center gap-2 whitespace-nowrap"
           >
             عرض الكل
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,7 +205,7 @@ const CategoryProductsSection = ({
                   <div className="flex items-center justify-between mb-2 pb-1 sm:pb-2 border-b border-gray-100">
                     {product.discount_percentage > 0 ? (
                       <div className="flex items-center space-x-1 sm:space-x-2 space-x-reverse flex-1">
-                        <span className="text-xs sm:text-sm md:text-lg font-bold text-indigo-600">
+                        <span className="text-xs sm:text-sm md:text-lg font-bold text-primary-600">
                           {formatCurrency(product.discounted_price)}
                         </span>
                         <span className="text-xs text-gray-500 line-through">
@@ -254,7 +254,7 @@ const CategoryProductsSection = ({
                       disabled={product.stock === 0}
                       className={`flex-1 py-1.5 sm:py-2 md:py-2.5 rounded-lg font-semibold transition-all text-xs sm:text-sm ${
                         product.stock > 0
-                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg active:scale-95'
+                          ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white hover:shadow-lg active:scale-95'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
                     >
@@ -288,7 +288,7 @@ const CategoryProductsSection = ({
                   onClick={() => goToPage(index)}
                   className={`rounded-full transition-all duration-300 ${
                     index === currentPage
-                      ? 'bg-indigo-600 w-8 h-2'
+                      ? 'bg-primary-600 w-8 h-2'
                       : 'bg-gray-300 w-2 h-2 hover:bg-gray-400'
                   }`}
                   aria-label={`انتقل إلى الصفحة ${index + 1}`}

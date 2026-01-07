@@ -222,7 +222,7 @@ const SpecialOffers = ({ user }) => {
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-100">
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <>
-                          <span className="text-base md:text-lg font-bold text-indigo-600 flex items-center">
+                          <span className="text-base md:text-lg font-bold text-primary-600 flex items-center">
                             {formatCurrency(product.price * (1 - product.discount / 100))}
                             <span className="text-xs text-gray-500 mr-1">د.ع</span>
                           </span>
@@ -268,7 +268,7 @@ const SpecialOffers = ({ user }) => {
                           e.stopPropagation();
                           navigate(`/product/${product.id}`);
                         }}
-                        className="px-2 py-2 border border-indigo-500 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors flex items-center text-xs"
+                        className="px-2 py-2 border border-primary-500 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors flex items-center text-xs"
                       >
                         <svg className="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

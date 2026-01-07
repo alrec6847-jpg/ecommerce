@@ -380,7 +380,7 @@ const Checkout = ({ cart, onCheckout, onClose, appliedCoupon, couponDiscount }) 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-70"
+                    className="px-6 py-2 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-lg font-medium hover:from-primary-700 hover:to-secondary-700 transition-all disabled:opacity-70"
                   >
                     {loading ? 'جاري الإرسال...' : 'إتمام الطلب'}
                   </button>

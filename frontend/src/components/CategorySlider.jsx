@@ -79,7 +79,7 @@ const CategorySlider = ({ categories, selectedCategory, onCategorySelect }) => {
               onClick={() => onCategorySelect('')}
               className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all flex-shrink-0 ${
                 selectedCategory === ''
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                  ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-lg'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -108,7 +108,7 @@ const CategorySlider = ({ categories, selectedCategory, onCategorySelect }) => {
                   onClick={() => onCategorySelect(category.id)}
                   className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all flex-shrink-0 ${
                     selectedCategory === category.id
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-lg'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -118,7 +118,7 @@ const CategorySlider = ({ categories, selectedCategory, onCategorySelect }) => {
                 {/* Indicator Line */}
                 <div className={`h-1 rounded-full transition-all ${
                   selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 w-full'
+                    ? 'bg-gradient-to-r from-primary-600 to-secondary-600 w-full'
                     : 'bg-transparent w-0'
                 }`}></div>
               </div>
