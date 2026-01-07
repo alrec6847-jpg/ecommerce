@@ -1,0 +1,201 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "جميع الأقسام" %} | {{ site_title|default:_('موقع الإدارة') }}{% endblock %}
+
+{% block branding %}
+<div id="branding">
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">{% trans 'لوحة التحكم' %}</a></h1>
+  <h2 id="site-header">{% trans "جميع الأقسام" %}</h2>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <div class="module">
+    <h2>{% trans "إدارة الأقسام" %}</h2>
+
+    <div class="actions">
+      <a href="{% url 'admin:products_category_add' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> {% trans "إضافة قسم جديد" %}
+      </a>
+      <a href="{% url 'admin:index' %}" class="btn btn-secondary">
+        <i class="fas fa-tachometer-alt"></i> {% trans "العودة للوحة التحكم" %}
+      </a>
+    </div>
+
+    <div class="module">
+      <h2>{% trans "جميع الأقسام" %}</h2>
+      {% if categories %}
+      <table class="model-list">
+        <thead>
+          <tr>
+            <th>{% trans "الاسم" %}</th>
+            <th>{% trans "القسم الأب" %}</th>
+            <th>{% trans "الوصف" %}</th>
+            <th>{% trans "الحالة" %}</th>
+            <th>{% trans "عدد المنتجات" %}</th>
+            <th>{% trans "تاريخ الإنشاء" %}</th>
+            <th>{% trans "الإجراءات" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for category in categories %}
+          <tr>
+            <td>
+              {% if category.parent %}
+                <span style="margin-right: 10px;">└──</span>
+              {% endif %}
+              <strong>{{ category.name }}</strong>
+            </td>
+            <td>
+              {% if category.parent %}
+                <a href="{% url 'admin:products_category_change' category.parent.id %}" class="badge badge-secondary">{{ category.parent.name }}</a>
+              {% else %}
+                <span class="badge badge-light">{% trans "رئيسي" %}</span>
+              {% endif %}
+            </td>
+            <td>{{ category.description|truncatewords:15 }}</td>
+            <td>
+              {% if category.is_active %}
+                <span class="badge badge-success">{% trans "نشط" %}</span>
+              {% else %}
+                <span class="badge badge-warning">{% trans "معطل" %}</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'admin:products_product_changelist' %}?category__id__exact={{ category.id }}" class="badge badge-info">
+                {{ category.products_count }} {% trans "منتج" %}
+              </a>
+            </td>
+            <td>{{ category.created_at|date:"Y-m-d" }}</td>
+            <td>
+              <a href="{% url 'admin:products_category_change' category.id %}" class="btn btn-sm btn-primary" title="{% trans 'تعديل' %}">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="{% url 'admin:products_category_delete' category.id %}" class="btn btn-sm btn-danger" title="{% trans 'حذف' %}">
+                <i class="fas fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="alert alert-info">
+        <p>{% trans "لا توجد أقسام مضافة بعد." %}</p>
+        <a href="{% url 'admin:products_category_add' %}" class="btn btn-primary">{% trans "إضافة قسم جديد" %}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+.model-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+.model-list th, .model-list td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: right;
+}
+.model-list th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+.model-list tr:hover {
+  background-color: #f5f5f5;
+}
+.actions {
+  margin-bottom: 20px;
+  text-align: right;
+}
+.actions .btn {
+  margin-left: 10px;
+}
+.badge {
+  display: inline-block;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10px;
+}
+.badge-success {
+  background-color: #28a745;
+}
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+.badge-info {
+  background-color: #17a2b8;
+}
+.badge-secondary {
+  background-color: #6c757d;
+}
+.badge-light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn i {
+  margin-right: 5px;
+}
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+</style>
+{% endblock %}

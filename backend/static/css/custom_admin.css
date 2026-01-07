@@ -1,15 +1,15 @@
 
-/* Custom Admin CSS for MIMI STORE */
+/* Custom Admin CSS for شركة الريادة المتحدة */
 :root {
-    --primary-color: #4c6ef5;
-    --secondary-color: #845ef7;
+    --primary-color: #ff6600;
+    --secondary-color: #cc0000;
     --success-color: #51cf66;
     --info-color: #339af0;
     --warning-color: #ffd43b;
     --danger-color: #ff6b6b;
     --light-color: #f8f9fa;
     --dark-color: #343a40;
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -258,7 +258,7 @@ body {
 
 /* Login Page */
 .login-page {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;

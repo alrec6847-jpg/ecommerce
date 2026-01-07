@@ -1,0 +1,239 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | شركة الريادة المتحدة Admin{% endblock %}
+
+{% block branding %}
+<div class="navbar-brand" style="display: flex; align-items: center; padding: 10px 20px;">
+    <i class="fas fa-laptop" style="margin-left: 10px; font-size: 1.5rem; color: #ffffff;"></i>
+    <span style="font-weight: 700; font-size: 1.4rem; color: white;">شركة الريادة المتحدة</span>
+    <span style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-right: 10px;">إدارة المتجر</span>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<div class="navbar-nav" style="display: flex; align-items: center; margin-right: auto;">
+    <a href="/" class="nav-link" target="_blank" style="display: flex; align-items: center;">
+        <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
+        عرض الموقع
+    </a>
+    <a href="{% url 'admin:index' %}" class="nav-link" style="display: flex; align-items: center;">
+        <i class="fas fa-home" style="margin-left: 5px;"></i>
+        الرئيسية
+    </a>
+    <a href="{% url 'admin:products_product_changelist' %}" class="nav-link" style="display: flex; align-items: center;">
+        <i class="fas fa-box" style="margin-left: 5px;"></i>
+        المنتجات
+    </a>
+    <a href="{% url 'admin:orders_order_changelist' %}" class="nav-link" style="display: flex; align-items: center;">
+        <i class="fas fa-shopping-cart" style="margin-left: 5px;"></i>
+        الطلبات
+    </a>
+</div>
+{% endblock %}
+
+{% block usertools %}
+<div class="navbar-nav" style="display: flex; align-items: center;">
+    {% if has_permission %}
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex; align-items: center;">
+                <i class="fas fa-user-circle" style="margin-left: 8px; font-size: 1.2rem;"></i>
+                <span>{{ user.get_full_name|default:user.username }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" style="border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                <a class="dropdown-item" href="{% url 'admin:password_change' %}" style="display: flex; align-items: center;">
+                    <i class="fas fa-key" style="margin-left: 10px; color: #667eea;"></i>
+                    تغيير كلمة المرور
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'admin:logout' %}" style="display: flex; align-items: center; color: #dc3545;">
+                    <i class="fas fa-sign-out-alt" style="margin-left: 10px;"></i>
+                    تسجيل الخروج
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'custom_admin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom header styling */
+        .navbar {
+            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+            border: none !important;
+        }
+        
+        .navbar-brand {
+            font-family: 'Cairo', sans-serif !important;
+        }
+        
+        /* Dropdown styling */
+        .dropdown-menu {
+            background: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            padding: 10px 0;
+            margin-top: 10px;
+        }
+        
+        .dropdown-item {
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            margin: 2px 10px;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%);
+            color: white;
+            transform: translateX(-3px);
+        }
+        
+        .dropdown-divider {
+            margin: 8px 0;
+            border-color: #e9ecef;
+        }
+        
+        /* Responsive navbar */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-link {
+                padding: 10px 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+        
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-spinner-large {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Success message styling */
+        .messages {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050;
+            width: auto;
+            max-width: 500px;
+        }
+        
+        .messages .alert {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            font-weight: 500;
+            animation: slideInDown 0.5s ease;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                transform: translate(-50%, -100%);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <script src="{% static 'custom_admin.js' %}"></script>
+    <script src="{% static 'manual_product_tabs.js' %}"></script>
+{% endblock %}
+
+{% block footer %}
+<div class="main-footer" style="background: #f8f9fa; border-top: 1px solid #dee2e6; padding: 15px 20px; text-align: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+        <div style="color: #6c757d; font-weight: 500;">
+            <i class="fas fa-laptop" style="color: #ff6600; margin-left: 5px;"></i>
+            © 2026 شركة الريادة المتحدة - جميع الحقوق محفوظة
+        </div>
+        <div style="color: #6c757d; font-size: 0.9rem;">
+            <i class="fas fa-code" style="margin-left: 5px;"></i>
+            تم التطوير بواسطة شركة الريادة المتحدة
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner-large"></div>
+</div>
+
+<script>
+    // Show loading overlay on form submissions
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
+        forms.forEach(form => {
+            form.addEventListener('submit', function() {
+                loadingOverlay.classList.add('show');
+            });
+        });
+        
+        // Hide loading overlay when page loads
+        window.addEventListener('load', function() {
+            loadingOverlay.classList.remove('show');
+        });
+        
+        // Auto-hide messages after 5 seconds
+        const messages = document.querySelectorAll('.messages .alert');
+        messages.forEach(message => {
+            setTimeout(() => {
+                message.style.animation = 'slideOutUp 0.5s ease';
+                setTimeout(() => {
+                    message.remove();
+                }, 500);
+            }, 5000);
+        });
+    });
+    
+    // Add smooth scrolling
+    document.documentElement.style.scrollBehavior = 'smooth';
+</script>
+{% endblock %}

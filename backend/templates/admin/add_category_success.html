@@ -1,0 +1,131 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "تمت إضافة القسم بنجاح" %} | {{ site_title|default:_('موقع الإدارة') }}{% endblock %}
+
+{% block branding %}
+<div id="branding">
+  <h1 id="site-name"><a href="{% url 'admin:index' %}">{% trans 'لوحة التحكم' %}</a></h1>
+  <h2 id="site-header">{% trans 'تمت إضافة القسم بنجاح' %}</h2>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <div class="module">
+    <h2>{% trans "تمت إضافة القسم بنجاح!" %}</h2>
+
+    <div class="success-message">
+      <div class="alert alert-success">
+        <h4>{% trans "تم حفظ القسم الجديد بنجاح" %}</h4>
+        <p>
+          <strong>{% trans "الاسم:" %}</strong> {{ category.name }}<br>
+          {% if category.parent %}
+            <strong>{% trans "القسم الأب:" %}</strong> {{ category.parent.name }}<br>
+          {% endif %}
+          <strong>{% trans "الحالة:" %}</strong> 
+          {% if category.is_active %}
+            <span class="badge badge-success">{% trans "نشط" %}</span>
+          {% else %}
+            <span class="badge badge-warning">{% trans "معطل" %}</span>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a href="{% url 'admin:products_category_add' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> {% trans "إضافة قسم جديد" %}
+      </a>
+      <a href="{% url 'admin:products_category_changelist' %}" class="btn btn-info">
+        <i class="fas fa-list"></i> {% trans "عرض جميع الأقسام" %}
+      </a>
+      <a href="{% url 'admin:index' %}" class="btn btn-secondary">
+        <i class="fas fa-tachometer-alt"></i> {% trans "العودة للوحة التحكم" %}
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+.success-message {
+  margin: 20px 0;
+}
+.actions {
+  margin-top: 30px;
+  text-align: center;
+}
+.actions .btn {
+  margin: 0 10px;
+}
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.alert h4 {
+  margin-top: 0;
+  color: inherit;
+}
+.badge {
+  display: inline-block;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10px;
+}
+.badge-success {
+  background-color: #28a745;
+}
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.btn-info {
+  color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+.btn i {
+  margin-right: 5px;
+}
+</style>
+{% endblock %}
