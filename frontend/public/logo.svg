@@ -1,0 +1,62 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hands (Red/Crimson) -->
+  <g id="hands">
+    <!-- Left hand palm -->
+    <path d="M30 120 Q20 130 25 150 Q35 160 50 155 Q55 135 45 120 Z" fill="#DC2626" stroke="#991B1B" stroke-width="2"/>
+    <!-- Left hand fingers -->
+    <path d="M35 120 Q30 100 35 80" stroke="#DC2626" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- Right hand palm -->
+    <path d="M170 120 Q180 130 175 150 Q165 160 150 155 Q145 135 155 120 Z" fill="#DC2626" stroke="#991B1B" stroke-width="2"/>
+    <!-- Right hand fingers -->
+    <path d="M165 120 Q170 100 165 80" stroke="#DC2626" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- Center wave/curve between hands -->
+    <path d="M50 140 Q100 130 150 140" stroke="#DC2626" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.7"/>
+  </g>
+  
+  <!-- House with R (Orange) -->
+  <g id="house">
+    <!-- House roof -->
+    <path d="M60 70 L100 40 L140 70 Z" fill="#F97316" stroke="#EA580C" stroke-width="2"/>
+    <!-- House walls -->
+    <rect x="60" y="70" width="80" height="60" fill="#F97316" stroke="#EA580C" stroke-width="2"/>
+    <!-- Door -->
+    <rect x="85" y="110" width="30" height="20" fill="#DC2626" rx="2"/>
+    <!-- Door handle -->
+    <circle cx="113" cy="120" r="2" fill="#FCD34D"/>
+    <!-- Window -->
+    <rect x="65" y="80" width="20" height="15" fill="#87CEEB" rx="2"/>
+    <!-- Window panes -->
+    <line x1="75" y1="80" x2="75" y2="95" stroke="#87CEEB" stroke-width="0.5"/>
+    <line x1="65" y1="87.5" x2="85" y2="87.5" stroke="#87CEEB" stroke-width="0.5"/>
+  </g>
+  
+  <!-- Large R letter -->
+  <g id="r-letter">
+    <!-- R vertical line -->
+    <rect x="110" y="70" width="8" height="45" fill="#F97316" rx="2"/>
+    <!-- R top curve -->
+    <path d="M118 70 Q138 70 138 82 Q138 90 118 90" fill="none" stroke="#F97316" stroke-width="8" stroke-linecap="round"/>
+    <!-- R diagonal line -->
+    <line x1="118" y1="90" x2="140" y2="115" stroke="#F97316" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Decorative elements -->
+  <g id="sparkles" opacity="0.8">
+    <!-- Top sparkle -->
+    <circle cx="100" cy="25" r="3" fill="#F97316"/>
+    <line x1="100" y1="20" x2="100" y2="30" stroke="#F97316" stroke-width="1.5"/>
+    <line x1="95" y1="25" x2="105" y2="25" stroke="#F97316" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Gradient definitions for depth -->
+  <defs>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EA580C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DC2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#991B1B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+</svg>

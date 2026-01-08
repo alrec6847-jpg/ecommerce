@@ -257,10 +257,26 @@ const Home = ({ user, setUser }) => {
             {/* Logo and Title */}
             <div className="flex items-center space-x-2 md:space-x-3 space-x-reverse flex-shrink min-w-0">
               <div className="flex-shrink-0">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-lg shadow-md flex items-center justify-center overflow-hidden flex-shrink-0">
-                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M40 10L65 25V55L40 70L15 55V25L40 10Z" fill="currentColor"/>
-                    <path d="M40 30C35 30 30 35 30 40C30 45 35 50 40 50C45 50 50 45 50 40C50 35 45 30 40 30Z" fill="white"/>
+                <div className="w-11 h-11 md:w-13 md:h-13 rounded-lg shadow-md flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <svg width="48" height="48" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                    {/* Hands (Red) */}
+                    <path d="M30 120 Q20 130 25 150 Q35 160 50 155 Q55 135 45 120 Z" fill="#DC2626"/>
+                    <path d="M35 120 Q30 100 35 80" stroke="#DC2626" strokeWidth="8" strokeLinecap="round" fill="none"/>
+                    <path d="M170 120 Q180 130 175 150 Q165 160 150 155 Q145 135 155 120 Z" fill="#DC2626"/>
+                    <path d="M165 120 Q170 100 165 80" stroke="#DC2626" strokeWidth="8" strokeLinecap="round" fill="none"/>
+                    <path d="M50 140 Q100 130 150 140" stroke="#DC2626" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.7"/>
+                    {/* House with R (Orange) */}
+                    <path d="M60 70 L100 40 L140 70 Z" fill="#F97316"/>
+                    <rect x="60" y="70" width="80" height="60" fill="#F97316"/>
+                    <rect x="85" y="110" width="30" height="20" fill="#DC2626" rx="2"/>
+                    <circle cx="113" cy="120" r="2" fill="#FCD34D"/>
+                    <rect x="65" y="80" width="20" height="15" fill="#87CEEB" rx="2"/>
+                    <line x1="75" y1="80" x2="75" y2="95" stroke="#87CEEB" strokeWidth="0.5"/>
+                    <line x1="65" y1="87.5" x2="85" y2="87.5" stroke="#87CEEB" strokeWidth="0.5"/>
+                    {/* R letter */}
+                    <rect x="110" y="70" width="8" height="45" fill="#F97316" rx="2"/>
+                    <path d="M118 70 Q138 70 138 82 Q138 90 118 90" fill="none" stroke="#F97316" strokeWidth="8" strokeLinecap="round"/>
+                    <line x1="118" y1="90" x2="140" y2="115" stroke="#F97316" strokeWidth="8" strokeLinecap="round"/>
                   </svg>
                 </div>
               </div>
