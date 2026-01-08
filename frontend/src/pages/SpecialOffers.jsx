@@ -223,7 +223,7 @@ const SpecialOffers = ({ user }) => {
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <>
                           <span className="text-base md:text-lg font-bold text-primary-600 flex items-center">
-                            {formatCurrency(product.price * (1 - product.discount / 100))}
+                            {formatCurrency(product.discounted_price || (product.price * (1 - product.discount / 100)))}
                             <span className="text-xs text-gray-500 mr-1">د.ع</span>
                           </span>
                           <span className="text-xs md:text-sm text-gray-500 line-through flex items-center hidden sm:inline">

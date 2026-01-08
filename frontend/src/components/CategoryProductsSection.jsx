@@ -203,10 +203,10 @@ const CategoryProductsSection = ({
 
                   {/* Price */}
                   <div className="flex items-center justify-between mb-2 pb-1 sm:pb-2 border-b border-gray-100">
-                    {product.discount_percentage > 0 ? (
+                    {product.discount_percentage > 0 || (product.discounted_price && product.discounted_price < product.price) ? (
                       <div className="flex items-center space-x-1 sm:space-x-2 space-x-reverse flex-1">
                         <span className="text-xs sm:text-sm md:text-lg font-bold text-primary-600">
-                          {formatCurrency(product.discounted_price)}
+                          {formatCurrency(product.discounted_price || product.price)}
                         </span>
                         <span className="text-xs text-gray-500 line-through">
                           {formatCurrency(product.price)}
@@ -214,7 +214,7 @@ const CategoryProductsSection = ({
                       </div>
                     ) : (
                       <span className="text-xs sm:text-sm md:text-lg font-bold text-gray-800">
-                        {formatCurrency(product.price)}
+                        {formatCurrency(product.discounted_price || product.price)}
                       </span>
                     )}
                   </div>

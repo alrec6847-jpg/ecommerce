@@ -482,7 +482,7 @@ const Home = ({ user, setUser }) => {
 
                     {/* Price */}
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-100">
-                      {(product.discount_percentage || product.discount) > 0 ? (
+                      {(product.discount_percentage || product.discount) > 0 || (product.discounted_price && product.discounted_price < product.price) ? (
                         <div className="flex items-center space-x-2 space-x-reverse flex-1">
                           <span className="text-base md:text-lg font-bold text-primary-600">
                             {formatCurrency(product.discounted_price || (product.price * (1 - (product.discount_percentage || product.discount) / 100)))}
@@ -494,7 +494,7 @@ const Home = ({ user, setUser }) => {
                       ) : (
                         <div className="flex-1">
                           <span className="text-base md:text-lg font-bold text-primary-600">
-                            {formatCurrency(product.price)}
+                            {formatCurrency(product.discounted_price || product.price)}
                           </span>
                         </div>
                       )}
