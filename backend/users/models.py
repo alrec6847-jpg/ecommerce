@@ -5,7 +5,7 @@ from django.db import models
 
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
-    email = models.EmailField(blank=True, null=True, verbose_name="البريد الإلكتروني")
+    email = models.EmailField(blank=True, null=True, verbose_name="البريد الإلكتروني", unique=False)
     phone = models.CharField(max_length=20, unique=True, verbose_name="رقم الهاتف")
     address = models.TextField(blank=True, null=True, verbose_name="العنوان")
     governorate = models.CharField(max_length=50, blank=True, null=True, verbose_name="المحافظة")
