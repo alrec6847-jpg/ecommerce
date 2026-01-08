@@ -257,8 +257,16 @@ const Home = ({ user, setUser }) => {
             {/* Logo and Title */}
             <div className="flex items-center space-x-2 md:space-x-4 space-x-reverse">
               <div className="relative">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden">
-                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg shadow-md flex items-center justify-center overflow-hidden">
+                  <img 
+                    src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" 
+                    alt="اللوكو" 
+                    className="w-full h-full object-contain bg-white"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = '<svg class="w-full h-full text-white p-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-2 4a1 1 0 00-1 1v2a1 1 0 102 0V10a1 1 0 00-1-1z"/></svg>';
+                    }}
+                  />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>

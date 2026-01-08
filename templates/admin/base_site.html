@@ -206,7 +206,42 @@
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
-            max-width: 300px !important;
+            max-width: calc(100% - 100px) !important;
+            display: flex !important;
+            align-items: center !important;
+            flex: 0 1 auto !important;
+        }
+
+        /* Fix navbar layout RTL */
+        .navbar {
+            display: flex !important;
+            flex-direction: row-reverse !important;
+            align-items: center !important;
+        }
+
+        .navbar-nav {
+            flex-direction: row !important;
+        }
+
+        /* Fix wrapper to accommodate sidebar properly */
+        body.sidebar-mini.sidebar-collapse .content-wrapper {
+            margin-right: 50px !important;
+            margin-left: 0 !important;
+        }
+
+        body.sidebar-mini:not(.sidebar-collapse) .content-wrapper {
+            margin-right: 250px !important;
+            margin-left: 0 !important;
+        }
+
+        /* Ensure sidebar is on the right */
+        .sidebar {
+            position: fixed !important;
+            right: 0 !important;
+            left: auto !important;
+            top: 57px !important;
+            height: calc(100vh - 57px) !important;
+            z-index: 810 !important;
         }
     </style>
 {% endblock %}
