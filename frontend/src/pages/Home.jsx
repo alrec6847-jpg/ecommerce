@@ -259,24 +259,48 @@ const Home = ({ user, setUser }) => {
               <div className="flex-shrink-0">
                 <div className="w-11 h-11 md:w-13 md:h-13 rounded-lg shadow-md flex items-center justify-center overflow-hidden flex-shrink-0">
                   <svg width="48" height="48" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                    {/* Hands (Red) */}
-                    <path d="M30 120 Q20 130 25 150 Q35 160 50 155 Q55 135 45 120 Z" fill="#DC2626"/>
-                    <path d="M35 120 Q30 100 35 80" stroke="#DC2626" strokeWidth="8" strokeLinecap="round" fill="none"/>
-                    <path d="M170 120 Q180 130 175 150 Q165 160 150 155 Q145 135 155 120 Z" fill="#DC2626"/>
-                    <path d="M165 120 Q170 100 165 80" stroke="#DC2626" strokeWidth="8" strokeLinecap="round" fill="none"/>
-                    <path d="M50 140 Q100 130 150 140" stroke="#DC2626" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.7"/>
-                    {/* House with R (Orange) */}
-                    <path d="M60 70 L100 40 L140 70 Z" fill="#F97316"/>
-                    <rect x="60" y="70" width="80" height="60" fill="#F97316"/>
-                    <rect x="85" y="110" width="30" height="20" fill="#DC2626" rx="2"/>
-                    <circle cx="113" cy="120" r="2" fill="#FCD34D"/>
-                    <rect x="65" y="80" width="20" height="15" fill="#87CEEB" rx="2"/>
-                    <line x1="75" y1="80" x2="75" y2="95" stroke="#87CEEB" strokeWidth="0.5"/>
-                    <line x1="65" y1="87.5" x2="85" y2="87.5" stroke="#87CEEB" strokeWidth="0.5"/>
-                    {/* R letter */}
-                    <rect x="110" y="70" width="8" height="45" fill="#F97316" rx="2"/>
-                    <path d="M118 70 Q138 70 138 82 Q138 90 118 90" fill="none" stroke="#F97316" strokeWidth="8" strokeLinecap="round"/>
-                    <line x1="118" y1="90" x2="140" y2="115" stroke="#F97316" strokeWidth="8" strokeLinecap="round"/>
+                    <defs>
+                      <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{stopColor:'#F97316',stopOpacity:1}} />
+                        <stop offset="100%" style={{stopColor:'#EA580C',stopOpacity:1}} />
+                      </linearGradient>
+                      <linearGradient id="redGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style={{stopColor:'#DC2626',stopOpacity:1}} />
+                        <stop offset="100%" style={{stopColor:'#B91C1C',stopOpacity:1}} />
+                      </linearGradient>
+                    </defs>
+                    <g id="leftHand">
+                      <path d="M 45 115 Q 30 110 25 125 Q 28 135 45 130 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                      <path d="M 45 115 Q 35 140 55 155 Q 75 160 85 140 Q 75 125 65 120 Q 55 115 45 115 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                      <path d="M 50 115 Q 48 105 50 90" stroke="#DC2626" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                      <path d="M 62 118 Q 62 105 65 88" stroke="#DC2626" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                      <path d="M 75 125 Q 78 115 80 95" stroke="#DC2626" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                    </g>
+                    <g id="rightHand">
+                      <path d="M 155 115 Q 170 110 175 125 Q 172 135 155 130 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                      <path d="M 155 115 Q 165 140 145 155 Q 125 160 115 140 Q 125 125 135 120 Q 145 115 155 115 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                      <path d="M 150 115 Q 152 105 150 90" stroke="#DC2626" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                      <path d="M 138 118 Q 138 105 135 88" stroke="#DC2626" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                      <path d="M 125 125 Q 122 115 120 95" stroke="#DC2626" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+                    </g>
+                    <g id="house">
+                      <path d="M 60 95 L 100 50 L 140 95 Z" fill="url(#orangeGradient)" stroke="#EA580C" strokeWidth="2" strokeLinejoin="round"/>
+                      <rect x="125" y="60" width="12" height="35" fill="url(#orangeGradient)" stroke="#EA580C" strokeWidth="1.5"/>
+                      <rect x="60" y="95" width="80" height="65" fill="url(#orangeGradient)" stroke="#EA580C" strokeWidth="2"/>
+                      <rect x="82" y="120" width="36" height="40" fill="#DC2626" stroke="#991B1B" strokeWidth="2" rx="2"/>
+                      <circle cx="113" cy="142" r="2.5" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1"/>
+                      <rect x="68" y="105" width="18" height="18" fill="#87CEEB" stroke="#60A5FA" strokeWidth="1.5" rx="2"/>
+                      <line x1="77" y1="105" x2="77" y2="123" stroke="#60A5FA" strokeWidth="1"/>
+                      <line x1="68" y1="114" x2="86" y2="114" stroke="#60A5FA" strokeWidth="1"/>
+                      <rect x="114" y="105" width="18" height="18" fill="#87CEEB" stroke="#60A5FA" strokeWidth="1.5" rx="2"/>
+                      <line x1="123" y1="105" x2="123" y2="123" stroke="#60A5FA" strokeWidth="1"/>
+                      <line x1="114" y1="114" x2="132" y2="114" stroke="#60A5FA" strokeWidth="1"/>
+                    </g>
+                    <g id="rLetter">
+                      <rect x="108" y="75" width="14" height="55" fill="url(#orangeGradient)" stroke="#EA580C" strokeWidth="2" rx="3"/>
+                      <path d="M 122 75 Q 150 75 150 95 Q 150 108 122 108" fill="url(#orangeGradient)" stroke="#EA580C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M 122 108 L 155 130" stroke="url(#orangeGradient)" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round"/>
+                    </g>
                   </svg>
                 </div>
               </div>
