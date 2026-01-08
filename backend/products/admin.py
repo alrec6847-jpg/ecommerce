@@ -269,10 +269,4 @@ class CouponUsageAdmin(admin.ModelAdmin):
         return False
 
 
-# تسجيل النماذج الأخرى
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductReview, ProductReviewAdmin)
-admin.site.register(ProductView, ProductViewAdmin)
-admin.site.register(Banner, BannerAdmin)
-admin.site.register(Logo, LogoAdmin)
+

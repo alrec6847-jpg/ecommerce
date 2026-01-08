@@ -68,7 +68,7 @@ admin_site = AlriyadaAdminSite(name='mimi_admin')
 
 # Import and register all admin classes
 from users.admin import UserAdmin
-from products.admin import CategoryAdmin, ProductAdmin, ProductReviewAdmin, ProductViewAdmin, BannerAdmin, CouponAdmin, CouponUsageAdmin
+from products.admin import CategoryAdmin, ProductAdmin, ProductReviewAdmin, ProductViewAdmin, BannerAdmin, LogoAdmin, CouponAdmin, CouponUsageAdmin
 from orders.admin import OrderAdmin, OrderItemAdmin, NewOrderAdmin, ProcessedOrderAdmin
 from orders.models import NewOrder, ProcessedOrder
 
@@ -110,6 +110,13 @@ except:
 try:
     from products.models import Banner
     admin_site.register(Banner, BannerAdmin)
+except:
+    pass
+
+# Register Logo model
+try:
+    from products.models import Logo
+    admin_site.register(Logo, LogoAdmin)
 except:
     pass
 
