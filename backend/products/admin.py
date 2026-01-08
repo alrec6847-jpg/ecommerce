@@ -131,6 +131,12 @@ class LogoAdminForm(forms.ModelForm):
         widgets = {
             'image_url': ImgBBUploadWidget(attrs={'placeholder': 'رفع صورة اللوغو عبر ImgBB'}),
         }
+    
+    def clean_image_url(self):
+        image_url = self.cleaned_data.get('image_url')
+        if not image_url or image_url.strip() == '':
+            raise forms.ValidationError('صورة اللوغو مطلوبة - يجب رفع صورة عبر ImgBB')
+        return image_url
 
 
 class LogoAdmin(admin.ModelAdmin):
@@ -139,6 +145,7 @@ class LogoAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'created_at')
     search_fields = ('name',)
     list_editable = ('is_active',)
+    readonly_fields = ('created_at', 'updated_at')
     
     def logo_preview(self, obj):
         """عرض معاينة صورة اللوغو"""
@@ -147,6 +154,15 @@ class LogoAdmin(admin.ModelAdmin):
         return '❌ لا توجد صورة'
     logo_preview.short_description = '🖼️ معاينة اللوغو'
     
+    def save_model(self, request, obj, form, change):
+        """Save logo with validation"""
+        try:
+            if obj.is_active:
+                Logo.objects.exclude(pk=obj.pk).update(is_active=False)
+            obj.save()
+        except Exception as e:
+            raise forms.ValidationError(f'خطأ في حفظ اللوغو: {str(e)}')
+    
     fieldsets = (
         ('معلومات اللوغو', {
             'fields': ('name', 'image_url')
@@ -154,6 +170,10 @@ class LogoAdmin(admin.ModelAdmin):
         ('إعدادات العرض', {
             'fields': ('is_active',),
             'description': '⚠️ يوجد لوغو واحد فقط نشط في المرة. تفعيل لوغو سيعطل جميع اللوغوهات الأخرى تلقائياً.'
+        }),
+        ('معلومات النظام', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
         }),
     )
 
