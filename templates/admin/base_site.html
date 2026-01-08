@@ -184,64 +184,60 @@
             direction: ltr;
         }
 
-        /* Main Sidebar positioning to prevent overlap */
-        .content-wrapper {
-            margin-left: 0 !important;
+        /* RTL Layout Fixes for Admin Panel */
+        html[dir="rtl"] .content-wrapper,
+        html[dir="rtl"] body .content-wrapper {
             margin-right: 250px !important;
+            margin-left: 0 !important;
+            transition: margin-right 0.3s ease;
         }
 
-        .main-sidebar {
+        html[dir="rtl"] body.sidebar-collapse .content-wrapper {
+            margin-right: 50px !important;
+        }
+
+        html[dir="rtl"] .sidebar,
+        html[dir="rtl"] .main-sidebar {
             right: 0 !important;
             left: auto !important;
             width: 250px !important;
         }
 
-        /* Header Z-index to stay above sidebar */
-        .navbar {
-            z-index: 1020 !important;
+        html[dir="rtl"] .sidebar.sidebar-collapse,
+        html[dir="rtl"] .main-sidebar.sidebar-collapse {
+            width: 50px !important;
         }
 
-        /* Prevent text overlap in navbar brand */
+        /* Navbar positioning and spacing */
+        .navbar {
+            z-index: 1020 !important;
+            position: relative;
+            padding-right: 20px !important;
+            padding-left: 0 !important;
+        }
+
         .navbar-brand {
+            max-width: 250px !important;
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
-            max-width: calc(100% - 100px) !important;
-            display: flex !important;
-            align-items: center !important;
-            flex: 0 1 auto !important;
+            margin-right: auto !important;
+            margin-left: 0 !important;
         }
 
-        /* Fix navbar layout RTL */
-        .navbar {
+        .navbar-brand span {
+            display: inline-block !important;
+        }
+
+        /* Content wrapper adjustments */
+        .wrapper {
             display: flex !important;
             flex-direction: row-reverse !important;
-            align-items: center !important;
         }
 
-        .navbar-nav {
-            flex-direction: row !important;
-        }
-
-        /* Fix wrapper to accommodate sidebar properly */
-        body.sidebar-mini.sidebar-collapse .content-wrapper {
-            margin-right: 50px !important;
-            margin-left: 0 !important;
-        }
-
-        body.sidebar-mini:not(.sidebar-collapse) .content-wrapper {
-            margin-right: 250px !important;
-            margin-left: 0 !important;
-        }
-
-        /* Ensure sidebar is on the right */
-        .sidebar {
-            position: fixed !important;
-            right: 0 !important;
-            left: auto !important;
-            top: 57px !important;
-            height: calc(100vh - 57px) !important;
-            z-index: 810 !important;
+        .content-wrapper {
+            flex: 1 !important;
+            transition: margin-right 0.3s ease !important;
         }
     </style>
 {% endblock %}

@@ -78,7 +78,7 @@ def product_list(request):
     قائمة جميع المنتجات مرتبة حسب display_order
     """
     products = Product.objects.all().order_by('display_order', '-created_at')
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -89,7 +89,7 @@ def product_detail(request, pk):
     """
     try:
         product = Product.objects.get(pk=pk)
-        serializer = ProductSerializer(product)
+        serializer = ProductSerializer(product, context={'request': request})
         return Response(serializer.data)
     except Product.DoesNotExist:
         return Response({'error': 'المنتج غير موجود'}, status=404)
@@ -128,7 +128,7 @@ def products_by_category(request, category_id):
         for product in products:
             print(f"Product: {product.name}, ID: {product.id}, Active: {product.is_active}")
             
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=True, context={'request': request})
         print(f"Returning {len(serializer.data)} products")
         return Response(serializer.data)
     except Category.DoesNotExist:
@@ -142,7 +142,7 @@ def featured_products(request):
     قائمة المنتجات المميزة
     """
     products = Product.objects.filter(featured=True)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -153,7 +153,7 @@ def search_products(request):
     """
     query = request.GET.get('q', '')
     products = Product.objects.filter(name__icontains=query)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])

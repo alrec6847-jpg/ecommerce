@@ -287,21 +287,24 @@ const Home = ({ user, setUser }) => {
             </div>
 
             {/* Search + Icons */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               {/* Search icon (mobile) */}
-              <button className="p-2.5 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-primary-50 md:hidden">
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <button className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 md:hidden hover:scale-110 active:scale-95">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
                 </svg>
               </button>
               {/* Cart */}
               <div className="relative">
-                <button onClick={toggleCart} className="p-2.5 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-primary-50 relative">
-                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h8" />
+                <button onClick={toggleCart} className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 relative hover:scale-110 active:scale-95">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                   </svg>
                   {getCartItemCount() > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium shadow-md">
+                    <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold shadow-md">
                       {getCartItemCount()}
                     </span>
                   )}
@@ -310,21 +313,25 @@ const Home = ({ user, setUser }) => {
               {/* Refresh */}
               <button
                 onClick={refreshData}
-                className="p-2 text-gray-600 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50"
+                className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 hover:scale-110 active:scale-95"
                 title="تحديث البيانات"
               >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <polyline points="23 4 23 10 17 10"/>
+                  <polyline points="1 20 1 14 7 14"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36M20.49 15a9 9 0 0 1-14.85 3.36"/>
                 </svg>
               </button>
               {/* Menu */}
               <div className="relative">
                 <button 
                   onClick={() => setIsMenuOpen(!isMenuOpen)} 
-                  className="p-2 text-gray-600 hover:text-indigo-600 transition-colors rounded-lg hover:bg-indigo-50"
+                  className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 hover:scale-110 active:scale-95"
                 >
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
                   </svg>
                 </button>
                 
