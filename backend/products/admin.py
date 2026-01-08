@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django import forms
 from django.utils.html import mark_safe
-from .models import Category, Product, ProductReview, ProductView, Banner
+from .models import Category, Product, ProductReview, ProductView, Banner, Logo
 from .models_coupons import Coupon, CouponUsage
 from .widgets import ImgBBUploadWidget
 
@@ -119,6 +119,41 @@ class BannerAdmin(admin.ModelAdmin):
         }),
         ('إعدادات العرض', {
             'fields': ('is_active', 'display_order')
+        }),
+    )
+
+
+class LogoAdminForm(forms.ModelForm):
+    """Custom form for Logo admin with ImgBB upload widget"""
+    class Meta:
+        model = Logo
+        fields = '__all__'
+        widgets = {
+            'image_url': ImgBBUploadWidget(attrs={'placeholder': 'رفع صورة اللوغو عبر ImgBB'}),
+        }
+
+
+class LogoAdmin(admin.ModelAdmin):
+    form = LogoAdminForm
+    list_display = ('name', 'logo_preview', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('name',)
+    list_editable = ('is_active',)
+    
+    def logo_preview(self, obj):
+        """عرض معاينة صورة اللوغو"""
+        if obj.image_url:
+            return mark_safe(f'<img src="{obj.image_url}" width="80" height="80" style="border-radius: 4px; object-fit: contain; border: 1px solid #ddd;" />')
+        return '❌ لا توجد صورة'
+    logo_preview.short_description = '🖼️ معاينة اللوغو'
+    
+    fieldsets = (
+        ('معلومات اللوغو', {
+            'fields': ('name', 'image_url')
+        }),
+        ('إعدادات العرض', {
+            'fields': ('is_active',),
+            'description': '⚠️ يوجد لوغو واحد فقط نشط في المرة. تفعيل لوغو سيعطل جميع اللوغوهات الأخرى تلقائياً.'
         }),
     )
 
@@ -240,3 +275,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductReview, ProductReviewAdmin)
 admin.site.register(ProductView, ProductViewAdmin)
 admin.site.register(Banner, BannerAdmin)
+admin.site.register(Logo, LogoAdmin)

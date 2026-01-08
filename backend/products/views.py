@@ -1,9 +1,9 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
-from .models import Product, Category, Banner
+from .models import Product, Category, Banner, Logo
 from .models_coupons import Coupon, CouponUsage
-from .serializers import ProductSerializer, CategorySerializer, BannerSerializer
+from .serializers import ProductSerializer, CategorySerializer, BannerSerializer, LogoSerializer
 from .serializers_coupons import CouponSerializer, CouponUsageSerializer
 from django.conf import settings
 import requests
@@ -169,6 +169,20 @@ def banner_list(request):
     serializer = BannerSerializer(banners, many=True, context={'request': request})
     print(f"Serialized banners data: {serializer.data}")
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def logo_detail(request):
+    """
+    الحصول على اللوغو النشط للشركة
+    """
+    try:
+        logo = Logo.objects.get(is_active=True)
+        serializer = LogoSerializer(logo)
+        return Response(serializer.data)
+    except Logo.DoesNotExist:
+        return Response({'message': 'لا يوجد لوغو نشط'}, status=404)
 
 
 @api_view(['GET'])

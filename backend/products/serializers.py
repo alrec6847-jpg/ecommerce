@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Category, Banner
+from .models import Product, Category, Banner, Logo
 from .models_coupons import Coupon, CouponUsage
 from .serializers_coupons import CouponSerializer, CouponUsageSerializer
 import logging
@@ -18,6 +18,14 @@ class CategorySerializer(serializers.ModelSerializer):
         if obj.children.exists():
             return CategorySerializer(obj.children.all(), many=True).data
         return []
+
+
+class LogoSerializer(serializers.ModelSerializer):
+    """Serializer for company logo"""
+    class Meta:
+        model = Logo
+        fields = ['id', 'name', 'image_url', 'is_active', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 class ProductListSerializer(serializers.ModelSerializer):
     """A simplified serializer for product lists"""

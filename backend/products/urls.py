@@ -17,6 +17,9 @@ urlpatterns = [
     
     # Banners
     path('banners/', views.banner_list, name='banner_list'),
+    
+    # Logo
+    path('logo/', views.logo_detail, name='logo_detail'),
 
     # Coupons
     path('coupons/', views.coupon_list, name='coupon_list'),
