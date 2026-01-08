@@ -195,9 +195,8 @@ const Cart = ({ cart, onCartChange, onClose, handleCheckout }) => {
                 </div>
               )}
               {/* 📍 فقرة المتبقي تظهر ثانياً */}
-              {getSubtotal() < getFreeShippingThreshold() && (
+              {false && (
                 <div className="text-xs text-gray-500 text-center py-1 bg-blue-50 rounded">
-                  أضف {formatCurrency(getFreeShippingThreshold() - getSubtotal())} للحصول على توصيل مجاني
                 </div>
               )}
               <div className="flex justify-between items-center font-bold text-lg border-t pt-2">

@@ -353,9 +353,8 @@ const Checkout = ({ cart, onCheckout, onClose, appliedCoupon, couponDiscount }) 
                                 <span>-{formatCurrency(couponDiscount)}</span>
                               </div>
                             )}
-                            {subtotal < getFreeShippingThreshold() && (
+                            {false && (
                               <div className="text-xs text-gray-500 text-center py-1">
-                                أضف {formatCurrency(getFreeShippingThreshold() - subtotal)} للحصول على توصيل مجاني
                               </div>
                             )}
                             <div className="flex justify-between font-bold text-lg border-t pt-2">

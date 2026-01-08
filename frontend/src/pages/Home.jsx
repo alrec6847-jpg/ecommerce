@@ -255,23 +255,18 @@ const Home = ({ user, setUser }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo and Title */}
-            <div className="flex items-center space-x-2 md:space-x-4 space-x-reverse">
-              <div className="relative">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg shadow-md flex items-center justify-center overflow-hidden">
-                  <img 
-                    src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" 
-                    alt="اللوكو" 
-                    className="w-full h-full object-contain bg-white"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.innerHTML = '<svg class="w-full h-full text-white p-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-2 4a1 1 0 00-1 1v2a1 1 0 102 0V10a1 1 0 00-1-1z"/></svg>';
-                    }}
-                  />
+            <div className="flex items-center space-x-2 md:space-x-3 space-x-reverse flex-shrink min-w-0">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-lg shadow-md flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40 10L65 25V55L40 70L15 55V25L40 10Z" fill="currentColor"/>
+                    <path d="M40 30C35 30 30 35 30 40C30 45 35 50 40 50C45 50 50 45 50 40C50 35 45 30 40 30Z" fill="white"/>
+                  </svg>
                 </div>
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
-              <div>
-                <h1 className="text-lg md:text-2xl font-bold gradient-text">شركة الريادة المتحدة</h1>
+              <div className="min-w-0 flex-shrink">
+                <h1 className="hidden sm:block text-lg md:text-xl lg:text-2xl font-bold text-primary-600 whitespace-nowrap truncate">شركة الريادة</h1>
+                <h1 className="sm:hidden text-sm font-bold text-primary-600 whitespace-nowrap">الريادة</h1>
               </div>
             </div>
 
