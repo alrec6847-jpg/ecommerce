@@ -23,6 +23,8 @@ const Home = ({ user, setUser }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [logo, setLogo] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [searchResults, setSearchResults] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +40,30 @@ const Home = ({ user, setUser }) => {
     }
   }, []);
 
-  const refreshData = () => {
-    fetchProducts();
-    fetchCategories();
+  const refreshData = async () => {
+    setIsRefreshing(true);
+    try {
+      await Promise.all([fetchProducts(), fetchCategories()]);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    
+    if (!value.trim()) {
+      setSearchResults(null);
+      return;
+    }
+
+    const filtered = products.filter(product =>
+      product.name.toLowerCase().includes(value.toLowerCase()) ||
+      product.category_name?.toLowerCase().includes(value.toLowerCase()) ||
+      product.description?.toLowerCase().includes(value.toLowerCase())
+    );
+
+    setSearchResults(filtered);
   };
 
   // Close dropdown when clicking outside
@@ -367,10 +390,11 @@ const Home = ({ user, setUser }) => {
               {/* Refresh */}
               <button
                 onClick={refreshData}
-                className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 hover:scale-110 active:scale-95"
+                disabled={isRefreshing}
+                className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 hover:scale-110 active:scale-95 disabled:opacity-60"
                 title="تحديث البيانات"
               >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <svg className={`h-5 w-5 transition-transform ${isRefreshing ? 'animate-spin' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <polyline points="23 4 23 10 17 10"/>
                   <polyline points="1 20 1 14 7 14"/>
                   <path d="M3.51 9a9 9 0 0 1 14.85-3.36M20.49 15a9 9 0 0 1-14.85 3.36"/>
@@ -434,14 +458,46 @@ const Home = ({ user, setUser }) => {
                     type="text"
                     placeholder="ابحث..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
                   />
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
+                  {searchResults !== null && searchResults.length > 0 && (
+                    <div className="absolute top-full right-0 left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+                      {searchResults.map((product) => (
+                        <div
+                          key={product.id}
+                          onClick={() => {
+                            setSearchTerm('');
+                            setSearchResults(null);
+                          }}
+                          className="p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 transition-colors flex items-center gap-3 animate-fadeIn"
+                        >
+                          {product.image && (
+                            <img 
+                              src={product.image} 
+                              alt={product.name}
+                              className="h-12 w-12 object-cover rounded"
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-sm text-gray-900 truncate">{product.name}</p>
+                            <p className="text-xs text-gray-500">{product.category_name}</p>
+                          </div>
+                          <p className="text-sm font-bold text-primary-600 whitespace-nowrap">{formatCurrency(product.price)}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {searchResults !== null && searchResults.length === 0 && searchTerm.trim() && (
+                    <div className="absolute top-full right-0 left-0 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg z-50 p-4 text-center text-gray-500 animate-fadeIn">
+                      لا توجد نتائج لـ "{searchTerm}"
+                    </div>
+                  )}
                 </div>
               </div>
 
