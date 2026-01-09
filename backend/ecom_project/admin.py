@@ -64,7 +64,7 @@ class AlriyadaAdminSite(AdminSite):
         return super().index(request, extra_context)
 
 # Create custom admin site instance
-admin_site = AlriyadaAdminSite(name='mimi_admin')
+admin_site = AlriyadaAdminSite(name='riyada_admin')
 
 # Import and register all admin classes
 from users.admin import UserAdmin

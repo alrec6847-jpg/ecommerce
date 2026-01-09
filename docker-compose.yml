@@ -6,9 +6,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_DB: mimi_store
-      POSTGRES_USER: mimi_user
-      POSTGRES_PASSWORD: mimi_password
+      POSTGRES_DB: riyada_store
+      POSTGRES_USER: riyada_user
+      POSTGRES_PASSWORD: riyada_password
     ports:
       - "5432:5432"
 
@@ -23,7 +23,7 @@ services:
       - db
     environment:
       - DEBUG=True
-      - DATABASE_URL=postgresql://mimi_user:mimi_password@db:5432/mimi_store
+      - DATABASE_URL=postgresql://riyada_user:riyada_password@db:5432/riyada_store
 
   frontend:
     build:

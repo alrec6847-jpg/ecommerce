@@ -22,6 +22,7 @@ const Home = ({ user, setUser }) => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [logo, setLogo] = useState(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -339,7 +340,10 @@ const Home = ({ user, setUser }) => {
             {/* Search + Icons */}
             <div className="flex items-center gap-2 md:gap-4">
               {/* Search icon (mobile) */}
-              <button className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 md:hidden hover:scale-110 active:scale-95">
+              <button 
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="p-2.5 text-gray-600 hover:text-primary-600 transition-all duration-300 rounded-lg hover:bg-primary-50 md:hidden hover:scale-110 active:scale-95"
+              >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <circle cx="11" cy="11" r="8"/>
                   <path d="m21 21-4.35-4.35"/>
@@ -459,6 +463,33 @@ const Home = ({ user, setUser }) => {
           </div>
         </div>
       </header>
+      
+      {/* Mobile Search Modal */}
+      {isSearchOpen && (
+        <div className="md:hidden fixed inset-0 bg-black/40 z-50 flex flex-col">
+          <div className="bg-white shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-2">
+              <input
+                type="text"
+                placeholder="ابحث عن منتج أو قسم..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                autoFocus
+                className="flex-1 px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+              <button
+                onClick={() => setIsSearchOpen(false)}
+                className="p-2.5 text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Banner Slider */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <BannerSlider />

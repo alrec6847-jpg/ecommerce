@@ -1,7 +1,7 @@
 services:
   # Backend Service
   - type: web
-    name: mimi-store-backend
+    name: riyada-store-backend
     env: python
     buildCommand: |
       cd backend
@@ -35,6 +35,6 @@ services:
     
 # Database
 databases:
-  - name: mimi-store-db
-    databaseName: mimi_store
-    user: mimi_user
+  - name: riyada-store-db
+    databaseName: riyada_store
+    user: riyada_user

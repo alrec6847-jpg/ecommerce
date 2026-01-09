@@ -22,7 +22,6 @@ const CategorySlider = ({ categories, selectedCategory, onCategorySelect }) => {
   const scroll = (direction) => {
     if (sliderRef.current) {
       const scrollAmount = 300;
-      // For RTL (Arabic), scrolling right means positive direction
       const newScrollLeft =
         direction === 'right'
           ? sliderRef.current.scrollLeft + scrollAmount
@@ -38,111 +37,68 @@ const CategorySlider = ({ categories, selectedCategory, onCategorySelect }) => {
   };
 
   return (
-    <section className="py-8 bg-white border-b border-gray-100 sticky top-14 z-30">
+    <section className="py-6 bg-gradient-to-br from-white via-gray-50 to-white border-b border-gray-200 sticky top-14 z-30 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Categories Slider */}
         <div className="relative group">
-          {/* Left Arrow */}
           {canScrollLeft && (
             <button
               onClick={() => scroll('left')}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 opacity-0 group-hover:opacity-100"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-2.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100"
+              aria-label="scroll left"
             >
-              <svg
-                className="h-5 w-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
           )}
 
-          {/* Categories Container */}
           <div
             ref={sliderRef}
-            className="flex gap-3 overflow-x-auto scrollbar-hide pb-2"
-            style={{
-              scrollBehavior: 'smooth',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
+            className="flex gap-2 sm:gap-3 overflow-x-auto scrollbar-hide pb-2"
+            style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {/* All Categories Button */}
             <button
               onClick={() => onCategorySelect('')}
-              className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all flex-shrink-0 ${
+              className={`relative px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold whitespace-nowrap transition-all duration-300 flex-shrink-0 group/btn flex items-center gap-2 overflow-hidden ${
                 selectedCategory === ''
-                  ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-600 text-white shadow-lg shadow-primary-500/30 scale-105'
+                  : 'bg-white text-gray-700 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 border border-gray-200 hover:border-primary-300 hover:text-primary-600 hover:shadow-md'
               }`}
             >
-              <span className="flex items-center gap-2">
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-                الكل
-              </span>
+              <svg className="h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <span>الكل</span>
             </button>
 
-            {/* Individual Categories */}
             {categories.map((category) => (
-              <div key={category.id} className="flex flex-col">
-                <button
-                  onClick={() => onCategorySelect(category.id)}
-                  className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all flex-shrink-0 ${
-                    selectedCategory === category.id
-                      ? 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {category.name}
-                </button>
-
-                {/* Indicator Line */}
-                <div className={`h-1 rounded-full transition-all ${
+              <button
+                key={category.id}
+                onClick={() => onCategorySelect(category.id)}
+                className={`relative px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold whitespace-nowrap transition-all duration-300 flex-shrink-0 group/btn overflow-hidden ${
                   selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-primary-600 to-secondary-600 w-full'
-                    : 'bg-transparent w-0'
-                }`}></div>
-              </div>
+                    ? 'bg-gradient-to-r from-primary-500 via-primary-600 to-secondary-600 text-white shadow-lg shadow-primary-500/30 scale-105'
+                    : 'bg-white text-gray-700 hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 border border-gray-200 hover:border-primary-300 hover:text-primary-600 hover:shadow-md'
+                }`}
+              >
+                <span className="relative z-10 flex items-center">
+                  {category.name}
+                </span>
+                {selectedCategory === category.id && (
+                  <span className="absolute inset-0 -z-10 opacity-20 blur-lg bg-gradient-to-r from-primary-500 to-secondary-600"></span>
+                )}
+              </button>
             ))}
           </div>
 
-          {/* Right Arrow */}
           {canScrollRight && (
             <button
               onClick={() => scroll('right')}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 opacity-0 group-hover:opacity-100"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-2.5 bg-gradient-to-r from-secondary-600 to-primary-500 text-white rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100"
+              aria-label="scroll right"
             >
-              <svg
-                className="h-5 w-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           )}
