@@ -137,7 +137,7 @@ const Home = ({ user, setUser }) => {
   const fetchLogo = async () => {
     try {
       console.log('Fetching logo from API...');
-      const response = await api.get('/api/products/logo/');
+      const response = await api.get('/products/logo/');
       console.log('Logo API Full Response:', response);
       console.log('Logo data:', response.data);
       
