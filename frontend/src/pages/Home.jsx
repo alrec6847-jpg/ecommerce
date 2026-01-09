@@ -136,11 +136,24 @@ const Home = ({ user, setUser }) => {
 
   const fetchLogo = async () => {
     try {
+      console.log('Fetching logo from API...');
       const response = await api.get('/api/products/logo/');
-      console.log('Logo API Response:', response);
-      setLogo(response.data);
+      console.log('Logo API Full Response:', response);
+      console.log('Logo data:', response.data);
+      
+      if (response.data && response.data.image_url) {
+        console.log('Logo image_url found:', response.data.image_url);
+        setLogo(response.data);
+      } else {
+        console.warn('No image_url in response:', response.data);
+        setLogo(null);
+      }
     } catch (error) {
-      console.error('Error fetching logo:', error);
+      console.error('Error fetching logo:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
       setLogo(null);
     }
   };

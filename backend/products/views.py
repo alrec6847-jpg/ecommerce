@@ -180,9 +180,16 @@ def logo_detail(request):
     try:
         logo = Logo.objects.get(is_active=True)
         serializer = LogoSerializer(logo)
-        return Response(serializer.data)
+        response_data = serializer.data
+        print(f"[LOGO API] Found active logo: {logo.name}, URL: {logo.image_url}")
+        return Response(response_data)
     except Logo.DoesNotExist:
-        return Response({'message': 'لا يوجد لوغو نشط'}, status=404)
+        print("[LOGO API] No active logo found in database")
+        all_logos = Logo.objects.all()
+        print(f"[LOGO API] Total logos in DB: {all_logos.count()}")
+        for logo in all_logos:
+            print(f"[LOGO API] - Logo: {logo.name}, is_active: {logo.is_active}, image_url: {logo.image_url}")
+        return Response({'message': 'لا يوجد لوغو نشط', 'detail': 'No active logo found'}, status=200)
 
 
 @api_view(['GET'])
