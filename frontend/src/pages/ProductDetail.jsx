@@ -15,10 +15,12 @@ const ProductDetail = ({ user }) => {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [logo, setLogo] = useState(null);
 
   useEffect(() => {
     fetchProduct();
     loadCart();
+    fetchLogo();
   }, [id]);
 
   const fetchProduct = async () => {
@@ -29,6 +31,20 @@ const ProductDetail = ({ user }) => {
       console.error('Error fetching product:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchLogo = async () => {
+    try {
+      const response = await api.get('/products/logo/');
+      if (response.data && response.data.image_url) {
+        setLogo(response.data);
+      } else {
+        setLogo(null);
+      }
+    } catch (error) {
+      console.error('Error fetching logo:', error);
+      setLogo(null);
     }
   };
 
@@ -56,7 +72,6 @@ const ProductDetail = ({ user }) => {
   };
 
   const addToCart = () => {
-    // التحقق من المخزون
     if (stockCount <= 0) {
       showNotification('عذراً، هذا المنتج غير متوفر في المخزون', 'error');
       return;
@@ -66,7 +81,6 @@ const ProductDetail = ({ user }) => {
     let newCart;
 
     if (existingItem) {
-      // التحقق من أن الكمية الجديدة لا تتجاوز المخزون
       const newQuantity = existingItem.quantity + quantity;
       if (newQuantity > stockCount) {
         showNotification(`عذراً، المخزون المتوفر فقط ${stockCount} قطعة`, 'error');
@@ -78,15 +92,12 @@ const ProductDetail = ({ user }) => {
           : item
       );
     } else {
-      // التحقق من أن الكمية المطلوبة لا تتجاوز المخزون
       if (quantity > stockCount) {
         showNotification(`عذراً، المخزون المتوفر فقط ${stockCount} قطعة`, 'error');
         return;
       }
-      // حفظ المنتج مع السعر المخصوم
       const productWithDiscountedPrice = {
         ...product,
-        // تأكد من حفظ السعر المخصوم الصحيح
         price: finalPrice,
         original_price: priceNum,
         quantity
@@ -97,7 +108,6 @@ const ProductDetail = ({ user }) => {
     setCart(newCart);
     localStorage.setItem('cart', JSON.stringify(newCart));
 
-    // Show success message
     showNotification(`تم إضافة ${quantity} من ${product.name} للسلة بنجاح!`, 'success');
   };
 
@@ -141,30 +151,24 @@ const ProductDetail = ({ user }) => {
     );
   }
 
-  // Normalize numeric fields and images to avoid runtime errors
   const priceNum = Number(product?.price ?? 0);
   const discountAmount = Number(product?.discount_amount ?? 0);
   const discountPercentage = Number(product?.discount_percentage ?? 0);
   const stockCount = typeof product?.stock_quantity === 'number' ? product.stock_quantity : (product?.is_in_stock ? 1 : 0);
   
-  // استخدام السعر المخصوم من الـ API مباشرة (discounted_price)
-  // أو حسابه من السعر الأصلي - مبلغ الخصم
   const finalPrice = product?.discounted_price 
     ? Number(product.discounted_price) 
     : (discountAmount > 0 ? Math.max(priceNum - discountAmount, 0) : priceNum);
 
-  // Get all product images
   const productImages = Array.isArray(product?.all_images) && product.all_images.length > 0
     ? product.all_images
     : [product?.main_image || product?.image || 'https://via.placeholder.com/600x400/f3f4f6/9ca3af?text=صورة+المنتج'];
   
-  // Debug: Log product images
   console.log('Product all_images:', product?.all_images);
   console.log('Product images to display:', productImages);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -179,7 +183,39 @@ const ProductDetail = ({ user }) => {
               </button>
               <Link to="/" className="flex items-center space-x-2 space-x-reverse">
                 <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-gray-100">
-                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+                  {logo && logo.image_url ? (
+                    <img 
+                      src={logo.image_url} 
+                      alt="شركة الريادة" 
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        console.error('Failed to load logo image');
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  ) : null}
+                  {!logo?.image_url && (
+                    <svg width="32" height="32" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                      <defs>
+                        <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style={{stopColor:'#F97316',stopOpacity:1}} />
+                          <stop offset="100%" style={{stopColor:'#EA580C',stopOpacity:1}} />
+                        </linearGradient>
+                        <linearGradient id="redGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style={{stopColor:'#DC2626',stopOpacity:1}} />
+                          <stop offset="100%" style={{stopColor:'#B91C1C',stopOpacity:1}} />
+                        </linearGradient>
+                      </defs>
+                      <g id="leftHand">
+                        <path d="M 45 115 Q 30 110 25 125 Q 28 135 45 130 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                        <path d="M 45 115 Q 35 140 55 155 Q 75 160 85 140 Q 75 125 65 120 Q 55 115 45 115 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                      </g>
+                      <g id="rightHand">
+                        <path d="M 155 115 Q 170 110 175 125 Q 172 135 155 130 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                        <path d="M 155 115 Q 165 140 145 155 Q 125 160 115 140 Q 125 125 135 120 Q 145 115 155 115 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                      </g>
+                    </svg>
+                  )}
                 </div>
                 <span className="text-xl font-bold text-primary-600">شركة الريادة المتحدة</span>
               </Link>
@@ -206,7 +242,6 @@ const ProductDetail = ({ user }) => {
         </div>
       </header>
 
-      {/* Breadcrumb */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <nav className="flex" aria-label="Breadcrumb">
@@ -229,12 +264,9 @@ const ProductDetail = ({ user }) => {
         </div>
       </div>
 
-      {/* Product Details */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Images */}
           <div className="space-y-4">
-            {/* Main Image */}
             <div className="relative aspect-w-1 aspect-h-1 bg-white rounded-xl overflow-hidden shadow-lg">
               <div className="w-full h-96 bg-white flex items-center justify-center overflow-hidden">
                 <div className="w-full h-full bg-white flex items-center justify-center">
@@ -247,7 +279,7 @@ const ProductDetail = ({ user }) => {
                       onError={(e) => {
                         console.error('Failed to load image:', productImages[selectedImage]);
                         e.target.onerror = null;
-                        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"%3E%3Crect fill="%23f3f4f6" width="600" height="400"/%3E%3Ctext fill="%239ca3af" font-family="sans-serif" font-size="20" dy="10.5" font-weight="bold" x="50%25" y="45%25" text-anchor="middle"%3Eالصورة غير متوفرة%3C/text%3E%3Ctext fill="%23dc3545" font-family="sans-serif" font-size="14" dy="10.5" x="50%25" y="55%25" text-anchor="middle"%3EImgBB Image Not Found%3C/text%3E%3C/svg%3E';
+                        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"%3E%3Crect fill="%23f3f4f6" width="600" height="400"/%3E%3Ctext fill="%239ca3af" font-family="sans-serif" font-size="20" dy="10.5" font-weight="bold" x="50%25" y="45%25" text-anchor="middle"%3Eالصورة غير متوفرة%3C/text%3E%3C/svg%3E';
                       }}
                     />
                   </div>
@@ -271,7 +303,6 @@ const ProductDetail = ({ user }) => {
               )}
             </div>
 
-            {/* Thumbnail Images */}
             {productImages.length > 1 && (
               <div className="flex space-x-4 space-x-reverse overflow-x-auto">
                 {productImages.map((image, index) => (
@@ -289,7 +320,7 @@ const ProductDetail = ({ user }) => {
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Crect fill="%23f3f4f6" width="80" height="80"/%3E%3Ctext fill="%239ca3af" font-family="sans-serif" font-size="10" dy="3.5" font-weight="bold" x="50%25" y="50%25" text-anchor="middle"%3Eلا توجد%3C/text%3E%3C/svg%3E';
+                        e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"%3E%3Crect fill="%23f3f4f6" width="80" height="80"/%3E%3C/svg%3E';
                       }}
                     />
                   </button>
@@ -298,7 +329,6 @@ const ProductDetail = ({ user }) => {
             )}
           </div>
 
-          {/* Product Info */}
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
@@ -307,7 +337,6 @@ const ProductDetail = ({ user }) => {
               )}
             </div>
 
-            {/* Price and Stock */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4 space-x-reverse">
                 <span className="text-4xl font-bold text-primary-600">
@@ -326,13 +355,11 @@ const ProductDetail = ({ user }) => {
               )}
             </div>
 
-            {/* Description */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">وصف المنتج</h3>
               <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{product.description}</p>
             </div>
 
-            {/* Features */}
             {product.features && product.features.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">المميزات</h3>
@@ -349,7 +376,6 @@ const ProductDetail = ({ user }) => {
               </div>
             )}
 
-            {/* Stock Status */}
             <div className="flex items-center space-x-2 space-x-reverse">
               <span className="text-gray-700">حالة المخزون:</span>
               {stockCount > 0 ? (
@@ -361,7 +387,6 @@ const ProductDetail = ({ user }) => {
               )}
             </div>
 
-            {/* Quantity Selector */}
             {stockCount > 0 && (
               <div className="flex items-center space-x-4 space-x-reverse">
                 <span className="text-gray-700">الكمية:</span>
@@ -385,7 +410,6 @@ const ProductDetail = ({ user }) => {
               </div>
             )}
 
-            {/* Action Buttons */}
             <div className="flex space-x-4 space-x-reverse">
               <button
                 onClick={addToCart}
@@ -399,17 +423,14 @@ const ProductDetail = ({ user }) => {
               </button>
               <button 
                 onClick={() => {
-                  // Get favorites from localStorage
                   const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
                   const isFavorite = favorites.some(item => item.id === product.id);
 
                   if (isFavorite) {
-                    // Remove from favorites
                     const newFavorites = favorites.filter(item => item.id !== product.id);
                     localStorage.setItem('favorites', JSON.stringify(newFavorites));
                     showNotification('تم إزالة المنتج من المفضلة');
                   } else {
-                    // Add to favorites
                     favorites.push(product);
                     localStorage.setItem('favorites', JSON.stringify(favorites));
                     showNotification('تم إضافة المنتج للمفضلة');
@@ -423,7 +444,6 @@ const ProductDetail = ({ user }) => {
               </button>
             </div>
 
-            {/* Shipping Info */}
             <div className="bg-gray-50 rounded-lg p-4 space-y-3">
               <div className="flex items-center space-x-3 space-x-reverse">
                 <svg className="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -448,7 +468,6 @@ const ProductDetail = ({ user }) => {
         </div>
       </div>
 
-      {/* Related Products */}
       <div className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">منتجات مشابهة</h2>
@@ -458,7 +477,6 @@ const ProductDetail = ({ user }) => {
         </div>
       </div>
 
-      {/* Cart Component */}
       {isCartOpen && (
         <Cart 
           cart={cart} 
@@ -468,7 +486,6 @@ const ProductDetail = ({ user }) => {
         />
       )}
 
-      {/* Checkout Component */}
       {isCheckoutOpen && (
         <CheckoutNew
           cart={cart}

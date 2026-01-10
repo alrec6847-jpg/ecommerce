@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api';
 
@@ -19,7 +19,26 @@ const Login = ({ setUser }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [logo, setLogo] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchLogo();
+  }, []);
+
+  const fetchLogo = async () => {
+    try {
+      const response = await api.get('/products/logo/');
+      if (response.data && response.data.image_url) {
+        setLogo(response.data);
+      } else {
+        setLogo(null);
+      }
+    } catch (error) {
+      console.error('Error fetching logo:', error);
+      setLogo(null);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,25 +47,21 @@ const Login = ({ setUser }) => {
   };
 
   const validateForm = () => {
-    // تحقق من الحقول الأساسية
     if (!formData.phone || !formData.password) {
       setError('يرجى ملء جميع الحقول المطلوبة');
       return false;
     }
 
-    // تحقق من رقم الهاتف
     if (formData.phone.length < 10) {
       setError('رقم الهاتف يجب أن يكون 10 أرقام على الأقل');
       return false;
     }
 
-    // تحقق من كلمة المرور
     if (formData.password.length < 6) {
       setError('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
       return false;
     }
 
-    // تحقق إضافي لحقول تسجيل المستخدم الجديد
     if (!isLogin) {
       if (!formData.name || formData.name.trim().length < 2) {
         setError('يرجى إدخال الاسم الكامل');
@@ -85,13 +100,11 @@ const Login = ({ setUser }) => {
       let response;
 
       if (isLogin) {
-        // Login
         response = await api.post('/users/login/', {
           phone: formData.phone,
           password: formData.password
         });
       } else {
-        // Register
         response = await api.post('/users/users/', {
           phone: formData.phone,
           password: formData.password,
@@ -102,7 +115,6 @@ const Login = ({ setUser }) => {
         });
       }
 
-      // Save tokens and user
       const tokens = response.data.tokens;
       if (tokens?.access) {
         localStorage.setItem('token', tokens.access);
@@ -110,14 +122,12 @@ const Login = ({ setUser }) => {
       if (response.data.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
         setUser(response.data.user);
-        // Save welcome message
         const welcomeMessage = `مرحباً ${response.data.user.name || response.data.user.phone}!`;
         localStorage.setItem('welcome_message', welcomeMessage);
       }
       navigate('/');
     } catch (error) {
       console.error('Authentication error:', error);
-      // عدم التوجيه لصفحة أخرى، فقط عرض رسالة الخطأ
       if (error.response?.status === 401) {
         setError('رقم الهاتف أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.');
       } else if (error.response?.data?.error) {
@@ -137,10 +147,41 @@ const Login = ({ setUser }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {/* Header */}
         <div className="text-center">
           <div className="bg-white w-20 h-20 rounded-full flex items-center justify-center overflow-hidden mx-auto mb-4 border border-gray-100 shadow-md">
-            <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+            {logo && logo.image_url ? (
+              <img 
+                src={logo.image_url} 
+                alt="شركة الريادة" 
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  console.error('Failed to load logo image');
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : null}
+            {!logo?.image_url && (
+              <svg width="80" height="80" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                <defs>
+                  <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style={{stopColor:'#F97316',stopOpacity:1}} />
+                    <stop offset="100%" style={{stopColor:'#EA580C',stopOpacity:1}} />
+                  </linearGradient>
+                  <linearGradient id="redGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style={{stopColor:'#DC2626',stopOpacity:1}} />
+                    <stop offset="100%" style={{stopColor:'#B91C1C',stopOpacity:1}} />
+                  </linearGradient>
+                </defs>
+                <g id="leftHand">
+                  <path d="M 45 115 Q 30 110 25 125 Q 28 135 45 130 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                  <path d="M 45 115 Q 35 140 55 155 Q 75 160 85 140 Q 75 125 65 120 Q 55 115 45 115 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                </g>
+                <g id="rightHand">
+                  <path d="M 155 115 Q 170 110 175 125 Q 172 135 155 130 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                  <path d="M 155 115 Q 165 140 145 155 Q 125 160 115 140 Q 125 125 135 120 Q 145 115 155 115 Z" fill="url(#redGradient)" stroke="#991B1B" strokeWidth="1.5"/>
+                </g>
+              </svg>
+            )}
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             شركة الريادة المتحدة
@@ -150,7 +191,6 @@ const Login = ({ setUser }) => {
           </p>
         </div>
 
-        {/* Form */}
         <div className="bg-white rounded-xl shadow-lg p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
@@ -159,7 +199,6 @@ const Login = ({ setUser }) => {
               </div>
             )}
 
-            {/* Phone Input */}
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                 رقم الهاتف
@@ -184,7 +223,6 @@ const Login = ({ setUser }) => {
               </div>
             </div>
 
-            {/* Name Input (Register only) */}
             {!isLogin && (
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -203,7 +241,6 @@ const Login = ({ setUser }) => {
               </div>
             )}
 
-            {/* Password Input */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 كلمة المرور
@@ -227,7 +264,6 @@ const Login = ({ setUser }) => {
               </div>
             </div>
 
-            {/* Confirm Password Input (Register only) */}
             {!isLogin && (
               <>
                 <div>
@@ -253,7 +289,6 @@ const Login = ({ setUser }) => {
                   </div>
                 </div>
 
-                {/* Governorate Select */}
                 <div>
                   <label htmlFor="governorate" className="block text-sm font-medium text-gray-700 mb-2">
                     المحافظة
@@ -273,7 +308,6 @@ const Login = ({ setUser }) => {
                   </select>
                 </div>
 
-                {/* Address Input */}
                 <div>
                   <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
                     العنوان
@@ -292,7 +326,6 @@ const Login = ({ setUser }) => {
               </>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -311,7 +344,6 @@ const Login = ({ setUser }) => {
               )}
             </button>
 
-            {/* Toggle Login/Register */}
             <div className="text-center">
               <button
                 type="button"
@@ -335,7 +367,6 @@ const Login = ({ setUser }) => {
           </form>
         </div>
 
-        {/* Features */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
             لماذا تختار شركة الريادة المتحدة؟
@@ -371,7 +402,6 @@ const Login = ({ setUser }) => {
           </div>
         </div>
 
-        {/* Back to Home */}
         <div className="text-center">
           <button
             onClick={() => navigate('/')}
