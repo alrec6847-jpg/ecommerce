@@ -536,13 +536,13 @@ const Home = ({ user, setUser }) => {
       {/* Mobile Search Modal */}
       {isSearchOpen && (
         <div className="md:hidden fixed inset-0 bg-black/40 z-50 flex flex-col">
-          <div className="bg-white shadow-lg">
-            <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-2">
+          <div className="bg-white shadow-lg max-h-[90vh] overflow-y-auto">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-2 sticky top-0 bg-white">
               <input
                 type="text"
                 placeholder="ابحث عن منتج أو قسم..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => handleSearch(e.target.value)}
                 autoFocus
                 className="flex-1 px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
@@ -555,6 +555,32 @@ const Home = ({ user, setUser }) => {
                 </svg>
               </button>
             </div>
+            
+            {searchResults !== null && searchResults.length > 0 && (
+              <div className="max-w-7xl mx-auto px-4 py-2 border-t border-gray-200">
+                <div className="space-y-2">
+                  {searchResults.map((product) => (
+                    <Link
+                      key={product.id}
+                      to={`/products/${product.id}`}
+                      onClick={() => setIsSearchOpen(false)}
+                      className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex-1">
+                        <p className="font-semibold text-sm text-gray-900">{product.name}</p>
+                        <p className="text-xs text-gray-500">{product.category_name}</p>
+                      </div>
+                      <p className="text-sm font-bold text-primary-600 whitespace-nowrap ml-2">{formatCurrency(product.price)}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+            {searchResults !== null && searchResults.length === 0 && searchTerm.trim() && (
+              <div className="max-w-7xl mx-auto px-4 py-4 text-center text-gray-500 border-t border-gray-200">
+                لا توجد نتائج لـ "{searchTerm}"
+              </div>
+            )}
           </div>
         </div>
       )}
