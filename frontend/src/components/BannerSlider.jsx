@@ -50,23 +50,17 @@ const BannerSlider = () => {
     console.log('Banner product_id:', banner.product_id);
     console.log('Banner category_id:', banner.category_id);
 
-    // Try different ways to navigate
     if (banner.link && banner.link !== '#') {
-      // Check if it's a full URL or relative path
       if (banner.link.startsWith('http')) {
-        // If it's an external URL, open in a new tab
         window.open(banner.link, '_blank');
       } else {
-        // If it's a relative path, navigate within the app
         console.log('Navigating to link:', banner.link);
         navigate(banner.link);
       }
     } else if (banner.product_id) {
-      // Fallback to product_id if link is not available
       console.log('Navigating to product by ID:', banner.product_id);
       navigate(`/product/${banner.product_id}`);
     } else if (banner.category_id) {
-      // Fallback to category_id if available
       console.log('Navigating to category by ID:', banner.category_id);
       navigate(`/category/${banner.category_id}`);
     } else {
@@ -99,9 +93,9 @@ const BannerSlider = () => {
   }
 
   return (
-    <div className="relative w-full h-64 md:h-96 overflow-hidden rounded-lg">
+    <div className="relative w-full h-64 md:h-96 overflow-hidden rounded-lg bg-gray-100">
       {/* Banner Images */}
-      <div className="relative w-full h-full">
+      <div className="relative w-full h-full flex items-center justify-center">
         {banners.map((banner, index) => (
           <div
             key={banner.id}
@@ -110,7 +104,7 @@ const BannerSlider = () => {
             }`}
           >
             <div 
-              className="block w-full h-full cursor-pointer"
+              className="block w-full h-full cursor-pointer flex items-center justify-center"
               onClick={() => handleBannerClick(banner)}
             >
               <img
@@ -123,7 +117,6 @@ const BannerSlider = () => {
                 onError={(e) => {
                   console.error('Error loading banner image:', e, banner.image);
                   e.target.onerror = null;
-                  // Instead of using external placeholder, create a custom error element
                   const parent = e.target.parentNode;
                   if (parent && !parent.querySelector('.banner-error')) {
                     const errorDiv = document.createElement('div');
@@ -141,7 +134,7 @@ const BannerSlider = () => {
                   e.target.style.display = 'none';
                 }}
                 alt={banner.title}
-                className="w-full h-full object-cover"
+                className="max-w-full max-h-full object-contain"
               />
             </div>
           </div>
