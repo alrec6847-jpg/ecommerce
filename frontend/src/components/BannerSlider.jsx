@@ -133,7 +133,7 @@ const BannerSlider = () => {
                   e.target.style.display = 'none';
                 }}
                 alt={banner.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
