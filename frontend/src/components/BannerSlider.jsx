@@ -70,7 +70,7 @@ const BannerSlider = () => {
 
   if (loading) {
     return (
-      <div className="w-screen h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+      <div className="w-screen aspect-video bg-gray-200 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
@@ -78,7 +78,7 @@ const BannerSlider = () => {
 
   if (error) {
     return (
-      <div className="w-screen h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+      <div className="w-screen aspect-video bg-gray-200 flex items-center justify-center">
         <p className="text-red-500">{error}</p>
       </div>
     );
@@ -86,14 +86,14 @@ const BannerSlider = () => {
 
   if (banners.length === 0) {
     return (
-      <div className="w-screen h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+      <div className="w-screen aspect-video bg-gray-200 flex items-center justify-center">
         <p className="text-gray-500">No banners available</p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-screen h-48 sm:h-64 md:h-96 overflow-hidden bg-white">
+    <div className="relative w-screen aspect-video overflow-hidden bg-white">
       <div className="relative w-full h-full flex items-center justify-center">
         {banners.map((banner, index) => (
           <div
@@ -133,7 +133,7 @@ const BannerSlider = () => {
                   e.target.style.display = 'none';
                 }}
                 alt={banner.title}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
