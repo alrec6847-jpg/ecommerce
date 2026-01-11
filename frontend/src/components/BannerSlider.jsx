@@ -32,7 +32,7 @@ const BannerSlider = () => {
     if (banners.length <= 1) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-    }, 5000); // Auto slide every 5 seconds
+    }, 5000);
     return () => clearInterval(interval);
   }, [banners.length]);
 
@@ -94,7 +94,6 @@ const BannerSlider = () => {
 
   return (
     <div className="relative w-full h-48 sm:h-64 md:h-96 overflow-hidden bg-gray-100">
-      {/* Banner Images */}
       <div className="relative w-full h-full flex items-center justify-center">
         {banners.map((banner, index) => (
           <div
@@ -134,7 +133,7 @@ const BannerSlider = () => {
                   e.target.style.display = 'none';
                 }}
                 alt={banner.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
