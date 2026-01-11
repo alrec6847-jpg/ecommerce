@@ -70,7 +70,7 @@ const BannerSlider = () => {
 
   if (loading) {
     return (
-      <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+      <div className="w-screen h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
@@ -78,7 +78,7 @@ const BannerSlider = () => {
 
   if (error) {
     return (
-      <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+      <div className="w-screen h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
         <p className="text-red-500">{error}</p>
       </div>
     );
@@ -86,24 +86,24 @@ const BannerSlider = () => {
 
   if (banners.length === 0) {
     return (
-      <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
+      <div className="w-screen h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
         <p className="text-gray-500">No banners available</p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-48 sm:h-64 md:h-96 overflow-hidden bg-gray-100">
+    <div className="relative w-screen h-48 sm:h-64 md:h-96 overflow-hidden bg-gray-100">
       <div className="relative w-full h-full flex items-center justify-center">
         {banners.map((banner, index) => (
           <div
             key={banner.id}
-            className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ease-in-out ${
+            className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <div 
-              className="block w-full h-full cursor-pointer"
+              className="w-full h-full cursor-pointer"
               onClick={() => handleBannerClick(banner)}
             >
               <img
