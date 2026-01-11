@@ -70,7 +70,7 @@ const BannerSlider = () => {
 
   if (loading) {
     return (
-      <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+      <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
       </div>
     );
@@ -78,7 +78,7 @@ const BannerSlider = () => {
 
   if (error) {
     return (
-      <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+      <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
         <p className="text-red-500">{error}</p>
       </div>
     );
@@ -86,14 +86,14 @@ const BannerSlider = () => {
 
   if (banners.length === 0) {
     return (
-      <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+      <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 flex items-center justify-center">
         <p className="text-gray-500">No banners available</p>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-64 md:h-96 overflow-hidden rounded-lg bg-gray-100">
+    <div className="relative w-full h-48 sm:h-64 md:h-96 overflow-hidden bg-gray-100">
       {/* Banner Images */}
       <div className="relative w-full h-full flex items-center justify-center">
         {banners.map((banner, index) => (
@@ -104,7 +104,7 @@ const BannerSlider = () => {
             }`}
           >
             <div 
-              className="block w-full h-full cursor-pointer flex items-center justify-center"
+              className="block w-full h-full cursor-pointer"
               onClick={() => handleBannerClick(banner)}
             >
               <img
@@ -134,26 +134,25 @@ const BannerSlider = () => {
                   e.target.style.display = 'none';
                 }}
                 alt={banner.title}
-                className="max-w-full max-h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
         ))}
       </div>
 
-      {/* Navigation Arrows */}
       {banners.length > 1 && (
         <>
           <button
             onClick={goToNext}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all"
+            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 md:p-3 rounded-full hover:bg-opacity-75 transition-all z-10"
             aria-label="Next banner"
           >
             <ChevronLeft size={20} />
           </button>
           <button
             onClick={goToPrevious}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all"
+            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 md:p-3 rounded-full hover:bg-opacity-75 transition-all z-10"
             aria-label="Previous banner"
           >
             <ChevronRight size={20} />
@@ -161,15 +160,14 @@ const BannerSlider = () => {
         </>
       )}
 
-      {/* Indicators */}
       {banners.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
           {banners.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full ${
-                index === currentIndex ? 'bg-white' : 'bg-white bg-opacity-50'
+              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
+                index === currentIndex ? 'bg-white w-3 md:w-4' : 'bg-white bg-opacity-50'
               }`}
               aria-label={`Go to banner ${index + 1}`}
             />
