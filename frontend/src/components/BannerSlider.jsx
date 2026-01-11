@@ -93,7 +93,7 @@ const BannerSlider = () => {
   }
 
   return (
-    <div className="relative w-screen h-48 sm:h-64 md:h-96 overflow-hidden bg-gray-100">
+    <div className="relative w-screen h-48 sm:h-64 md:h-96 overflow-hidden bg-white">
       <div className="relative w-full h-full flex items-center justify-center">
         {banners.map((banner, index) => (
           <div
@@ -133,7 +133,7 @@ const BannerSlider = () => {
                   e.target.style.display = 'none';
                 }}
                 alt={banner.title}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
