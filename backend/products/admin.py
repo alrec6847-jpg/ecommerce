@@ -53,7 +53,11 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('name', 'description', 'category', 'brand', 'model')
         }),
         ('💰 التسعير والخصومات', {
-            'fields': ('price', 'wholesale_price', 'discount_amount')
+            'fields': (
+                'price', 'wholesale_price', 
+                'discount_amount', 'discount_price',
+                'discount_start', 'discount_end'
+            )
         }),
         ('📊 إدارة المخزون', {
             'fields': ('stock_quantity', 'low_stock_threshold')

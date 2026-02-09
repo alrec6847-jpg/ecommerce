@@ -818,7 +818,22 @@ const AdminPanel = ({ user, setUser }) => {
                           #{order.id}
                         </td>
                         <td className="px-3 md:px-6 py-3 whitespace-nowrap text-xs md:text-sm text-gray-900 font-medium">
-                          {order.user?.phone || 'غير محدد'}
+                          <div className="flex items-center gap-2">
+                            <span>{order.user?.phone || order.customer_phone || 'غير محدد'}</span>
+                            <button
+                              onClick={() => {
+                                const phone = order.user?.phone || order.customer_phone;
+                                if (phone) {
+                                  navigator.clipboard.writeText(phone);
+                                  alert('تم نسخ الرقم!');
+                                }
+                              }}
+                              className="bg-gray-100 p-1 rounded hover:bg-gray-200"
+                              title="نسخ الرقم"
+                            >
+                              📋
+                            </button>
+                          </div>
                         </td>
                         <td className="px-3 md:px-6 py-3 whitespace-nowrap text-xs md:text-sm text-gray-900 font-bold">
                           {order.total_amount} د.ع
@@ -1242,11 +1257,33 @@ const AdminPanel = ({ user, setUser }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
               <div>
                 <p className="text-sm text-gray-600">اسم العميل</p>
-                <p className="font-semibold text-gray-900">{selectedOrder.customer_name}</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold text-gray-900">{selectedOrder.customer_name}</p>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(selectedOrder.customer_name);
+                      alert('تم نسخ الاسم!');
+                    }}
+                    className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded hover:bg-indigo-200 transition-colors"
+                  >
+                    نسخ الاسم
+                  </button>
+                </div>
               </div>
               <div>
                 <p className="text-sm text-gray-600">رقم الهاتف</p>
-                <p className="font-semibold text-gray-900">{selectedOrder.customer_phone}</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold text-gray-900">{selectedOrder.customer_phone}</p>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(selectedOrder.customer_phone);
+                      alert('تم نسخ الرقم!');
+                    }}
+                    className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200 transition-colors"
+                  >
+                    نسخ الرقم
+                  </button>
+                </div>
               </div>
               <div>
                 <p className="text-sm text-gray-600">المحافظة</p>

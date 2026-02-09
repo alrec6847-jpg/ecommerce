@@ -122,25 +122,24 @@ const CategoryProductsSection = ({
         </div>
 
         {/* Products Grid Container */}
-        <div>
-          {/* Products Grid (2 Columns) */}
+        <div className="relative group/scroll">
+          {/* Products Scroll Container */}
           <div 
             ref={gridRef}
-            onTouchStart={handleTouchStart} 
-            onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            className={`grid grid-cols-2 gap-3 md:gap-6 select-none ${dragStart ? 'cursor-grabbing opacity-75' : 'cursor-grab'} ${
-              dragDirection === 'left' ? 'animate-slideOutRight' : dragDirection === 'right' ? 'animate-slideOutLeft' : ''
-            } transition-all duration-400`}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 scrollbar-hide touch-pan-y"
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+              cacheExtent: '500px',
+              overscrollBehaviorX: 'contain'
+            }}
           >
-            {currentPageProducts.map((product, idx) => (
+            {products.map((product, idx) => (
               <div
                 key={product.id}
-                className={`bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105 group cursor-pointer ${
-                  dragDirection === 'left' ? 'animate-slideInRight' : dragDirection === 'right' ? 'animate-slideInLeft' : 'animate-fadeIn'
-                } ${idx === 0 ? 'animation-delay-0' : 'animation-delay-100'}`}
+                className="min-w-[80%] sm:min-w-[45%] md:min-w-[30%] snap-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:scale-[1.02] group cursor-pointer border border-gray-100 flex-shrink-0"
+                style={{ willChange: 'transform' }} // Optimization like RepaintBoundary
               >
                 {/* Product Image */}
                 <div className="relative h-48 sm:h-56 md:h-80 bg-gray-100 overflow-hidden">
@@ -148,13 +147,21 @@ const CategoryProductsSection = ({
                     src={product.image || product.main_image_url}
                     alt={product.name}
                     className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                    style={{ viewTransitionName: `product-img-${product.id}` }}
                     onClick={() => onViewDetails(product)}
                   />
 
                   {/* Discount Badge - Top Left */}
-                  {product.discount_percentage > 0 && (
-                    <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-gradient-to-br from-red-500 to-red-600 text-white w-9 h-9 sm:w-11 sm:h-11 rounded-full text-xs sm:text-sm font-bold shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow">
-                      <span>{product.discount_percentage}%</span>
+                  {product.is_on_sale && (
+                    <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex flex-col gap-1 z-10">
+                      <div className="bg-gradient-to-br from-red-500 to-red-600 text-white w-9 h-9 sm:w-11 sm:h-11 rounded-full text-xs sm:text-sm font-bold shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow">
+                        <span>{product.discount_percentage}%</span>
+                      </div>
+                      {product.time_left > 0 && (
+                        <div className="bg-green-600 text-white px-2 py-0.5 rounded text-[10px] sm:text-xs font-bold shadow-md whitespace-nowrap">
+                          باقي {Math.ceil(product.time_left / 86400)} يوم
+                        </div>
+                      )}
                     </div>
                   )}
 

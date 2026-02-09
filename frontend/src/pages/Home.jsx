@@ -245,7 +245,7 @@ const Home = ({ user, setUser }) => {
   const couponDiscount = localStorage.getItem('couponDiscount') ? parseFloat(localStorage.getItem('couponDiscount')) : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">{/* pb for bottom nav */}
+    <div className="min-h-screen bg-gray-50 pb-16 overflow-y-auto overflow-x-hidden selection:bg-indigo-100" style={{ WebkitOverflowScrolling: 'touch', scrollBehavior: 'smooth' }}>
       {isCartOpen && <Cart cart={cart} onCartChange={handleCartChange} onClose={toggleCart} handleCheckout={handleCheckout} />}
       {isCheckoutOpen && <Checkout cart={cart} onCheckout={handleCheckoutComplete} onClose={() => setIsCheckoutOpen(false)} appliedCoupon={appliedCoupon} couponDiscount={couponDiscount} />}
       {/* Top bar */}

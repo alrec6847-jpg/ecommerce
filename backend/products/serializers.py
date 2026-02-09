@@ -27,15 +27,16 @@ class ProductListSerializer(serializers.ModelSerializer):
     discount_percentage = serializers.SerializerMethodField()
     discounted_price = serializers.SerializerMethodField()
     is_on_sale = serializers.SerializerMethodField()
+    time_left = serializers.SerializerMethodField()
     stock = serializers.IntegerField(source='stock_quantity', read_only=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'price', 'wholesale_price', 'discount_amount', 'discount_percentage', 'discounted_price', 
-                  'is_on_sale', 'stock_quantity', 'stock', 'category_name', 'main_image', 'image_2', 
-                  'image_3', 'image_4', 'main_image_url', 'image', 'is_featured', 'show_on_homepage', 
+        fields = ['id', 'name', 'price', 'wholesale_price', 'discount_amount', 'discount_price', 'discount_start', 'discount_end',
+                  'discount_percentage', 'discounted_price', 'is_on_sale', 'time_left', 'stock_quantity', 'stock', 'category_name', 
+                  'main_image', 'image_2', 'image_3', 'image_4', 'main_image_url', 'image', 'is_featured', 'show_on_homepage', 
                   'brand', 'is_in_stock']
-        read_only_fields = ['id', 'main_image_url', 'image', 'discount_percentage', 'discounted_price', 'is_on_sale', 'category_name', 'stock', 'is_in_stock']
+        read_only_fields = ['id', 'main_image_url', 'image', 'discount_percentage', 'discounted_price', 'is_on_sale', 'time_left', 'category_name', 'stock', 'is_in_stock']
 
     def get_main_image_url(self, obj):
         """الصورة الرئيسية بوضوح"""
@@ -70,6 +71,15 @@ class ProductListSerializer(serializers.ModelSerializer):
         """Get is_on_sale from model property"""
         return obj.is_on_sale
 
+    def get_time_left(self, obj):
+        """Calculate time left in seconds if on sale"""
+        if obj.is_on_sale and obj.discount_end:
+            from django.utils import timezone
+            diff = obj.discount_end - timezone.now()
+            seconds = int(diff.total_seconds())
+            return max(seconds, 0)
+        return 0
+
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
     main_image_url = serializers.SerializerMethodField()
@@ -79,13 +89,15 @@ class ProductSerializer(serializers.ModelSerializer):
     discount_percentage = serializers.SerializerMethodField()
     discounted_price = serializers.SerializerMethodField()
     is_on_sale = serializers.SerializerMethodField()
+    time_left = serializers.SerializerMethodField()
     stock = serializers.IntegerField(source='stock_quantity', read_only=True)
 
     class Meta:
         model = Product
         fields = [
             'id', 'name', 'description', 'category', 'category_name',
-            'price', 'wholesale_price', 'discount_amount', 'discount_percentage', 'discounted_price', 'is_on_sale',
+            'price', 'wholesale_price', 'discount_amount', 'discount_price', 'discount_start', 'discount_end',
+            'discount_percentage', 'discounted_price', 'is_on_sale', 'time_left',
             'stock_quantity', 'stock', 'low_stock_threshold',
             'main_image', 'image_2', 'image_3', 'image_4', 'main_image_url', 'image', 'all_images',
             'brand', 'model', 'color', 'size', 'weight',
@@ -93,7 +105,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'is_active', 'is_featured', 'show_on_homepage', 'display_order',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'main_image_url', 'image', 'all_images']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'main_image_url', 'image', 'all_images', 'time_left', 'discount_percentage', 'discounted_price', 'is_on_sale']
 
     def get_main_image_url(self, obj):
         """إرجاع الصورة الرئيسية"""
@@ -135,6 +147,15 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_is_on_sale(self, obj):
         """Get is_on_sale from model property"""
         return obj.is_on_sale
+
+    def get_time_left(self, obj):
+        """Calculate time left in seconds if on sale"""
+        if obj.is_on_sale and obj.discount_end:
+            from django.utils import timezone
+            diff = obj.discount_end - timezone.now()
+            seconds = int(diff.total_seconds())
+            return max(seconds, 0)
+        return 0
     
     def to_representation(self, instance):
         """تحسين تمثيل البيانات - تأكد من أن الصور موجودة"""

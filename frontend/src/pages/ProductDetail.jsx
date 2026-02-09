@@ -15,11 +15,30 @@ const ProductDetail = ({ user }) => {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
     fetchProduct();
     loadCart();
   }, [id]);
+
+  useEffect(() => {
+    if (product && product.is_on_sale && product.time_left > 0) {
+      setTimeLeft(product.time_left);
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [product]);
+
+  const formatTimeLeft = (seconds) => {
+    const d = Math.floor(seconds / (24 * 3600));
+    const h = Math.floor((seconds % (24 * 3600)) / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return { d, h, m, s };
+  };
 
   const fetchProduct = async () => {
     try {
@@ -243,7 +262,10 @@ const ProductDetail = ({ user }) => {
                       src={productImages[selectedImage]}
                       alt={product.name}
                       className="max-w-full max-h-full object-contain"
-                      style={{ backgroundColor: '#ffffff' }}
+                      style={{ 
+                        backgroundColor: '#ffffff',
+                        viewTransitionName: `product-img-${product.id}`
+                      }}
                       onError={(e) => {
                         console.error('Failed to load image:', productImages[selectedImage]);
                         e.target.onerror = null;
@@ -308,20 +330,49 @@ const ProductDetail = ({ user }) => {
             </div>
 
             {/* Price and Stock */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4 space-x-reverse">
-                <span className="text-4xl font-bold text-primary-600">
-                  {formatCurrency(finalPrice)}
-                </span>
-                {discountAmount > 0 && (
-                  <span className="text-xl text-gray-500 line-through">
-                    {formatCurrency(priceNum)}
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4 space-x-reverse">
+                  <span className="text-4xl font-bold text-red-600">
+                    {formatCurrency(finalPrice)}
                   </span>
+                  {product.is_on_sale && (
+                    <span className="text-xl text-gray-500 line-through">
+                      {formatCurrency(priceNum)}
+                    </span>
+                  )}
+                </div>
+                {stockCount <= 5 && stockCount > 0 && (
+                  <div className="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold">
+                    متبقي {stockCount}
+                  </div>
                 )}
               </div>
-              {stockCount <= 5 && stockCount > 0 && (
-                <div className="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold">
-                  متبقي {stockCount}
+
+              {/* Countdown Timer */}
+              {product.is_on_sale && timeLeft > 0 && (
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4 shadow-sm">
+                  <p className="text-green-800 font-bold mb-3 flex items-center gap-2">
+                    <svg className="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ينتهي العرض خلال:
+                  </p>
+                  <div className="grid grid-cols-4 gap-2 text-center">
+                    {[
+                      { label: 'يوم', value: formatTimeLeft(timeLeft).d },
+                      { label: 'ساعة', value: formatTimeLeft(timeLeft).h },
+                      { label: 'دقيقة', value: formatTimeLeft(timeLeft).m },
+                      { label: 'ثانية', value: formatTimeLeft(timeLeft).s }
+                    ].map((item, i) => (
+                      <div key={i} className="bg-white rounded-lg p-2 border border-green-100 shadow-inner">
+                        <div className="text-2xl font-black text-green-700 tabular-nums">
+                          {item.value.toString().padStart(2, '0')}
+                        </div>
+                        <div className="text-[10px] text-green-600 font-bold">{item.label}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
