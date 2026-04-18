@@ -88,11 +88,11 @@ class Product(models.Model):
     stock_quantity = models.PositiveIntegerField('الكمية المتوفرة', default=0)
     low_stock_threshold = models.PositiveIntegerField('حد التنبيه للمخزون', default=10)
     
-    # Images (store direct URLs from ImgBB)
-    main_image = models.URLField('رابط الصورة الرئيسية (ImgBB)', blank=True, null=True)
-    image_2 = models.URLField('رابط الصورة الثانية (ImgBB)', blank=True, null=True)
-    image_3 = models.URLField('رابط الصورة الثالثة (ImgBB)', blank=True, null=True)
-    image_4 = models.URLField('رابط الصورة الرابعة (ImgBB)', blank=True, null=True)
+    # Images (store locally)
+    main_image = models.ImageField('الصورة الرئيسية', upload_to='products/', blank=True, null=True)
+    image_2 = models.ImageField('الصورة الثانية', upload_to='products/', blank=True, null=True)
+    image_3 = models.ImageField('الصورة الثالثة', upload_to='products/', blank=True, null=True)
+    image_4 = models.ImageField('الصورة الرابعة', upload_to='products/', blank=True, null=True)
     
     # Product details
     brand = models.CharField('العلامة التجارية', max_length=100, blank=True)
@@ -308,8 +308,8 @@ class Banner(models.Model):
     """Banner/Advertisement model for homepage slider"""
     title = models.CharField('عنوان الإعلان', max_length=200)
     description = models.TextField('وصف الإعلان', blank=True)
-    image = models.ImageField('صورة الإعلان (قديمة - استخدم image_url بدلاً منها)', upload_to='banners/', blank=True, null=True)
-    image_url = models.URLField('رابط صورة الإعلان من ImgBB', blank=True, null=True)
+    image = models.ImageField('صورة الإعلان', upload_to='banners/', blank=True, null=True)
+    image_url = models.URLField('رابط صورة الإعلان (قديم - ImgBB)', blank=True, null=True)
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,

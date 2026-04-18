@@ -11,6 +11,10 @@ WORKDIR /app
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         postgresql-client \
+        libpq-dev \
+        gcc \
+        python3-dev \
+        netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -20,11 +24,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . /app/
 
-# Create logs directory
-RUN mkdir -p /app/logs
+# Create logs and media directories
+RUN mkdir -p /app/logs /app/media /app/staticfiles
+
+# Make start.sh executable
+RUN chmod +x /app/start.sh
 
 # Expose port
 EXPOSE 8000
 
 # Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "ecom_project.wsgi:application"]
+ENTRYPOINT ["/app/start.sh"]

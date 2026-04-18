@@ -83,10 +83,23 @@ class BaseOrderAdmin(admin.ModelAdmin):
     order_number_display.admin_order_field = 'id'
     
     def customer_display(self, obj):
-        """Display customer with phone"""
+        """Display customer with phone and copy buttons"""
         return format_html(
-            '<strong>{}</strong><br><small style="direction: ltr;">📱 {}</small>',
-            obj.customer_name, obj.customer_phone
+            '<div style="display: flex; flex-direction: column; gap: 5px;">'
+            '  <div style="display: flex; align-items: center; gap: 10px;">'
+            '    <strong style="font-size: 1.1em; color: #333;">{}</strong>'
+            '    <button type="button" class="btn btn-sm btn-default" onclick="navigator.clipboard.writeText(\'{}\'); this.innerHTML=\'<i class=\\\'fas fa-check\\\'></i>\'; setTimeout(() => this.innerHTML=\'<i class=\\\'fas fa-copy\\\'></i>\', 2000)" title="نسخ الاسم" style="padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd;">'
+            '      <i class="fas fa-copy" style="color: #17a2b8;"></i>'
+            '    </button>'
+            '  </div>'
+            '  <div style="display: flex; align-items: center; gap: 10px;">'
+            '    <span style="direction: ltr; background: #f8f9fa; padding: 2px 6px; border-radius: 4px; border: 1px solid #e9ecef; color: #28a745; font-weight: bold;">📱 {}</span>'
+            '    <button type="button" class="btn btn-sm btn-default" onclick="navigator.clipboard.writeText(\'{}\'); this.innerHTML=\'<i class=\\\'fas fa-check\\\'></i>\'; setTimeout(() => this.innerHTML=\'<i class=\\\'fas fa-copy\\\'></i>\', 2000)" title="نسخ الرقم" style="padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd;">'
+            '      <i class="fas fa-copy" style="color: #28a745;"></i>'
+            '    </button>'
+            '  </div>'
+            '</div>',
+            obj.customer_name, obj.customer_name, obj.customer_phone, obj.customer_phone
         )
     customer_display.short_description = '👤 العميل'
     customer_display.admin_order_field = 'customer_name'

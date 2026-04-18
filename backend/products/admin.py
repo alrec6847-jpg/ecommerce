@@ -4,7 +4,6 @@ from django import forms
 from django.utils.html import mark_safe
 from .models import Category, Product, ProductReview, ProductView, Banner
 from .models_coupons import Coupon, CouponUsage
-from .widgets import ImgBBUploadWidget
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -21,21 +20,7 @@ class CategoryAdmin(admin.ModelAdmin):
     )
 
 
-class ProductAdminForm(forms.ModelForm):
-    """Custom form for Product admin with ImgBB upload widgets"""
-    class Meta:
-        model = Product
-        fields = '__all__'
-        widgets = {
-            'main_image': ImgBBUploadWidget(attrs={'placeholder': 'رابط الصورة الرئيسية من ImgBB'}),
-            'image_2': ImgBBUploadWidget(attrs={'placeholder': 'رابط الصورة الثانية من ImgBB'}),
-            'image_3': ImgBBUploadWidget(attrs={'placeholder': 'رابط الصورة الثالثة من ImgBB'}),
-            'image_4': ImgBBUploadWidget(attrs={'placeholder': 'رابط الصورة الرابعة من ImgBB'}),
-        }
-
-
 class ProductAdmin(admin.ModelAdmin):
-    form = ProductAdminForm
     list_display = ('product_image', 'name', 'category', 'brand', 'price', 'wholesale_price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
     list_filter = ('category', 'brand', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
     search_fields = ('name', 'description', 'brand', 'model')
@@ -44,7 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
     def product_image(self, obj):
         """عرض صورة صغيرة من المنتج"""
         if obj.main_image:
-            return mark_safe(f'<img src="{obj.main_image}" width="50" height="50" style="border-radius: 4px; object-fit: cover;" />')
+            return mark_safe(f'<img src="{obj.main_image.url}" width="50" height="50" style="border-radius: 4px; object-fit: cover;" />')
         return '❌ لا توجد صورة'
     product_image.short_description = '🖼️ الصورة'
 
@@ -91,18 +76,7 @@ class ProductViewAdmin(admin.ModelAdmin):
     readonly_fields = ('viewed_at',)
 
 
-class BannerAdminForm(forms.ModelForm):
-    """Custom form for Banner admin with ImgBB upload widget"""
-    class Meta:
-        model = Banner
-        fields = '__all__'
-        widgets = {
-            'image_url': ImgBBUploadWidget(attrs={'placeholder': 'رفع صورة الإعلان عبر ImgBB'}),
-        }
-
-
 class BannerAdmin(admin.ModelAdmin):
-    form = BannerAdminForm
     list_display = ('title', 'product', 'is_active', 'display_order', 'created_at')
     list_filter = ('is_active', 'created_at', 'product')
     search_fields = ('title', 'description', 'product__name')
@@ -114,8 +88,8 @@ class BannerAdmin(admin.ModelAdmin):
             'fields': ('title', 'description')
         }),
         ('الصور والروابط', {
-            'fields': ('image_url',),
-            'description': '⚠️ استخدم الزر "رفع عبر ImgBB" لرفع صورة الإعلان. لا تستخدم الحقل الآخر (image).'
+            'fields': ('image', 'image_url'),
+            'description': 'قم برفع صورة الإعلان هنا. سيتم حفظها محلياً في السيرفر لضمان السرعة.'
         }),
         ('ربط المنتج', {
             'fields': ('product', 'link_url'),

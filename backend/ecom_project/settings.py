@@ -16,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,complicated-selena-alihussen-8e9035d7.koyeb.app').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,167.86.98.95,167.86.98.95').split(',')
 
 # Application definition
 DJANGO_APPS = [
@@ -32,7 +32,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'whitenoise',
+    'whitenoise.runserver_nostatic',
 ]
 
 LOCAL_APPS = [
@@ -46,11 +46,12 @@ LOCAL_APPS = [
 INSTALLED_APPS = ['jazzmin'] + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -78,25 +79,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ecom_project.wsgi.application'
 
 # Database
-import warnings
-warnings.filterwarnings('ignore', category=RuntimeWarning)
+# Note: Using local PostgreSQL for high performance on Contabo
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME', default='ecommerce_db'),
+        'USER': config('DB_USER', default='ecommerce_user'),
+        'PASSWORD': config('DB_PASSWORD', default='ecommerce_pass'),
+        'HOST': config('DB_HOST', default='db'),
+        'PORT': config('DB_PORT', default='5432'),
+    }
+}
 
-if config('DEBUG', default=False, cast=bool):
-    # بيئة التطوير: SQLite
+# In development, use SQLite if specified
+if DEBUG and config('USE_SQLITE', default=False, cast=bool):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
-else:
-    # بيئة الإنتاج: PostgreSQL
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
     }
 
 # Custom User Model
@@ -126,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 LANGUAGE_CODE = 'ar'
-TIME_ZONE = 'Asia/Riyadh'
+TIME_ZONE = 'Asia/Baghdad'  # Iraq time
 USE_I18N = True
 USE_TZ = True
 
@@ -136,96 +137,18 @@ CURRENCY_CODE = 'IQD'
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-
-# In production, static files will be collected to this directory
-if not DEBUG:
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    # Use WhiteNoise for serving static files in production
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    # WhiteNoise settings
-    WHITENOISE_USE_FINDERS = True
-    WHITENOISE_COMPRESSION_ENABLED = True
-    WHITENOISE_SKIP_COMPRESS_EXTENSIONS = [
-        '.jpg', '.jpeg', '.png', '.gif', '.webp', '.zip', '.gz', '.tgz', '.bz2', '.xz',
-    ]
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR.parent / 'static',
 ]
 
-# Additional static files for Jazzmin
-JAZZMIN_STATIC = {
-    'vendor': {
-        'css': {
-            'all.min.css': 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-            'adminlte.min.css': 'https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css',
-            'bootstrap.min.css': 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
-        },
-        'js': {
-            'jquery.min.js': 'https://code.jquery.com/jquery-3.6.0.min.js',
-            'bootstrap.min.js': 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js',
-            'adminlte.min.js': 'https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js',
-        }
-    }
-}
-
-# Static files finders
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-
-# Static files storage
-if not DEBUG:
-    # In production, we need to set STATIC_ROOT and run collectstatic
-    # Use ManifestStaticFilesStorage for better caching
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-else:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-
-# Make sure static files are served properly
-STATIC_URL = '/static/'
-
-# Ensure static files are served in production
-if not DEBUG:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-    # Make sure all static files are collected
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    # Ensure static files are properly served
-    STATIC_URL = '/static/'
-    # Make sure static files are collected during deployment
-    STATICFILES_DIRS = [
-        BASE_DIR / 'static',
-        BASE_DIR.parent / 'static',
-    ]
-    # Ensure static files are served correctly in production
-    STATICFILES_FINDERS = [
-        'django.contrib.staticfiles.finders.FileSystemFinder',
-        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    ]
-    # Use external CDN for static files in production
-    # Note: JAZZMIN_SETTINGS will be updated later in the file
-    # Make sure static files are collected during deployment
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-    # Ensure static files are collected during deployment
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    # Ensure static files are served correctly in production
-    STATIC_URL = '/static/'
-    # Make sure static files are collected during deployment
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-    # Ensure static files are collected during deployment
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Media files
+# Media files - Local storage for high performance in Iraq
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Ensure media files are served correctly in production
-if not DEBUG:
-    # Use WhiteNoise for serving media files in production
-    WHITENOISE_MEDIA = True
-    WHITENOISE_MEDIA_PREFIX = 'media'
+# Ensure directories exist
+os.makedirs(STATIC_ROOT, exist_ok=True)
+os.makedirs(MEDIA_ROOT, exist_ok=True)
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -313,15 +236,6 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
-
-# Using ImgBB for image hosting; no server-side SDK required
-
-# Firebase Configuration
-FIREBASE_CREDENTIALS_PATH = config('FIREBASE_CREDENTIALS_PATH', default=str(BASE_DIR / 'firebase' / 'ecomproject-a8173-38763797948f.json'))
-FIREBASE_PROJECT_ID = config('FIREBASE_PROJECT_ID', default='ecomproject-a8173')
-
-# ImgBB Configuration
-IMGBB_API_KEY = config('IMGBB_API_KEY', default='9de400bde23442bc3502acb058aa7473')
 
 # Security Settings
 if not DEBUG:
