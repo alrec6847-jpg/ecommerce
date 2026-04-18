@@ -11,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'image', 'parent', 'is_active', 'display_order', 'children', 'created_at', 'updated_at']
     
     def get_children(self, obj):
         """Get subcategories for this category"""
@@ -194,27 +194,21 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class BannerSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
-    image_url = serializers.URLField(allow_blank=True, required=False)  # Prefer external URL
     link = serializers.SerializerMethodField()
     product_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Banner
-        fields = ['id', 'title', 'description', 'image', 'image_url', 'product', 'link_url', 
+        fields = ['id', 'title', 'description', 'image', 'product', 'link_url', 
                   'is_active', 'display_order', 'link', 'product_id', 'created_at', 'updated_at']
 
     def get_image(self, obj):
-        # Prefer external URL (ImgBB) over local file
-        image_url = obj.get_image_url()
-        print(f"Banner image URL for {obj.title}: {image_url}")
-        if image_url and image_url != "#":
+        # Return local file URL
+        if obj.image:
             request = self.context.get('request')
-            if request and not image_url.startswith('http'):
-                # Build absolute URI with proper domain
-                absolute_uri = request.build_absolute_uri(image_url)
-                print(f"Absolute URI: {absolute_uri}")
-                return absolute_uri
-            return image_url
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
         return None
 
     def get_link(self, obj):

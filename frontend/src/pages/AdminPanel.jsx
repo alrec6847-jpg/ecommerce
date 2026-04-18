@@ -184,118 +184,46 @@ const AdminPanel = ({ user, setUser }) => {
     }
   };
 
-  const handleImageUpload = async (file) => {
-    // Upload image to ImgBB by converting to Base64
-    const toBase64 = (f) =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result || '';
-          // remove data URL prefix
-          const base64 = String(result).includes(',') ? String(result).split(',')[1] : String(result);
-          resolve(base64);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(f);
-      });
-
-    try {
-      console.log('🖼️ بدء رفع الصورة...', file.name);
-      const base64 = await toBase64(file);
-      const formData = new FormData();
-      // استخدام مفتاح API المقدم مباشرة
-      formData.append('key', 'a2cebbc3daff0b042082a5d5d7a3b80d');
-      formData.append('image', base64);
-
-      const response = await fetch('https://api.imgbb.com/1/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      
-      if (!response.ok) {
-        console.error('❌ ImgBB API Error:', response.status, response.statusText);
-        throw new Error(`ImgBB API returned ${response.status}`);
-      }
-      
-      const data = await response.json();
-      console.log('✅ نجح رفع الصورة:', data?.data?.url);
-      
-      if (data?.success === false) {
-        console.error('❌ ImgBB Error Response:', data?.error);
-        throw new Error(data?.error?.message || 'فشل رفع الصورة');
-      }
-      
-      return data?.data?.url || null;
-    } catch (error) {
-      console.error('❌ خطأ في رفع الصورة لـ ImgBB:', error);
-      return null;
-    }
-  };
-
   const handleProductSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // رفع الصور إلى ImgBB
-      let mainImageUrl = productForm.main_image_url;
-      let secondImageUrl = productForm.second_image_url;
-      let thirdImageUrl = productForm.third_image_url;
-      let fourthImageUrl = productForm.fourth_image_url;
+      // Create FormData for local file upload
+      const formData = new FormData();
+      formData.append('name', productForm.name);
+      formData.append('description', productForm.description);
+      formData.append('price', productForm.price);
+      formData.append('stock_quantity', productForm.stock);
+      formData.append('category', productForm.category);
+      formData.append('discount_amount', productForm.discount || 0);
+      formData.append('brand', productForm.brand || '');
+      formData.append('show_on_homepage', productForm.show_on_homepage);
 
-      console.log('📸 بدء عملية رفع الصور...', {
-        mainImage: !!productForm.main_image,
-        secondImage: !!productForm.second_image,
-        thirdImage: !!productForm.third_image,
-        fourthImage: !!productForm.fourth_image
-      });
-
-      if (productForm.main_image && typeof productForm.main_image !== 'string') {
-        mainImageUrl = await handleImageUpload(productForm.main_image);
-        console.log('✅ الصورة الرئيسية:', mainImageUrl);
-        if (!mainImageUrl) {
-          console.warn('⚠️ فشل في رفع الصورة الرئيسية، سيتم المتابعة بدونها');
-          // نسمح بـ null أو استخدام placeholder - لا نرفض العملية كلياً
-          mainImageUrl = null;
-        }
+      if (productForm.main_image instanceof File) {
+        formData.append('main_image', productForm.main_image);
+      }
+      if (productForm.second_image instanceof File) {
+        formData.append('image_2', productForm.second_image);
+      }
+      if (productForm.third_image instanceof File) {
+        formData.append('image_3', productForm.third_image);
+      }
+      if (productForm.fourth_image instanceof File) {
+        formData.append('image_4', productForm.fourth_image);
       }
 
-      if (productForm.second_image && typeof productForm.second_image !== 'string') {
-        secondImageUrl = await handleImageUpload(productForm.second_image);
-      }
-
-      if (productForm.third_image && typeof productForm.third_image !== 'string') {
-        thirdImageUrl = await handleImageUpload(productForm.third_image);
-      }
-
-      if (productForm.fourth_image && typeof productForm.fourth_image !== 'string') {
-        fourthImageUrl = await handleImageUpload(productForm.fourth_image);
-      }
-
-      const productData = {
-        name: productForm.name,
-        description: productForm.description,
-        price: parseFloat(productForm.price),
-        stock_quantity: parseInt(productForm.stock),
-        category: productForm.category,
-        discount_amount: parseFloat(productForm.discount) || 0,
-        brand: productForm.brand,
-        show_on_homepage: productForm.show_on_homepage,
-        main_image: mainImageUrl,
-        image_2: secondImageUrl,
-        image_3: thirdImageUrl,
-        image_4: fourthImageUrl
-      };
-
-      console.log('📤 بيانات المنتج المرسلة للـ API:', productData);
+      console.log('📤 ارسال البيانات للـ API (FormData)...');
 
       let response;
       if (editingItem) {
-        console.log('✏️ تعديل المنتج...');
-        response = await api.put(`/products/admin/products/${editingItem.id}/`, productData);
+        response = await api.put(`/products/admin/products/${editingItem.id}/`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       } else {
-        console.log('➕ إضافة منتج جديد...');
-        response = await api.post('/products/admin/products/', productData);
+        response = await api.post('/products/admin/products/', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
       }
       
       console.log('✅ نجح! الـ API Response:', response.data);

@@ -15,7 +15,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('name', 'parent', 'description', 'image', 'image_url', 'is_active', 'display_order')
+            'fields': ('name', 'parent', 'description', 'image', 'is_active', 'display_order')
         }),
     )
 
@@ -88,7 +88,7 @@ class BannerAdmin(admin.ModelAdmin):
             'fields': ('title', 'description')
         }),
         ('الصور والروابط', {
-            'fields': ('image', 'image_url'),
+            'fields': ('image',),
             'description': 'قم برفع صورة الإعلان هنا. سيتم حفظها محلياً في السيرفر لضمان السرعة.'
         }),
         ('ربط المنتج', {

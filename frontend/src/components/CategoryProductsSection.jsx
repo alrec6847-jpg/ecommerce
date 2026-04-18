@@ -131,7 +131,6 @@ const CategoryProductsSection = ({
               scrollbarWidth: 'none', 
               msOverflowStyle: 'none',
               WebkitOverflowScrolling: 'touch',
-              cacheExtent: '500px',
               overscrollBehaviorX: 'contain'
             }}
           >

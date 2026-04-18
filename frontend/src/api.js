@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 // Create axios instance
 export const api = axios.default.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://ecom-parent-project.onrender.com/api',
+  baseURL: process.env.REACT_APP_API_URL || 'http://167.86.98.95/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

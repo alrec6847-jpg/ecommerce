@@ -16,7 +16,17 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,167.86.98.95,167.86.98.95').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,167.86.98.95,riyadacompany.com,www.riyadacompany.com,web').split(',')
+
+# CSRF Trusted Origins
+CSRF_TRUSTED_ORIGINS = [
+    'http://167.86.98.95',
+    'https://167.86.98.95',
+    'http://riyadacompany.com',
+    'https://riyadacompany.com',
+    'http://www.riyadacompany.com',
+    'https://www.riyadacompany.com',
+]
 
 # Application definition
 DJANGO_APPS = [
@@ -136,7 +146,7 @@ CURRENCY_SYMBOL = 'د.ع'
 CURRENCY_CODE = 'IQD'
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
+STATIC_URL = '/django_static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
@@ -205,7 +215,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',  # Backend API port
     'http://localhost:8080',  # Alternative port
     'http://127.0.0.1:8080',  # Alternative port
-    'https://ecom-parent-project-1.onrender.com',  # Production frontend
+    'http://167.86.98.95',
+    'http://riyadacompany.com',
+    'http://www.riyadacompany.com',
+    'https://riyadacompany.com',
+    'https://www.riyadacompany.com',
 ]
 
 # Render frontend URL
