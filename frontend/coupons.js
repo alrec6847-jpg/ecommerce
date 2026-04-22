@@ -95,12 +95,11 @@ function removeCoupon() {
 function showCouponMessage(message, type = 'info') {
     if (couponMessage) {
         couponMessage.textContent = message;
-        couponMessage.className = `coupon-message ${type}`;
-        couponMessage.style.display = 'block';
+        couponMessage.className = `coupon-message ${type} show`;
 
         // إخفاء الرسالة بعد 5 ثوانٍ
         setTimeout(() => {
-            couponMessage.style.display = 'none';
+            couponMessage.classList.remove('show');
         }, 5000);
     }
 }
@@ -109,22 +108,22 @@ function showCouponMessage(message, type = 'info') {
 function displayCouponDiscount() {
     if (couponDiscountDisplay) {
         couponDiscountDisplay.textContent = `خصم الكوبون: ${couponDiscount} د.ع`;
-        couponDiscountDisplay.style.display = 'block';
+        couponDiscountDisplay.classList.add('show');
     }
 
     if (removeCouponBtn) {
-        removeCouponBtn.style.display = 'block';
+        removeCouponBtn.classList.add('show');
     }
 }
 
 // إخفاء قسم الكوبون
 function hideCouponSection() {
     if (couponDiscountDisplay) {
-        couponDiscountDisplay.style.display = 'none';
+        couponDiscountDisplay.classList.remove('show');
     }
 
     if (removeCouponBtn) {
-        removeCouponBtn.style.display = 'none';
+        removeCouponBtn.classList.remove('show');
     }
 
     if (couponInput) {

@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging';
+// import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,94 +13,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Cloud Messaging and get a reference to the service
-let messaging = null;
-
-// Initialize messaging with a check for browser support
-const initMessaging = async () => {
-  try {
-    const supported = await isSupported();
-    if (supported) {
-      messaging = getMessaging(app);
-      return messaging;
-    }
-    console.log('Firebase Messaging is not supported in this browser/context');
-    return null;
-  } catch (err) {
-    console.error('Error checking messaging support:', err);
-    return null;
-  }
-};
+// Initialize Firebase Cloud Messaging - DISABLED
+const messaging = null;
 
 // Export Firebase app instance
 export { app };
 
-// Request permission and get token
+// Request permission and get token - DISABLED
 export const requestNotificationPermission = async () => {
-  try {
-    const supported = await isSupported();
-    if (!supported) return null;
-
-    const messagingInstance = messaging || await initMessaging();
-    if (!messagingInstance) return null;
-
-    const permission = await Notification.requestPermission();
-    
-    if (permission === 'granted') {
-      console.log('Notification permission granted.');
-      
-      const token = await getToken(messagingInstance, {
-        vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY
-      });
-      
-      if (token) {
-        console.log('FCM Token:', token);
-        return token;
-      } else {
-        console.log('No registration token available.');
-        return null;
-      }
-    } else {
-      console.log('Unable to get permission to notify.');
-      return null;
-    }
-  } catch (error) {
-    console.error('An error occurred while retrieving token:', error);
-    return null;
-  }
+  return null;
 };
 
-// Listen for foreground messages
+// Listen for foreground messages - DISABLED
 export const onMessageListener = async () => {
-  const supported = await isSupported();
-  if (!supported) return new Promise(() => {});
-
-  const messagingInstance = messaging || await initMessaging();
-  if (!messagingInstance) return new Promise(() => {});
-
-  return new Promise((resolve) => {
-    onMessage(messagingInstance, (payload) => {
-      console.log('Message received in foreground:', payload);
-      resolve(payload);
-    });
-  });
+  return new Promise(() => {});
 };
 
-// Show notification
+// Show notification - DISABLED
 export const showNotification = (title, body) => {
-  if ('serviceWorker' in navigator && 'Notification' in window) {
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification(title, {
-        body: body,
-        icon: '/logo192.png',
-        badge: '/logo192.png',
-        tag: 'mimi-store-notification',
-        requireInteraction: true,
-        dir: 'rtl',
-        lang: 'ar'
-      });
-    });
-  }
+  console.log('Notification suppressed:', title, body);
 };
 
 export default app;

@@ -13,6 +13,7 @@ const NotificationManager = ({ isAdmin = false }) => {
 
   useEffect(() => {
     const initializeNotifications = async () => {
+      /*
       try {
         // Register service worker
         registerServiceWorker();
@@ -34,12 +35,14 @@ const NotificationManager = ({ isAdmin = false }) => {
       } catch (error) {
         console.error('Error initializing notifications:', error);
       }
+      */
     };
 
     initializeNotifications();
   }, [isAdmin]);
 
   useEffect(() => {
+    /*
     // Listen for foreground messages
     const unsubscribe = onMessageListener()
       .then(payload => {
@@ -47,6 +50,7 @@ const NotificationManager = ({ isAdmin = false }) => {
         // You can handle foreground messages here, e.g., show a custom notification
       })
       .catch(err => console.log('Failed to receive foreground message:', err));
+    */
 
     return () => {
       // Cleanup if needed

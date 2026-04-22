@@ -746,21 +746,39 @@ const AdminPanel = ({ user, setUser }) => {
                           #{order.id}
                         </td>
                         <td className="px-3 md:px-6 py-3 whitespace-nowrap text-xs md:text-sm text-gray-900 font-medium">
-                          <div className="flex items-center gap-2">
-                            <span>{order.user?.phone || order.customer_phone || 'غير محدد'}</span>
-                            <button
-                              onClick={() => {
-                                const phone = order.user?.phone || order.customer_phone;
-                                if (phone) {
-                                  navigator.clipboard.writeText(phone);
-                                  alert('تم نسخ الرقم!');
-                                }
-                              }}
-                              className="bg-gray-100 p-1 rounded hover:bg-gray-200"
-                              title="نسخ الرقم"
-                            >
-                              📋
-                            </button>
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold">{order.customer_name || order.user?.full_name || 'غير محدد'}</span>
+                              <button
+                                onClick={() => {
+                                  const name = order.customer_name || order.user?.full_name;
+                                  if (name) {
+                                    navigator.clipboard.writeText(name);
+                                    alert('تم نسخ الاسم!');
+                                  }
+                                }}
+                                className="bg-gray-100 p-1 rounded hover:bg-gray-200"
+                                title="نسخ الاسم"
+                              >
+                                📋
+                              </button>
+                            </div>
+                            <div className="flex items-center gap-2 text-gray-500 text-xs">
+                              <span>{order.customer_phone || order.user?.phone || 'غير محدد'}</span>
+                              <button
+                                onClick={() => {
+                                  const phone = order.customer_phone || order.user?.phone;
+                                  if (phone) {
+                                    navigator.clipboard.writeText(phone);
+                                    alert('تم نسخ الرقم!');
+                                  }
+                                }}
+                                className="bg-gray-100 p-1 rounded hover:bg-gray-200"
+                                title="نسخ الرقم"
+                              >
+                                📱
+                              </button>
+                            </div>
                           </div>
                         </td>
                         <td className="px-3 md:px-6 py-3 whitespace-nowrap text-xs md:text-sm text-gray-900 font-bold">

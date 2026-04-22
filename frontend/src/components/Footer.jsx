@@ -17,17 +17,17 @@ const Footer = () => {
             <ul className="space-y-2 text-gray-300">
               <li><Link to="/" className="hover:text-white transition-colors">الرئيسية</Link></li>
               <li><Link to="/categories" className="hover:text-white transition-colors">المنتجات</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">من نحن</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">اتصل بنا</a></li>
+              <li><Link to="/about" className="hover:text-white transition-colors">من نحن</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">اتصل بنا</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">خدمة العملاء</h4>
             <ul className="space-y-2 text-gray-300">
-              <li><a href="#" className="hover:text-white transition-colors">سياسة الإرجاع</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">الشحن والتوصيل</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">الأسئلة الشائعة</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">الدعم الفني</a></li>
+              <li><Link to="/returns" className="hover:text-white transition-colors">سياسة الإرجاع</Link></li>
+              <li><Link to="/shipping" className="hover:text-white transition-colors">الشحن والتوصيل</Link></li>
+              <li><Link to="/faq" className="hover:text-white transition-colors">الأسئلة الشائعة</Link></li>
+              <li><Link to="/support" className="hover:text-white transition-colors">الدعم الفني</Link></li>
             </ul>
           </div>
           <div>
