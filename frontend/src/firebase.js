@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+import { getMessaging, getToken, onMessage, isSupported } from 'firebase/messaging';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -14,7 +14,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Cloud Messaging and get a reference to the service
-const messaging = getMessaging(app);
+let messaging = null;
+
+// Initialize messaging with a check for browser support
+const initMessaging = async () => {
+  try {
+    const supported = await isSupported();
+    if (supported) {
+      messaging = getMessaging(app);
+      return messaging;
+    }
+    console.log('Firebase Messaging is not supported in this browser/context');
+    return null;
+  } catch (err) {
+    console.error('Error checking messaging support:', err);
+    return null;
+  }
+};
 
 // Export Firebase app instance
 export { app };
@@ -22,12 +38,18 @@ export { app };
 // Request permission and get token
 export const requestNotificationPermission = async () => {
   try {
+    const supported = await isSupported();
+    if (!supported) return null;
+
+    const messagingInstance = messaging || await initMessaging();
+    if (!messagingInstance) return null;
+
     const permission = await Notification.requestPermission();
     
     if (permission === 'granted') {
       console.log('Notification permission granted.');
       
-      const token = await getToken(messaging, {
+      const token = await getToken(messagingInstance, {
         vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY
       });
       
@@ -49,13 +71,20 @@ export const requestNotificationPermission = async () => {
 };
 
 // Listen for foreground messages
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
+export const onMessageListener = async () => {
+  const supported = await isSupported();
+  if (!supported) return new Promise(() => {});
+
+  const messagingInstance = messaging || await initMessaging();
+  if (!messagingInstance) return new Promise(() => {});
+
+  return new Promise((resolve) => {
+    onMessage(messagingInstance, (payload) => {
       console.log('Message received in foreground:', payload);
       resolve(payload);
     });
   });
+};
 
 // Show notification
 export const showNotification = (title, body) => {

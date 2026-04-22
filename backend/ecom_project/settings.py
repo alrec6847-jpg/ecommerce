@@ -255,13 +255,13 @@ CORS_ALLOW_HEADERS = [
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False  # Changed for HTTP access
+    SECURE_HSTS_SECONDS = 0  # Changed for HTTP access
     SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_PRELOAD = True
+    SECURE_SSL_REDIRECT = False  # Disabled for IP-based HTTP access
+    SESSION_COOKIE_SECURE = False  # Disabled for HTTP access
+    CSRF_COOKIE_SECURE = False  # Disabled for HTTP access
+    SECURE_HSTS_PRELOAD = False  # Changed for HTTP access
 else:
     # Disable SSL redirect in development
     SECURE_SSL_REDIRECT = False
