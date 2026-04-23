@@ -258,7 +258,7 @@ const Home = ({ user, setUser }) => {
             <div className="flex items-center space-x-2 md:space-x-4 space-x-reverse">
               <div className="relative">
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden">
-                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+                  <img src="http://167.86.98.95/media/logo.png" alt="اللوكو" className="w-full h-full object-contain" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>

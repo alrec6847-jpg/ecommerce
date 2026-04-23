@@ -162,7 +162,7 @@ class ProductSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         
         # تسجيل للتحقق من البيانات
-        if instance.id <= 3:  # تسجيل أول 3 منتجات فقط
+        if instance.id and instance.id <= 3:  # تسجيل أول 3 منتجات فقط
             print(f"🖼️ Serializing Product: {instance.name} (ID: {instance.id})")
             print(f"   main_image: {instance.main_image}")
             print(f"   image_2: {instance.image_2}")

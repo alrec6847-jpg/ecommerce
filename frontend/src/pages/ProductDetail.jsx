@@ -198,7 +198,7 @@ const ProductDetail = ({ user }) => {
               </button>
               <Link to="/" className="flex items-center space-x-2 space-x-reverse">
                 <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-gray-100">
-                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+                  <img src="http://167.86.98.95/media/logo.png" alt="اللوكو" className="w-full h-full object-contain" />
                 </div>
                 <span className="text-xl font-bold text-primary-600">شركة الريادة المتحدة</span>
               </Link>

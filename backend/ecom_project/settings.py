@@ -223,7 +223,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Render frontend URL
-RENDER_FRONTEND_URL = config('RENDER_FRONTEND_URL', default='https://ecom-parent-project-1.onrender.com')
+RENDER_FRONTEND_URL = config('RENDER_FRONTEND_URL', default='http://167.86.98.95')
 if RENDER_FRONTEND_URL and RENDER_FRONTEND_URL not in CORS_ALLOWED_ORIGINS:
     CORS_ALLOWED_ORIGINS.append(RENDER_FRONTEND_URL)
 
@@ -317,8 +317,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "شركة الريادة المتحدة - لوحة الإدارة",
     "site_header": "🏗️ شركة الريادة المتحدة",
     "site_brand": "شركة الريادة المتحدة",
-    "site_logo": "https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png",
-    "login_logo": "https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png",
+    "site_logo": "http://167.86.98.95/media/logo.png",
+    "login_logo": "http://167.86.98.95/media/logo.png",
     "login_logo_dark": None,
     "site_logo_classes": "img-circle",
     "site_icon": None,

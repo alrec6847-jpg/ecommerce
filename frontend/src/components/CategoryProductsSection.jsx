@@ -137,8 +137,8 @@ const CategoryProductsSection = ({
             {products.map((product, idx) => (
               <div
                 key={product.id}
-                className="min-w-[80%] sm:min-w-[45%] md:min-w-[30%] snap-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:scale-[1.02] group cursor-pointer border border-gray-100 flex-shrink-0"
-                style={{ willChange: 'transform' }} // Optimization like RepaintBoundary
+                className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] snap-center bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:scale-[1.02] group cursor-pointer border border-gray-100 flex-shrink-0"
+                style={{ willChange: 'transform', contain: 'paint' }} // Optimization like RepaintBoundary
               >
                 {/* Product Image */}
                 <div className="relative h-48 sm:h-56 md:h-80 bg-gray-100 overflow-hidden">
