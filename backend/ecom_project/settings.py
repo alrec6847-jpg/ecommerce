@@ -317,8 +317,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "شركة الريادة المتحدة - لوحة الإدارة",
     "site_header": "🏗️ شركة الريادة المتحدة",
     "site_brand": "شركة الريادة المتحدة",
-    "site_logo": "http://167.86.98.95/media/logo.png",
-    "login_logo": "http://167.86.98.95/media/logo.png",
+    "site_logo": "/media/logo.png",
+    "login_logo": "/media/logo.png",
     "login_logo_dark": None,
     "site_logo_classes": "img-circle",
     "site_icon": None,
@@ -427,7 +427,7 @@ JAZZMIN_SETTINGS = {
 
     # Use modals instead of popups
     "use_google_fonts_cdn": True,
-    "show_ui_builder": True,
+    "show_ui_builder": False,
 
     # Language chooser
     "language_chooser": False,
@@ -435,6 +435,9 @@ JAZZMIN_SETTINGS = {
     # RTL support
     "html_direction": "rtl",
 }
+
+# Cross-Origin Opener Policy fix for HTTP
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 JAZZMIN_UI_TWEAKS = {
     "navbar_small_text": False,
@@ -467,8 +470,8 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-success"
     },
     "actions_sticky_top": True,
-    "custom_css": "custom_admin.css",
-    "custom_js": "custom_admin.js",
+    "custom_css": "css/custom_admin.css",
+    "custom_js": "js/custom_admin.js",
     # Use external CDN for static files in production
     "use_external_cdn": True,
     "external_cdn": {
