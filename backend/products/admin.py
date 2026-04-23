@@ -21,10 +21,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_image', 'name', 'category', 'brand', 'price', 'wholesale_price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
+    list_display = ('name', 'category', 'price', 'stock_quantity', 'is_active')
     list_filter = ('category', 'brand', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
     search_fields = ('name', 'description', 'brand', 'model')
-    list_editable = ('price', 'wholesale_price', 'stock_quantity', 'display_order', 'is_active', 'is_featured', 'show_on_homepage')
+    list_editable = ('price', 'stock_quantity', 'is_active')
     
     def product_image(self, obj):
         """عرض صورة صغيرة من المنتج"""

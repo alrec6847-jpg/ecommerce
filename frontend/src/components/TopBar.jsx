@@ -6,7 +6,7 @@
 */
 
 const TopBar = () => {
-    const rawPhone = process.env.REACT_APP_WHATSAPP_PHONE || '9647700000000';
+    const rawPhone = process.env.REACT_APP_WHATSAPP_PHONE || '9647834950300';
     const phoneDigits = rawPhone.replace(/[^\d]/g, '');
     const whatsappHref = `https://wa.me/${phoneDigits}`;
     const telHref = `tel:+${phoneDigits}`;

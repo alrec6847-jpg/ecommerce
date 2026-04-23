@@ -91,14 +91,11 @@ WSGI_APPLICATION = 'ecom_project.wsgi.application'
 # Database
 # Note: Using local PostgreSQL for high performance on Contabo
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='ecommerce_db'),
-        'USER': config('DB_USER', default='ecommerce_user'),
-        'PASSWORD': config('DB_PASSWORD', default='ecommerce_pass'),
-        'HOST': config('DB_HOST', default='db'),
-        'PORT': config('DB_PORT', default='5432'),
-    }
+    'default': config(
+        'DATABASE_URL',
+        default=f"postgresql://{config('DB_USER', default='ecommerce_user')}:{config('DB_PASSWORD', default='ecommerce_pass')}@{config('DB_HOST', default='db')}:{config('DB_PORT', default='5432')}/{config('DB_NAME', default='ecommerce_db')}",
+        cast=dj_database_url.parse
+    )
 }
 
 # In development, use SQLite if specified
@@ -317,8 +314,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "شركة الريادة المتحدة - لوحة الإدارة",
     "site_header": "🏗️ شركة الريادة المتحدة",
     "site_brand": "شركة الريادة المتحدة",
-    "site_logo": "/media/logo.png",
-    "login_logo": "/media/logo.png",
+    "site_logo": None,
+    "login_logo": None,
     "login_logo_dark": None,
     "site_logo_classes": "img-circle",
     "site_icon": None,

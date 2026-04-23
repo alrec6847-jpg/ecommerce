@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block nav-global %}
+{% if user.is_authenticated %}
 <div class="navbar-nav" style="display: flex; align-items: center; margin-right: auto;">
     <a href="/" class="nav-link" target="_blank" style="display: flex; align-items: center;">
         <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
@@ -30,9 +31,11 @@
         الطلبات
     </a>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block usertools %}
+{% if user.is_authenticated %}
 <div class="navbar-nav" style="display: flex; align-items: center;">
     {% if has_permission %}
         <div class="nav-item dropdown">
@@ -54,6 +57,7 @@
         </div>
     {% endif %}
 </div>
+{% endif %}
 {% endblock %}
 
 {% block extrahead %}

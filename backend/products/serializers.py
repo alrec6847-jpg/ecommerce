@@ -41,14 +41,14 @@ class ProductListSerializer(serializers.ModelSerializer):
     def get_main_image_url(self, obj):
         """الصورة الرئيسية بوضوح"""
         if obj.main_image:
-            return obj.main_image
+            return obj.main_image.url
         return None
 
     def get_image(self, obj):
         """اختر أول صورة متاحة - هذا ما يستخدمه Frontend"""
         for img_field in [obj.main_image, obj.image_2, obj.image_3, obj.image_4]:
             if img_field:
-                return img_field
+                return img_field.url
         return None
     
     def get_discount_percentage(self, obj):
@@ -110,14 +110,14 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_main_image_url(self, obj):
         """إرجاع الصورة الرئيسية"""
         if obj.main_image:
-            return obj.main_image
+            return obj.main_image.url
         return None
 
     def get_image(self, obj):
         """إرجاع أول صورة متاحة - يستخدمها Frontend لعرض الصورة"""
         for img_field in [obj.main_image, obj.image_2, obj.image_3, obj.image_4]:
             if img_field:
-                return img_field
+                return img_field.url
         return None
     
     def get_all_images(self, obj):
@@ -125,7 +125,7 @@ class ProductSerializer(serializers.ModelSerializer):
         images = []
         for img_field in [obj.main_image, obj.image_2, obj.image_3, obj.image_4]:
             if img_field:
-                images.append(img_field)
+                images.append(img_field.url)
         return images if images else None
     
     def get_discount_percentage(self, obj):

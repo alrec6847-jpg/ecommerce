@@ -265,24 +265,6 @@ body {
     justify-content: center;
 }
 
-/* Hide header and sidebar on login page */
-body.login-page .main-header,
-body.login-page .main-sidebar,
-body.login-page .main-footer {
-    display: none !important;
-}
-
-body.login-page .content-wrapper {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    padding-top: 0 !important;
-    background: transparent !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
 .login-box {
     background: #fff;
     border-radius: 1rem;
@@ -290,7 +272,6 @@ body.login-page .content-wrapper {
     width: 100%;
     max-width: 400px;
     overflow: hidden;
-    margin: auto;
 }
 
 .login-box .card-body {

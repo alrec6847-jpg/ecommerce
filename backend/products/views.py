@@ -77,7 +77,7 @@ def featured_products(request):
     """
     قائمة المنتجات المميزة
     """
-    products = Product.objects.filter(featured=True)
+    products = Product.objects.filter(is_featured=True)
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
