@@ -4,7 +4,7 @@
 // - Uses environment variable for WhatsApp phone if available
 // - Hidden on md+ screens
 const BottomNav = () => {
-    const whatsappPhone = process.env.REACT_APP_WHATSAPP_PHONE || '+9647700000000';
+    const whatsappPhone = process.env.REACT_APP_WHATSAPP_PHONE || '+9647834950300';
 
     const scrollTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });

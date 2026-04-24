@@ -487,6 +487,7 @@ body {
                         <div class="text">{{ header.text|truncatewords:1 }}</div>
                     </th>
                     {% endfor %}
+                    <th scope="col">العمليات</th>
                 </tr>
             </thead>
             <tbody>
@@ -495,45 +496,42 @@ body {
                     <td class="action-checkbox">
                         <input type="checkbox" name="_selected_action" value="{{ result.pk|default:'' }}">
                     </td>
-                    {% for field in result %}
-                    <td class="field-{{ field.name }}">
-                        {% if field.name == 'image' %}
-                            <img src="{{ result.image.url|default:'/placeholder-product.png' }}" alt="{{ result.name }}" class="field-image">
-                        {% elif field.name == 'price' %}
-                            <span class="field-price">{{ result.price }} د.ع</span>
-                        {% elif field.name == 'discount' %}
-                            {% if result.discount > 0 %}
-                                <span class="field-discount">{{ result.discount }}%</span>
-                            {% else %}
-                                -
-                            {% endif %}
-                        {% elif field.name == 'stock' %}
-                            {% if result.stock > 10 %}
-                                <span class="field-stock in-stock">متوفر</span>
-                            {% elif result.stock > 0 %}
-                                <span class="field-stock low-stock">قليل</span>
-                            {% else %}
-                                <span class="field-stock out-of-stock">نفد</span>
-                            {% endif %}
-                        {% elif field.name == 'status' %}
-                            {% if result.status %}
-                                <i class="fas fa-check-circle field-boolean"></i>
-                            {% else %}
-                                <i class="fas fa-times-circle field-boolean"></i>
-                            {% endif %}
-                        {% elif field.name == 'featured' %}
-                            {% if result.featured %}
-                                <i class="fas fa-star field-boolean"></i>
-                            {% else %}
-                                <i class="far fa-star field-boolean"></i>
-                            {% endif %}
-                        {% elif field.name == 'category' %}
-                            <span class="field-name">{{ result.category.name }}</span>
+                    <td class="field-main_image">
+                        <img src="{% if result.main_image %}{{ result.main_image.url }}{% else %}/placeholder-product.png{% endif %}" alt="{{ result.name }}" class="field-image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                    </td>
+                    <td class="field-name">{{ result.name }}</td>
+                    <td class="field-category">{{ result.category.name }}</td>
+                    <td class="field-price">{{ result.price }} د.ع</td>
+                    <td class="field-discount_amount">
+                        {% if result.discount_amount > 0 %}
+                            <span class="field-discount">{{ result.discount_amount }} د.ع</span>
                         {% else %}
-                            {{ field.value|default:'-' }}
+                            -
                         {% endif %}
                     </td>
-                    {% endfor %}
+                    <td class="field-stock_quantity">
+                        {% if result.stock_quantity > 10 %}
+                            <span class="field-stock in-stock">متوفر</span>
+                        {% elif result.stock_quantity > 0 %}
+                            <span class="field-stock low-stock">قليل</span>
+                        {% else %}
+                            <span class="field-stock out-of-stock">نفد</span>
+                        {% endif %}
+                    </td>
+                    <td class="field-is_active">
+                        {% if result.is_active %}
+                            <i class="fas fa-check-circle" style="color: #28a745;"></i>
+                        {% else %}
+                            <i class="fas fa-times-circle" style="color: #dc3545;"></i>
+                        {% endif %}
+                    </td>
+                    <td class="field-is_featured">
+                        {% if result.is_featured %}
+                            <i class="fas fa-star" style="color: #ffc107;"></i>
+                        {% else %}
+                            <i class="far fa-star" style="color: #6c757d;"></i>
+                        {% endif %}
+                    </td>
                     <td class="actions">
                         <a href="{% url cl.opts|admin_urlname:'change' result.pk|default:'' %}" title="تعديل">
                             <i class="fas fa-edit"></i>

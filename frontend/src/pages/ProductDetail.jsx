@@ -198,7 +198,9 @@ const ProductDetail = ({ user }) => {
               </button>
               <Link to="/" className="flex items-center space-x-2 space-x-reverse">
                 <div className="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden border border-gray-100">
-                  <img src="http://167.86.98.95/media/logo.png" alt="اللوكو" className="w-full h-full object-contain" />
+                  <svg className="w-5 h-5 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                  </svg>
                 </div>
                 <span className="text-xl font-bold text-primary-600">شركة الريادة المتحدة</span>
               </Link>

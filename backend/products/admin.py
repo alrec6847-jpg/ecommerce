@@ -21,7 +21,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'stock_quantity', 'is_active')
+    list_display = ('product_image', 'name', 'category', 'price', 'discount_amount', 'stock_quantity', 'is_active', 'is_featured')
     list_filter = ('category', 'brand', 'is_active', 'is_featured', 'show_on_homepage', 'created_at')
     search_fields = ('name', 'description', 'brand', 'model')
     list_editable = ('price', 'stock_quantity', 'is_active')

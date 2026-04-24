@@ -258,7 +258,9 @@ const Home = ({ user, setUser }) => {
             <div className="flex items-center space-x-2 md:space-x-4 space-x-reverse">
               <div className="relative">
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden">
-                  <img src="http://167.86.98.95/media/logo.png" alt="اللوكو" className="w-full h-full object-contain" />
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                  </svg>
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>

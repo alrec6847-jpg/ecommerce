@@ -7,12 +7,26 @@
     {{ block.super }}
     <style>
         body {
-            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%);
+            background: linear-gradient(135deg, #ff6600 0%, #cc0000 100%) !important;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Cairo', sans-serif;
+        }
+
+        /* Hide Jazzmin default UI on login page */
+        .main-header, .main-sidebar, .main-footer, .content-header, .navbar, .sidebar {
+            display: none !important;
+        }
+        .content-wrapper {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-top: 0 !important;
+            background: transparent !important;
+        }
+        .wrapper {
+            background: transparent !important;
         }
         
         .login-container {
