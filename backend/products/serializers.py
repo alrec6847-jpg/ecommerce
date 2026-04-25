@@ -7,6 +7,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 class SiteSettingsSerializer(serializers.ModelSerializer):
+    site_logo = serializers.ImageField(source='logo', required=False, allow_null=True)
+    
     class Meta:
         model = SiteSettings
         fields = ['site_name', 'site_logo', 'contact_phone', 'whatsapp_number', 'telegram_username']

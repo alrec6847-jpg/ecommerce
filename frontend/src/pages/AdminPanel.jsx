@@ -10,6 +10,13 @@ const AdminPanel = ({ user, setUser }) => {
   const [orders, setOrders] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [siteSettings, setSiteSettings] = useState({
+    site_name: '',
+    site_logo: null,
+    contact_phone: '',
+    whatsapp_number: '',
+    telegram_username: ''
+  });
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(''); // 'product', 'category'
@@ -58,8 +65,29 @@ const AdminPanel = ({ user, setUser }) => {
     } else if (activeTab === 'notifications') {
       fetchNotifications();
       fetchUnreadCount();
+    } else if (activeTab === 'settings') {
+      fetchSiteSettings();
     }
   }, [activeTab]);
+
+  const fetchSiteSettings = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/products/site-settings/');
+      setSiteSettings({
+        ...response.data,
+        site_logo: null // Don't put URL string in File input state
+      });
+      // Keep track of the current logo URL for preview
+      setSiteSettingsPreview(response.data.site_logo);
+    } catch (error) {
+      console.error('Error fetching site settings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [siteSettingsPreview, setSiteSettingsPreview] = useState(null);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -181,6 +209,36 @@ const AdminPanel = ({ user, setUser }) => {
       setUnreadCount(0);
     } catch (error) {
       console.error('Error marking all notifications as read:', error);
+    }
+  };
+
+  const handleSettingsSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('site_name', siteSettings.site_name);
+      formData.append('contact_phone', siteSettings.contact_phone);
+      formData.append('whatsapp_number', siteSettings.whatsapp_number);
+      formData.append('telegram_username', siteSettings.telegram_username);
+      
+      if (siteSettings.site_logo instanceof File) {
+        formData.append('site_logo', siteSettings.site_logo);
+      }
+
+      await api.put('/products/site-settings/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      
+      alert('تم حفظ الإعدادات بنجاح');
+      fetchSiteSettings();
+      // Reload page to refresh all settings globally
+      window.location.reload();
+    } catch (error) {
+      console.error('Error saving site settings:', error);
+      alert('حدث خطأ في حفظ الإعدادات');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -484,7 +542,8 @@ const AdminPanel = ({ user, setUser }) => {
                 { id: 'products', name: 'المنتجات', icon: '📦' },
                 { id: 'categories', name: 'الأقسام', icon: '📂' },
                 { id: 'orders', name: 'الطلبات', icon: '🛒' },
-                { id: 'notifications', name: 'الإشعارات', icon: '🔔' }
+                { id: 'notifications', name: 'الإشعارات', icon: '🔔' },
+                { id: 'settings', name: 'إعدادات الموقع', icon: '⚙️' }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -656,6 +715,115 @@ const AdminPanel = ({ user, setUser }) => {
                 </table>
                 </div>
               </>
+            )}
+          </div>
+        )}
+
+        {/* Settings Tab */}
+        {activeTab === 'settings' && (
+          <div className="bg-white rounded-lg shadow p-6 max-w-2xl mx-auto">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">إعدادات الموقع</h2>
+            
+            {loading ? (
+              <div className="flex justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+              </div>
+            ) : (
+              <form onSubmit={handleSettingsSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    اسم الموقع
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={siteSettings.site_name}
+                    onChange={(e) => setSiteSettings({ ...siteSettings, site_name: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    لوغو الموقع
+                  </label>
+                  <div className="mt-2 flex items-center gap-6">
+                    <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden bg-gray-50">
+                      {siteSettingsPreview ? (
+                        <img src={siteSettingsPreview} alt="Logo Preview" className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-gray-400 text-xs">لا يوجد لوغو</span>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            setSiteSettings({ ...siteSettings, site_logo: file });
+                            setSiteSettingsPreview(URL.createObjectURL(file));
+                          }
+                        }}
+                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                      />
+                      <p className="mt-1 text-xs text-gray-500">يفضل استخدام صورة شفافة (PNG) بحجم مناسب</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      رقم الاتصال
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={siteSettings.contact_phone}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, contact_phone: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      رقم الواتساب
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={siteSettings.whatsapp_number}
+                      onChange={(e) => setSiteSettings({ ...siteSettings, whatsapp_number: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    اسم مستخدم تيليجرام
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={siteSettings.telegram_username}
+                    onChange={(e) => setSiteSettings({ ...siteSettings, telegram_username: e.target.value })}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="@username"
+                  />
+                </div>
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-50"
+                  >
+                    {loading ? 'جاري الحفظ...' : 'حفظ جميع التغييرات'}
+                  </button>
+                </div>
+              </form>
             )}
           </div>
         )}

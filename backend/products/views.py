@@ -7,24 +7,40 @@ from .serializers import ProductSerializer, CategorySerializer, BannerSerializer
 from .serializers_coupons import CouponSerializer, CouponUsageSerializer
 from django.conf import settings
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 @permission_classes([AllowAny])
 def site_settings(request):
     """
-    Get site-wide settings (name, logo, contact numbers)
+    Get or Update site-wide settings (name, logo, contact numbers)
     """
     settings_obj = SiteSettings.objects.first()
-    if not settings_obj:
-        # Return default settings if none exist
-        return Response({
-            'site_name': 'شركة الريادة المتحدة',
-            'site_logo': None,
-            'contact_phone': '07834950300',
-            'whatsapp_number': '07834950300',
-            'telegram_username': '07834950300'
-        })
-    serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
-    return Response(serializer.data)
+    
+    if request.method == 'GET':
+        if not settings_obj:
+            # Return default settings if none exist
+            return Response({
+                'site_name': 'شركة الريادة المتحدة',
+                'site_logo': None,
+                'contact_phone': '07834950300',
+                'whatsapp_number': '07834950300',
+                'telegram_username': '07834950300'
+            })
+        serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        # Simple permission check for staff
+        if not request.user.is_staff:
+            return Response({'error': 'Unauthorized'}, status=403)
+            
+        if not settings_obj:
+            settings_obj = SiteSettings.objects.create()
+            
+        serializer = SiteSettingsSerializer(settings_obj, data=request.data, partial=True, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
