@@ -491,20 +491,20 @@ body {
                 </tr>
             </thead>
             <tbody>
-                {% for result in cl.result_list %}
+                {% for result in results %}
                 <tr>
                     <td class="action-checkbox">
-                        <input type="checkbox" name="_selected_action" value="{{ result.pk|default:'' }}">
+                        <input type="checkbox" name="_selected_action" value="{{ result.pk }}">
                     </td>
                     <td class="field-main_image">
                         <img src="{% if result.main_image %}{{ result.main_image.url }}{% else %}/placeholder-product.png{% endif %}" alt="{{ result.name }}" class="field-image" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
                     </td>
                     <td class="field-name">{{ result.name }}</td>
                     <td class="field-category">{{ result.category.name }}</td>
-                    <td class="field-price">{{ result.price }} د.ع</td>
+                    <td class="field-price">{{ result.price }} {{ CURRENCY_SYMBOL }}</td>
                     <td class="field-discount_amount">
                         {% if result.discount_amount > 0 %}
-                            <span class="field-discount">{{ result.discount_amount }} د.ع</span>
+                            <span class="field-discount">{{ result.discount_amount }} {{ CURRENCY_SYMBOL }}</span>
                         {% else %}
                             -
                         {% endif %}
@@ -533,10 +533,10 @@ body {
                         {% endif %}
                     </td>
                     <td class="actions">
-                        <a href="{% url cl.opts|admin_urlname:'change' result.pk|default:'' %}" title="تعديل">
+                        <a href="{% url cl.opts|admin_urlname:'change' result.pk %}" title="تعديل">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="{% url cl.opts|admin_urlname:'delete' result.pk|default:'' %}" title="حذف">
+                        <a href="{% url cl.opts|admin_urlname:'delete' result.pk %}" title="حذف">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>

@@ -2,9 +2,17 @@
 from django.contrib import admin
 from django import forms
 from django.utils.html import mark_safe
-from .models import Category, Product, ProductReview, ProductView, Banner
+from .models import Category, Product, ProductReview, ProductView, Banner, SiteSettings
 from .models_coupons import Coupon, CouponUsage
 
+class SiteSettingsAdmin(admin.ModelAdmin):
+    list_display = ('site_name', 'whatsapp_number', 'contact_phone')
+    
+    def has_add_permission(self, request):
+        # Allow only one instance
+        if self.model.objects.exists():
+            return False
+        return True
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent', 'display_order', 'is_active')
@@ -26,6 +34,36 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description', 'brand', 'model')
     list_editable = ('price', 'stock_quantity', 'is_active')
     
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['categories'] = Category.objects.all()
+        # Add filters to context for the custom template
+        extra_context['category_filter'] = request.GET.get('category')
+        extra_context['status_filter'] = request.GET.get('status')
+        extra_context['featured_filter'] = request.GET.get('featured')
+        extra_context['stock_filter'] = request.GET.get('stock')
+        extra_context['search_query'] = request.GET.get('q')
+        
+        # Get the standard response
+        response = super().changelist_view(request, extra_context=extra_context)
+        
+        # After super call, we can access the changelist instance if it's a TemplateResponse
+        if hasattr(response, 'context_data'):
+            if 'cl' in response.context_data:
+                cl = response.context_data['cl']
+                response.context_data['results'] = cl.result_list
+                if hasattr(cl, 'paginator'):
+                    response.context_data['page_range'] = cl.paginator.page_range
+            
+            # Ensure page_range is always present to avoid template errors
+            if 'page_range' not in response.context_data:
+                response.context_data['page_range'] = range(1, 2)
+            
+            if 'results' not in response.context_data:
+                response.context_data['results'] = []
+            
+        return response
+
     def product_image(self, obj):
         """عرض صورة صغيرة من المنتج"""
         if obj.main_image:
@@ -213,6 +251,7 @@ class CouponUsageAdmin(admin.ModelAdmin):
 
 
 # تسجيل النماذج الأخرى
+admin.site.register(SiteSettings, SiteSettingsAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductReview, ProductReviewAdmin)

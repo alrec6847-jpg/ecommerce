@@ -333,15 +333,27 @@ class Banner(models.Model):
     def get_link(self):
         """Get the link URL for the banner"""
         if self.product:
-            print(f"Banner {self.title} is linked to product: {self.product.name} (ID: {self.product.id})")
-            # Use the product's ID to match the frontend routing
             return f"/product/{self.product.id}"
         return self.link_url or "#"
 
     def get_image_url(self):
         """Get the image URL for the banner"""
         if self.image:
-            print(f"Banner image field: {self.image}")
-            print(f"Banner image URL: {self.image.url}")
             return self.image.url
         return "#"
+
+
+class SiteSettings(models.Model):
+    """General site settings like logo"""
+    site_name = models.CharField('اسم الموقع', max_length=100, default='شركة الريادة المتحدة')
+    logo = models.ImageField('اللوغو', upload_to='site/', blank=True, null=True)
+    whatsapp_number = models.CharField('رقم الواتساب', max_length=20, default='07834950300')
+    telegram_username = models.CharField('اسم مستخدم التيليجرام', max_length=100, default='07834950300')
+    contact_phone = models.CharField('رقم الاتصال', max_length=20, default='07834950300')
+    
+    class Meta:
+        verbose_name = 'إعدادات الموقع'
+        verbose_name_plural = 'إعدادات الموقع'
+
+    def __str__(self):
+        return self.site_name

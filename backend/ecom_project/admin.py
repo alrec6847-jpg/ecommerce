@@ -4,7 +4,7 @@ from django.urls import path
 from django.shortcuts import render
 from django.db.models import Sum, Count
 from users.models import User
-from products.models import Product, Category, ProductReview, ProductView
+from products.models import Product, Category, ProductReview, ProductView, SiteSettings
 from orders.models import Order, OrderItem
 from products.views_fixed import add_category_view, category_list_view, category_add_success_view
 from decimal import Decimal
@@ -68,12 +68,13 @@ admin_site = AlriyadaAdminSite(name='mimi_admin')
 
 # Import and register all admin classes
 from users.admin import UserAdmin
-from products.admin import CategoryAdmin, ProductAdmin, ProductReviewAdmin, ProductViewAdmin, BannerAdmin, CouponAdmin, CouponUsageAdmin
+from products.admin import CategoryAdmin, ProductAdmin, ProductReviewAdmin, ProductViewAdmin, BannerAdmin, CouponAdmin, CouponUsageAdmin, SiteSettingsAdmin
 from orders.admin import OrderAdmin, OrderItemAdmin, NewOrderAdmin, ProcessedOrderAdmin
 from orders.models import NewOrder, ProcessedOrder
 
 # Register models with custom admin site
 admin_site.register(User, UserAdmin)
+admin_site.register(SiteSettings, SiteSettingsAdmin)
 admin_site.register(Category, CategoryAdmin)
 admin_site.register(Product, ProductAdmin)
 # Register all Order models (base Order + proxy models)

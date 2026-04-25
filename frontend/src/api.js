@@ -53,6 +53,7 @@ export const endpoints = {
   categories: '/products/categories/',
   productsByCategory: '/products/categories/',
   banners: '/products/banners/', 
+  siteSettings: '/products/site-settings/',
   
   // Orders
   orders: '/orders/',

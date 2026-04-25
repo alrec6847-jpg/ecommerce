@@ -1,11 +1,30 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
-from .models import Product, Category, Banner
+from .models import Product, Category, Banner, SiteSettings
 from .models_coupons import Coupon, CouponUsage
-from .serializers import ProductSerializer, CategorySerializer, BannerSerializer
+from .serializers import ProductSerializer, CategorySerializer, BannerSerializer, SiteSettingsSerializer
 from .serializers_coupons import CouponSerializer, CouponUsageSerializer
 from django.conf import settings
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def site_settings(request):
+    """
+    Get site-wide settings (name, logo, contact numbers)
+    """
+    settings_obj = SiteSettings.objects.first()
+    if not settings_obj:
+        # Return default settings if none exist
+        return Response({
+            'site_name': 'شركة الريادة المتحدة',
+            'site_logo': None,
+            'contact_phone': '07834950300',
+            'whatsapp_number': '07834950300',
+            'telegram_username': '07834950300'
+        })
+    serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -14,7 +33,7 @@ def product_list(request):
     قائمة جميع المنتجات مرتبة حسب display_order
     """
     products = Product.objects.all().order_by('display_order', '-created_at')
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -64,7 +83,7 @@ def products_by_category(request, category_id):
         for product in products:
             print(f"Product: {product.name}, ID: {product.id}, Active: {product.is_active}")
             
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=True, context={'request': request})
         print(f"Returning {len(serializer.data)} products")
         return Response(serializer.data)
     except Category.DoesNotExist:
@@ -78,7 +97,7 @@ def featured_products(request):
     قائمة المنتجات المميزة
     """
     products = Product.objects.filter(is_featured=True)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -89,7 +108,7 @@ def search_products(request):
     """
     query = request.GET.get('q', '')
     products = Product.objects.filter(name__icontains=query)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductSerializer(products, many=True, context={'request': request})
     return Response(serializer.data)
 
 @api_view(['GET'])

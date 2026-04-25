@@ -10,8 +10,10 @@ import CategorySlider from '../components/CategorySlider';
 import CategoryProductsSection from '../components/CategoryProductsSection';
 import Footer from '../components/Footer';
 import { formatCurrency } from '../utils/currency';
+import { useSettings } from '../context/SettingsContext';
 
 const Home = ({ user, setUser }) => {
+  const { settings } = useSettings();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -258,14 +260,18 @@ const Home = ({ user, setUser }) => {
             <div className="flex items-center space-x-2 md:space-x-4 space-x-reverse">
               <div className="relative">
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden">
-                  <svg className="w-6 h-6 md:w-8 md:h-8 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
-                  </svg>
+                  {settings.site_logo ? (
+                    <img src={settings.site_logo} alt={settings.site_name} className="w-full h-full object-contain" />
+                  ) : (
+                    <svg className="w-6 h-6 md:w-8 md:h-8 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                    </svg>
+                  )}
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
               <div>
-                <h1 className="text-lg md:text-2xl font-bold gradient-text">شركة الريادة المتحدة</h1>
+                <h1 className="text-lg md:text-2xl font-bold gradient-text">{settings.site_name}</h1>
               </div>
             </div>
 

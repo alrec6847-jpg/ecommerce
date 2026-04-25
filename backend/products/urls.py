@@ -3,6 +3,9 @@ from . import views
 from . import views_coupons
 
 urlpatterns = [
+    # Site Settings
+    path('site-settings/', views.site_settings, name='site_settings'),
+
     # Products
     path('', views.product_list, name='product_list'),
     path('<int:pk>/', views.product_detail, name='product_detail'),

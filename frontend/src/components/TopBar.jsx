@@ -5,11 +5,10 @@
   - RTL friendly and mobile-first
 */
 
+import { useSettings } from '../context/SettingsContext';
+
 const TopBar = () => {
-    const rawPhone = process.env.REACT_APP_WHATSAPP_PHONE || '9647834950300';
-    const phoneDigits = rawPhone.replace(/[^\d]/g, '');
-    const whatsappHref = `https://wa.me/${phoneDigits}`;
-    const telHref = `tel:+${phoneDigits}`;
+    const { settings, whatsappHref, telHref } = useSettings();
 
     return (
         <div className="bg-gray-100 text-gray-700 text-[11px] sm:text-xs border-b" dir="rtl">
@@ -46,7 +45,7 @@ const TopBar = () => {
                     {/* Right side placeholder / brand */}
                     <div className="hidden sm:flex items-center gap-2 text-gray-500">
                         <span>هلا بك في</span>
-                        <span className="font-semibold">شركة الريادة المتحدة</span>
+                        <span className="font-semibold">{settings.site_name}</span>
                     </div>
                 </div>
             </div>

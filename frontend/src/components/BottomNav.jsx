@@ -1,10 +1,12 @@
 
+import { useSettings } from '../context/SettingsContext';
+
 // Fixed bottom navigation styled to match the screenshot
 // Shows 4 actions: Home, WhatsApp, Call, Top
-// - Uses environment variable for WhatsApp phone if available
+// - Uses dynamic settings for WhatsApp and tel link
 // - Hidden on md+ screens
 const BottomNav = () => {
-    const whatsappPhone = process.env.REACT_APP_WHATSAPP_PHONE || '+9647834950300';
+    const { whatsappHref, telHref } = useSettings();
 
     const scrollTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -24,7 +26,7 @@ const BottomNav = () => {
                 </a>
 
                 <a
-                    href={`https://wa.me/${whatsappPhone.replace(/[^\d]/g, '')}`}
+                    href={whatsappHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="py-3 flex flex-col items-center justify-center text-gray-700 hover:text-primary-600"
@@ -36,7 +38,7 @@ const BottomNav = () => {
                 </a>
 
                 <a
-                    href={`tel:+${whatsappPhone.replace(/[^\d]/g, '')}`}
+                    href={telHref}
                     className="py-3 flex flex-col items-center justify-center text-gray-700 hover:text-primary-600"
                 >
                     <svg className="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

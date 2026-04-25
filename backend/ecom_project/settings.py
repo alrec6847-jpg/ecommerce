@@ -81,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'ecom_project.context_processors.currency',
+                'ecom_project.context_processors.site_settings',
             ],
         },
     },

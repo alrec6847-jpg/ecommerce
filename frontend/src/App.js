@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import ProductDetail from './pages/ProductDetail';
 import SpecialOffers from './pages/SpecialOffers';
 import Categories from './pages/Categories';
+import { SettingsProvider } from './context/SettingsContext';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -65,51 +66,53 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="App min-h-screen bg-gray-50">
-        {/* Instagram Browser Warning */}
-        {showInstagramWarning && (
-          <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-50 border-b-2 border-yellow-300">
-            <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-              <div className="flex-1">
-                <p className="text-yellow-800 text-sm md:text-base">
-                  ⚠️ لتجربة أفضل، يرجى فتح المتجر في متصفح خارجي
-                </p>
+    <SettingsProvider>
+      <Router>
+        <div className="App min-h-screen bg-gray-50">
+          {/* Instagram Browser Warning */}
+          {showInstagramWarning && (
+            <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-50 border-b-2 border-yellow-300">
+              <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div className="flex-1">
+                  <p className="text-yellow-800 text-sm md:text-base">
+                    ⚠️ لتجربة أفضل، يرجى فتح المتجر في متصفح خارجي
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowInstagramWarning(false)}
+                  className="ml-2 text-yellow-800 hover:text-yellow-900 font-bold"
+                >
+                  ✕
+                </button>
               </div>
-              <button
-                onClick={() => setShowInstagramWarning(false)}
-                className="ml-2 text-yellow-800 hover:text-yellow-900 font-bold"
-              >
-                ✕
-              </button>
             </div>
+          )}
+          <div style={showInstagramWarning ? { marginTop: '60px' } : {}}>
+            <Routes>
+              <Route path="/" element={<Home user={user} setUser={setUser} />} />
+              <Route path="/product/:id" element={<ProductDetail user={user} />} />
+              <Route path="/offers" element={<SpecialOffers user={user} />} />
+              <Route path="/categories" element={<Categories user={user} />} />
+              <Route path="/categories/:id" element={<Categories user={user} />} />
+              <Route
+                path="/login"
+                element={
+                  user ? <Navigate to="/" /> : <Login setUser={setUser} />
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <AdminPanel user={user} setUser={setUser} />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
           </div>
-        )}
-        <div style={showInstagramWarning ? { marginTop: '60px' } : {}}>
-          <Routes>
-            <Route path="/" element={<Home user={user} setUser={setUser} />} />
-            <Route path="/product/:id" element={<ProductDetail user={user} />} />
-            <Route path="/offers" element={<SpecialOffers user={user} />} />
-            <Route path="/categories" element={<Categories user={user} />} />
-            <Route path="/categories/:id" element={<Categories user={user} />} />
-            <Route
-              path="/login"
-              element={
-                user ? <Navigate to="/" /> : <Login setUser={setUser} />
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute adminOnly={true}>
-                  <AdminPanel user={user} setUser={setUser} />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </SettingsProvider>
   );
 }
 

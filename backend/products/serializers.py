@@ -1,10 +1,15 @@
 from rest_framework import serializers
-from .models import Product, Category, Banner
+from .models import Product, Category, Banner, SiteSettings
 from .models_coupons import Coupon, CouponUsage
 from .serializers_coupons import CouponSerializer, CouponUsageSerializer
 import logging
 
 logger = logging.getLogger(__name__)
+
+class SiteSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SiteSettings
+        fields = ['site_name', 'site_logo', 'contact_phone', 'whatsapp_number', 'telegram_username']
 
 class CategorySerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
