@@ -33,14 +33,18 @@ const CategoryProductsSection = ({
 
         {/* Products Container */}
         <div className="relative">
-          {/* Grid of 2 products per row on mobile, more on desktop */}
+          {/* Horizontal Slider - showing 2 items per row on mobile */}
           <div 
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 pb-6"
+            className="flex md:grid md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-hide pb-6 -mx-4 px-4 md:mx-0 md:px-0"
+            style={{ 
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch'
+            }}
           >
             {products.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 flex flex-col h-full group animate-fadeIn"
+                className="flex-shrink-0 w-[calc(50%-6px)] sm:w-[calc(40%-8px)] md:w-auto snap-center md:snap-align-none bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 flex flex-col h-full group animate-fadeIn"
               >
                 {/* Product Image */}
                 <div 
