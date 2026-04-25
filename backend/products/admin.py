@@ -10,8 +10,12 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     
     def has_add_permission(self, request):
         # Allow only one instance
-        if self.model.objects.exists():
-            return False
+        try:
+            if self.model.objects.exists():
+                return False
+        except:
+            # If table doesn't exist yet, return True to avoid 500
+            return True
         return True
 
 class CategoryAdmin(admin.ModelAdmin):

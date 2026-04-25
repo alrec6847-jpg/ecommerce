@@ -28,36 +28,46 @@ class AlriyadaAdminSite(AdminSite):
         """
         extra_context = extra_context or {}
         
-        # Get statistics
-        extra_context['users_count'] = User.objects.count()
-        extra_context['products_count'] = Product.objects.count()
-        extra_context['orders_count'] = Order.objects.count()
-        extra_context['categories_count'] = Category.objects.count()
-        
-        # Calculate total revenue
-        extra_context['total_revenue'] = Order.objects.filter(
-            status__in=['delivered']
-        ).aggregate(
-            total=Sum('subtotal')
-        )['total'] or Decimal('0')
-        
-        # Recent activity
-        extra_context['recent_orders'] = Order.objects.order_by('-created_at')[:5]
-        extra_context['recent_users'] = User.objects.order_by('-date_joined')[:5]
-        extra_context['recent_products'] = Product.objects.order_by('-created_at')[:5]
-        
-        # Low stock products
-        extra_context['low_stock_products'] = Product.objects.filter(stock_quantity__lt=10).order_by('stock_quantity')[:5]
-        
-        # Pending orders
-        extra_context['pending_orders'] = Order.objects.filter(status='pending').count()
-
-        # Notifications (recent + unread count)
         try:
-            from notifications.models import Notification
-            extra_context['recent_notifications'] = Notification.objects.select_related('recipient')[:5]
-            extra_context['unread_notifications_count'] = Notification.objects.filter(is_read=False).count()
-        except Exception:
+            # Get statistics
+            extra_context['users_count'] = User.objects.count()
+            extra_context['products_count'] = Product.objects.count()
+            extra_context['orders_count'] = Order.objects.count()
+            extra_context['categories_count'] = Category.objects.count()
+            
+            # Calculate total revenue
+            extra_context['total_revenue'] = Order.objects.filter(
+                status__in=['delivered']
+            ).aggregate(
+                total=Sum('subtotal')
+            )['total'] or Decimal('0')
+            
+            # Recent activity
+            extra_context['recent_orders'] = Order.objects.order_by('-created_at')[:5]
+            extra_context['recent_users'] = User.objects.order_by('-date_joined')[:5]
+            extra_context['recent_products'] = Product.objects.order_by('-created_at')[:5]
+            
+            # Low stock products
+            extra_context['low_stock_products'] = Product.objects.filter(stock_quantity__lt=10).order_by('stock_quantity')[:5]
+            
+            # Pending orders
+            extra_context['pending_orders'] = Order.objects.filter(status='pending').count()
+
+            # Notifications (recent + unread count)
+            try:
+                from notifications.models import Notification
+                extra_context['recent_notifications'] = Notification.objects.select_related('recipient')[:5]
+                extra_context['unread_notifications_count'] = Notification.objects.filter(is_read=False).count()
+            except Exception:
+                extra_context['recent_notifications'] = []
+                extra_context['unread_notifications_count'] = 0
+        except Exception as e:
+            print(f"Error in admin index stats: {e}")
+            # Ensure defaults to avoid template errors
+            extra_context['users_count'] = 0
+            extra_context['products_count'] = 0
+            extra_context['orders_count'] = 0
+            extra_context['total_revenue'] = 0
             extra_context['recent_notifications'] = []
             extra_context['unread_notifications_count'] = 0
         
