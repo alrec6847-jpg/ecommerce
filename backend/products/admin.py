@@ -11,10 +11,12 @@ class SiteSettingsAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # Allow only one instance
         try:
+            from django.db import connection
+            if 'products_sitesettings' not in connection.introspection.table_names():
+                return True
             if self.model.objects.exists():
                 return False
         except:
-            # If table doesn't exist yet, return True to avoid 500
             return True
         return True
 
