@@ -71,7 +71,11 @@ class AlriyadaAdminSite(AdminSite):
             extra_context['recent_notifications'] = []
             extra_context['unread_notifications_count'] = 0
         
-        return super().index(request, extra_context)
+        try:
+            return super().index(request, extra_context)
+        except Exception as e:
+            print(f"Error in super().index: {e}")
+            return render(request, 'admin/index.html', extra_context)
 
 # Create custom admin site instance
 admin_site = AlriyadaAdminSite(name='mimi_admin')

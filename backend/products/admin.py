@@ -14,11 +14,19 @@ class SiteSettingsAdmin(admin.ModelAdmin):
             from django.db import connection
             if 'products_sitesettings' not in connection.introspection.table_names():
                 return True
-            if self.model.objects.exists():
-                return False
-        except:
+            # Double check if objects.exists() fails
+            try:
+                if self.model.objects.exists():
+                    return False
+            except:
+                return True
+        except Exception as e:
+            print(f"Error in SiteSettingsAdmin.has_add_permission: {e}")
             return True
         return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent', 'display_order', 'is_active')
@@ -42,7 +50,11 @@ class ProductAdmin(admin.ModelAdmin):
     
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
-        extra_context['categories'] = Category.objects.all()
+        try:
+            extra_context['categories'] = Category.objects.all()
+        except:
+            extra_context['categories'] = []
+            
         # Add filters to context for the custom template
         extra_context['category_filter'] = request.GET.get('category')
         extra_context['status_filter'] = request.GET.get('status')
@@ -51,7 +63,13 @@ class ProductAdmin(admin.ModelAdmin):
         extra_context['search_query'] = request.GET.get('q')
         
         # Get the standard response
-        response = super().changelist_view(request, extra_context=extra_context)
+        try:
+            response = super().changelist_view(request, extra_context=extra_context)
+        except Exception as e:
+            print(f"Error in ProductAdmin.changelist_view super call: {e}")
+            # If it fails, we might be missing tables
+            from django.shortcuts import render
+            return render(request, 'admin/change_list.html', extra_context)
         
         # After super call, we can access the changelist instance if it's a TemplateResponse
         if hasattr(response, 'context_data'):

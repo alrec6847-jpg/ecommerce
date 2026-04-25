@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { formatCurrency, getFreeShippingThreshold } from '../utils/currency';
 import { api } from '../api';
+import { useSettings } from '../context/SettingsContext';
 
 const Cart = ({ cart, onCartChange, onClose, handleCheckout }) => {
+  const { settings, whatsappHref, telHref, telegramHref } = useSettings();
   const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [loadingCoupon, setLoadingCoupon] = useState(false);
-  const whatsappLink = "https://wa.me/9647834950300";
-  const telegramLink = "https://t.me/+9647834950300";
-  const phoneLink = "tel:07834950300";
+  const whatsappLink = whatsappHref;
+  const telegramLink = telegramHref;
+  const phoneLink = telHref;
 
   const showNotification = (message, type = 'success') => {
     setNotification({ show: true, message, type });

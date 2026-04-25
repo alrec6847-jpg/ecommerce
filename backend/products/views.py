@@ -13,11 +13,15 @@ def site_settings(request):
     """
     Get or Update site-wide settings (name, logo, contact numbers)
     """
-    settings_obj = SiteSettings.objects.first()
+    try:
+        settings_obj = SiteSettings.objects.first()
+    except Exception as e:
+        print(f"Database error in site_settings: {e}")
+        settings_obj = None
     
     if request.method == 'GET':
         if not settings_obj:
-            # Return default settings if none exist
+            # Return default settings if none exist or table missing
             return Response({
                 'site_name': 'شركة الريادة المتحدة',
                 'site_logo': None,
@@ -25,22 +29,37 @@ def site_settings(request):
                 'whatsapp_number': '07834950300',
                 'telegram_username': '07834950300'
             })
-        serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
-        return Response(serializer.data)
+        
+        try:
+            serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
+            return Response(serializer.data)
+        except Exception as e:
+            print(f"Error serializing site settings: {e}")
+            return Response({
+                'site_name': getattr(settings_obj, 'site_name', 'شركة الريادة المتحدة'),
+                'site_logo': None,
+                'contact_phone': getattr(settings_obj, 'contact_phone', '07834950300'),
+                'whatsapp_number': getattr(settings_obj, 'whatsapp_number', '07834950300'),
+                'telegram_username': getattr(settings_obj, 'telegram_username', '07834950300')
+            })
     
     elif request.method == 'PUT':
         # Simple permission check for staff
         if not request.user.is_staff:
             return Response({'error': 'Unauthorized'}, status=403)
             
-        if not settings_obj:
-            settings_obj = SiteSettings.objects.create()
-            
-        serializer = SiteSettingsSerializer(settings_obj, data=request.data, partial=True, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        try:
+            if not settings_obj:
+                settings_obj = SiteSettings.objects.create()
+                
+            serializer = SiteSettingsSerializer(settings_obj, data=request.data, partial=True, context={'request': request})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=400)
+        except Exception as e:
+            print(f"Error updating site settings: {e}")
+            return Response({'error': str(e)}, status=500)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

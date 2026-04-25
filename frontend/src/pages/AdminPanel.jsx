@@ -495,10 +495,16 @@ const AdminPanel = ({ user, setUser }) => {
             <div className="flex items-center space-x-4 space-x-reverse">
               <Link to="/" className="flex items-center space-x-2 space-x-reverse">
                 <div className="w-10 h-10 bg-white rounded-lg shadow-md flex items-center justify-center overflow-hidden border border-gray-100">
-                  <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+                  {siteSettingsPreview ? (
+                    <img src={siteSettingsPreview} alt="اللوكو" className="w-full h-full object-contain" />
+                  ) : (
+                    <svg className="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                  )}
                 </div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-                  شركة الريادة المتحدة - لوحة الإدارة
+                  {siteSettings.site_name || 'شركة الريادة المتحدة'} - لوحة الإدارة
                 </h1>
               </Link>
             </div>

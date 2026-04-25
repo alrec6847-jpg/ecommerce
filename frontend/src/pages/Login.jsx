@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api';
+import { SettingsContext } from '../context/SettingsContext';
 
 const iraqGovernorates = [
   'بغداد', 'البصرة', 'نينوى', 'أربيل', 'السليمانية', 'دهوك', 'كركوك', 'ديالى', 'الأنبار',
@@ -8,6 +9,7 @@ const iraqGovernorates = [
 ];
 
 const Login = ({ setUser }) => {
+  const { settings } = useContext(SettingsContext);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     phone: '',
@@ -140,7 +142,13 @@ const Login = ({ setUser }) => {
         {/* Header */}
         <div className="text-center">
           <div className="bg-white w-20 h-20 rounded-full flex items-center justify-center overflow-hidden mx-auto mb-4 border border-gray-100 shadow-md">
-            <img src="https://cdn.zencoder.ai/user_uploads/677c385b0d0690002cd496be/07c08882-8951-40be-9bc0-0969d2d2a45d.png" alt="اللوكو" className="w-full h-full object-contain" />
+            {settings?.site_logo ? (
+              <img src={settings.site_logo} alt="اللوكو" className="w-full h-full object-contain" />
+            ) : (
+              <svg className="w-10 h-10 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            )}
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             شركة الريادة المتحدة
