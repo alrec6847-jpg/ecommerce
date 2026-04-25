@@ -13,7 +13,7 @@ const CategoryProductsSection = ({
   }
 
   return (
-    <section className="py-6 bg-white border-b border-gray-100">
+    <section className="py-6 bg-white border-b border-gray-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Category Header */}
         <div className="flex items-center justify-between mb-4">
@@ -32,13 +32,19 @@ const CategoryProductsSection = ({
         </div>
 
         {/* Products Container */}
-        <div className="relative group">
+        <div className="relative">
           {/* Horizontal Scroll on Mobile, Grid on Desktop */}
-          <div className="flex md:grid md:grid-cols-3 lg:grid-cols-4 gap-3 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-hide pb-4 md:pb-0">
+          <div 
+            className="flex md:grid md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-hide pb-6 -mx-4 px-4 md:mx-0 md:px-0"
+            style={{ 
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch'
+            }}
+          >
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex-shrink-0 w-[170px] sm:w-[200px] md:w-auto snap-start bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 flex flex-col h-full group"
+                className="flex-shrink-0 w-[190px] sm:w-[220px] md:w-auto snap-center md:snap-align-none bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 flex flex-col h-full group animate-fadeIn"
               >
                 {/* Product Image */}
                 <div 
@@ -129,6 +135,13 @@ const CategoryProductsSection = ({
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease forwards;
         }
       `}</style>
     </section>
