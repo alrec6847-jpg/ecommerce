@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api';
-import { SettingsContext } from '../context/SettingsContext';
+import { useSettings } from '../context/SettingsContext';
 
 const iraqGovernorates = [
   'بغداد', 'البصرة', 'نينوى', 'أربيل', 'السليمانية', 'دهوك', 'كركوك', 'ديالى', 'الأنبار',
@@ -9,7 +9,7 @@ const iraqGovernorates = [
 ];
 
 const Login = ({ setUser }) => {
-  const { settings } = useContext(SettingsContext);
+  const { settings } = useSettings();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     phone: '',
@@ -151,7 +151,7 @@ const Login = ({ setUser }) => {
             )}
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
-            شركة الريادة المتحدة
+            {settings?.site_name || 'شركة الريادة المتحدة'}
           </h2>
           <p className="text-gray-600">
             {isLogin ? 'مرحباً بعودتك!' : 'إنشاء حساب جديد'}

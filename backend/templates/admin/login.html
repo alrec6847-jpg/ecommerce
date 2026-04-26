@@ -18,23 +18,31 @@
         /* Hide Jazzmin and custom Admin UI on login page */
         .main-header, .main-sidebar, .main-footer, .content-header, .navbar, .sidebar, 
         .brand-link, .nav-sidebar, .user-panel, .info, .nav-item, .nav-link,
-        header, #header, .navbar-nav, .nav-tabs, .breadcrumbs {
+        header, #header, .navbar-nav, .nav-tabs, .breadcrumbs, aside, .control-sidebar,
+        .main-header, .main-sidebar, #header, #footer, .breadcrumbs, .usertools,
+        aside, nav, .main-footer {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
             width: 0 !important;
             height: 0 !important;
             pointer-events: none !important;
+            position: absolute !important;
+            left: -9999px !important;
         }
-        .content-wrapper {
+        .content-wrapper, .wrapper, #container, #content {
             margin-left: 0 !important;
             margin-right: 0 !important;
-            padding-top: 0 !important;
+            margin-top: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            min-height: 100vh !important;
             background: transparent !important;
-            display: block !important;
-        }
-        .wrapper {
-            background: transparent !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            position: relative !important;
+            z-index: 1 !important;
         }
         
         .login-container {

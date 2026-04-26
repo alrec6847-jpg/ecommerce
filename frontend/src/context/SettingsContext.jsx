@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import api, { endpoints } from '../api';
 
-const SettingsContext = createContext();
+export const SettingsContext = createContext();
 
 export const useSettings = () => useContext(SettingsContext);
 
@@ -20,15 +20,21 @@ export const SettingsProvider = ({ children }) => {
             try {
                 const response = await api.get(endpoints.siteSettings);
                 if (response.data) {
-                    // Ensure logo URL is absolute if it exists but is relative
                     const data = response.data;
-                    if (data.site_logo && !data.site_logo.startsWith('http')) {
-                        data.site_logo = `http://167.86.98.95${data.site_logo}`;
+                    
+                    // Fix logo URL if it's relative
+                    if (data.site_logo && typeof data.site_logo === 'string') {
+                        if (!data.site_logo.startsWith('http')) {
+                            const baseUrl = 'http://167.86.98.95';
+                            const path = data.site_logo.startsWith('/') ? data.site_logo : `/${data.site_logo}`;
+                            data.site_logo = `${baseUrl}${path}`;
+                        }
                     }
-                    setSettings({
-                        ...settings, // Default values
-                        ...data      // Override with API values
-                    });
+
+                    setSettings(prev => ({
+                        ...prev,
+                        ...data
+                    }));
                 }
             } catch (error) {
                 console.error('Error fetching site settings:', error);

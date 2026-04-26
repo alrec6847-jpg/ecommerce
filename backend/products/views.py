@@ -16,7 +16,7 @@ def site_settings(request):
     try:
         settings_obj = SiteSettings.objects.first()
     except Exception as e:
-        print(f"Database error in site_settings: {e}")
+        print(f"Database error in site_settings (missing table?): {e}")
         settings_obj = None
     
     if request.method == 'GET':
@@ -31,17 +31,11 @@ def site_settings(request):
             })
         
         try:
-            # Check if all needed columns exist
-            from django.db import connection
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT * FROM products_sitesettings LIMIT 1")
-                # If we get here, table exists. Let's try serializing.
-            
             serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
             return Response(serializer.data)
         except Exception as e:
             print(f"Error serializing site settings: {e}")
-            # Fallback to manual values if serialization fails due to missing columns
+            # Final fallback to manual values
             return Response({
                 'site_name': getattr(settings_obj, 'site_name', 'شركة الريادة المتحدة'),
                 'site_logo': None,
