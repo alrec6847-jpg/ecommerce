@@ -2,13 +2,10 @@ import * as axios from 'axios';
 
 // Create axios instance
 export const api = axios.default.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://167.86.98.95/api',
-  timeout: 10000,
+  baseURL: '/api',
+  timeout: 15000, // Increased timeout for slower connections
   headers: {
     'Content-Type': 'application/json',
-  },
-  params: {
-    _: new Date().getTime(),
   },
 });
 
