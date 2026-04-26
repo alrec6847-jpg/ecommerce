@@ -220,7 +220,10 @@
         
         forms.forEach(form => {
             form.addEventListener('submit', function() {
-                loadingOverlay.classList.add('show');
+                // Don't show overlay on login page to avoid "freeze" issues
+                if (!window.location.pathname.includes('/login/')) {
+                    loadingOverlay.classList.add('show');
+                }
             });
         });
         
