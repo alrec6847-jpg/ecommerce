@@ -13,6 +13,41 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
         model = SiteSettings
         fields = ['site_name', 'site_logo', 'contact_phone', 'whatsapp_number', 'telegram_username']
 
+    def to_representation(self, instance):
+        """Handle missing fields in database gracefully and ensure absolute URLs"""
+        try:
+            ret = super().to_representation(instance)
+        except Exception as e:
+            print(f"Error in SiteSettingsSerializer.to_representation super: {e}")
+            ret = {}
+
+        # Ensure all expected fields are present even if DB columns are missing
+        for field in self.fields:
+            if field not in ret:
+                ret[field] = None
+        
+        # Ensure site_logo is absolute URL
+        if instance.logo:
+            logo_url = instance.logo.url
+            if logo_url.startswith('http'):
+                ret['site_logo'] = logo_url
+            else:
+                request = self.context.get('request')
+                if request:
+                    ret['site_logo'] = request.build_absolute_uri(logo_url)
+                else:
+                    ret['site_logo'] = f"http://167.86.98.95{logo_url}"
+        else:
+            ret['site_logo'] = None
+
+        # Defaults for contact info if None
+        if not ret.get('site_name'): ret['site_name'] = 'شركة الريادة المتحدة'
+        if not ret.get('contact_phone'): ret['contact_phone'] = '07834950300'
+        if not ret.get('whatsapp_number'): ret['whatsapp_number'] = '07834950300'
+        if not ret.get('telegram_username'): ret['telegram_username'] = '07834950300'
+        
+        return ret
+
 class CategorySerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
     

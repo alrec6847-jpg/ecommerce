@@ -38,13 +38,14 @@ const CategoryProductsSection = ({
             className="flex md:grid md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-hide pb-6 -mx-4 px-4 md:mx-0 md:px-0"
             style={{ 
                 scrollBehavior: 'smooth',
-                WebkitOverflowScrolling: 'touch'
+                WebkitOverflowScrolling: 'touch',
+                touchAction: 'pan-x pan-y'
             }}
           >
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex-shrink-0 w-[calc(50%-6px)] sm:w-[calc(40%-8px)] md:w-auto snap-center md:snap-align-none bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 flex flex-col h-full group animate-fadeIn"
+                className="flex-shrink-0 w-[calc(50%-6px)] sm:w-[calc(40%-8px)] md:w-auto snap-start md:snap-align-none bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 flex flex-col h-full group animate-slideIn"
               >
                 {/* Product Image */}
                 <div 
@@ -136,12 +137,12 @@ const CategoryProductsSection = ({
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
         }
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease forwards;
+        .animate-slideIn {
+          animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
       `}</style>
     </section>

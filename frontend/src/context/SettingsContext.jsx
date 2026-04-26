@@ -20,7 +20,15 @@ export const SettingsProvider = ({ children }) => {
             try {
                 const response = await api.get(endpoints.siteSettings);
                 if (response.data) {
-                    setSettings(response.data);
+                    // Ensure logo URL is absolute if it exists but is relative
+                    const data = response.data;
+                    if (data.site_logo && !data.site_logo.startsWith('http')) {
+                        data.site_logo = `http://167.86.98.95${data.site_logo}`;
+                    }
+                    setSettings({
+                        ...settings, // Default values
+                        ...data      // Override with API values
+                    });
                 }
             } catch (error) {
                 console.error('Error fetching site settings:', error);

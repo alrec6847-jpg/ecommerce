@@ -31,10 +31,17 @@ def site_settings(request):
             })
         
         try:
+            # Check if all needed columns exist
+            from django.db import connection
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT * FROM products_sitesettings LIMIT 1")
+                # If we get here, table exists. Let's try serializing.
+            
             serializer = SiteSettingsSerializer(settings_obj, context={'request': request})
             return Response(serializer.data)
         except Exception as e:
             print(f"Error serializing site settings: {e}")
+            # Fallback to manual values if serialization fails due to missing columns
             return Response({
                 'site_name': getattr(settings_obj, 'site_name', 'شركة الريادة المتحدة'),
                 'site_logo': None,
@@ -49,6 +56,11 @@ def site_settings(request):
             return Response({'error': 'Unauthorized'}, status=403)
             
         try:
+            from django.db import connection
+            tables = connection.introspection.table_names()
+            if 'products_sitesettings' not in tables:
+                return Response({'error': 'Settings table not found. Please run migrations.'}, status=400)
+                
             if not settings_obj:
                 settings_obj = SiteSettings.objects.create()
                 

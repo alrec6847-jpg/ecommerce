@@ -590,40 +590,6 @@ const Home = ({ user, setUser }) => {
       {/* Footer */}
       <Footer />
 
-      {/* Bottom Navigation (Mobile) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden">
-        <div className="grid grid-cols-4 gap-1">
-          <button className="flex flex-col items-center py-2 text-primary-600">
-            <svg className="h-6 w-6 mb-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-            </svg>
-            <span className="text-xs">الرئيسية</span>
-          </button>
-          <button className="flex flex-col items-center py-2 text-gray-600">
-            <svg className="h-6 w-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <span className="text-xs">البحث</span>
-          </button>
-          <button className="flex flex-col items-center py-2 text-gray-600 relative">
-            <svg className="h-6 w-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0h8" />
-            </svg>
-            {getCartItemCount() > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                {getCartItemCount()}
-              </span>
-            )}
-            <span className="text-xs">السلة</span>
-          </button>
-          <button className="flex flex-col items-center py-2 text-gray-600">
-            <svg className="h-6 w-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            <span className="text-xs">الحساب</span>
-          </button>
-        </div>
-      </div>
       {/* Bottom Navigation */}
       <BottomNav />
     </div>

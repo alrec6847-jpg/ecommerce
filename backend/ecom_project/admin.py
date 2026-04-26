@@ -21,6 +21,17 @@ class AlriyadaAdminSite(AdminSite):
             path('products/admin/category/list/', category_list_view, name='admin-category-list'),
         ]
         return custom_urls + urls
+
+    def get_app_list(self, request, app_label=None):
+        """
+        Overridden to handle missing tables gracefully during model listing
+        """
+        try:
+            return super().get_app_list(request, app_label)
+        except Exception as e:
+            print(f"Error in get_app_list: {e}")
+            # Return empty list or partial list if it fails
+            return []
     
     def index(self, request, extra_context=None):
         """

@@ -12,14 +12,17 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         # Allow only one instance
         try:
             from django.db import connection
-            if 'products_sitesettings' not in connection.introspection.table_names():
+            # Direct check if table exists
+            tables = connection.introspection.table_names()
+            if 'products_sitesettings' not in tables:
                 return True
-            # Double check if objects.exists() fails
-            try:
-                if self.model.objects.exists():
+                
+            # Use raw query to avoid Django model layer if columns are missing
+            with connection.cursor() as cursor:
+                cursor.execute('SELECT COUNT(*) FROM products_sitesettings')
+                row = cursor.fetchone()
+                if row and row[0] > 0:
                     return False
-            except:
-                return True
         except Exception as e:
             print(f"Error in SiteSettingsAdmin.has_add_permission: {e}")
             return True
