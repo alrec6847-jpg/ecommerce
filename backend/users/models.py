@@ -5,6 +5,13 @@ from django.db import models
 
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
+    
+    def save(self, *args, **kwargs):
+        # Ensure we don't force update without a PK to avoid ValueError during login
+        if 'update_fields' in kwargs and self.pk is None:
+            kwargs.pop('update_fields')
+        super().save(*args, **kwargs)
+        
     email = models.EmailField(blank=True, null=True, verbose_name="البريد الإلكتروني")
     phone = models.CharField(max_length=20, unique=True, verbose_name="رقم الهاتف")
     address = models.TextField(blank=True, null=True, verbose_name="العنوان")
