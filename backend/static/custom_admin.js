@@ -70,27 +70,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Loading spinner for forms
-    const submitButtons = document.querySelectorAll('button[type="submit"]');
-    submitButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const form = this.closest('form');
-            if (form && form.checkValidity()) {
-                this.disabled = true;
-                this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> جاري الإرسال...';
-
-                // Re-enable button after 5 seconds (in case of network issues)
+    // Loading spinner for forms - avoid disabling on click to prevent form submission issues
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function() {
+            const submitBtn = this.querySelector('button[type="submit"]:not(.login-btn)');
+            if (submitBtn) {
+                // Store original text if not already stored
+                if (!submitBtn.dataset.originalText) {
+                    submitBtn.dataset.originalText = submitBtn.innerHTML;
+                }
+                
+                // Set loading state after a tiny delay to allow form submission to trigger
                 setTimeout(() => {
-                    this.disabled = false;
-                    this.innerHTML = this.dataset.originalText || 'إرسال';
-                }, 5000);
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> جاري الإرسال...';
+                    submitBtn.disabled = true;
+                }, 0);
+
+                // Re-enable button after 10 seconds (in case of network issues)
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = submitBtn.dataset.originalText || 'إرسال';
+                }, 10000);
             }
         });
-    });
-
-    // Store original button text
-    submitButtons.forEach(button => {
-        button.dataset.originalText = button.innerHTML;
     });
 
     // Auto-hide alerts after 5 seconds

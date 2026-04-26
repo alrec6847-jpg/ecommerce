@@ -338,7 +338,10 @@
         
         form.addEventListener('submit', function() {
             button.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-left: 8px;"></i>جاري تسجيل الدخول...';
-            button.disabled = true;
+            // Use setTimeout to ensure the form submission is not blocked
+            setTimeout(function() {
+                button.disabled = true;
+            }, 50);
         });
     });
 </script>
