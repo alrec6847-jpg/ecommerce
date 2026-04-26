@@ -257,18 +257,25 @@ CORS_ALLOW_HEADERS = [
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = False  # Changed for HTTP access
-    SECURE_HSTS_SECONDS = 0  # Changed for HTTP access
-    SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = False  # Disabled for IP-based HTTP access
-    SESSION_COOKIE_SECURE = False  # Disabled for HTTP access
-    CSRF_COOKIE_SECURE = False  # Disabled for HTTP access
-    SECURE_HSTS_PRELOAD = False  # Changed for HTTP access
-else:
-    # Disable SSL redirect in development
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_SECONDS = 0
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_PRELOAD = False
+else:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+# Chrome Compatibility Settings
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_DOMAIN = None
+SESSION_COOKIE_NAME = 'sessionid'
+CSRF_COOKIE_NAME = 'csrftoken'
 
 # Logging Configuration
 LOGGING = {
