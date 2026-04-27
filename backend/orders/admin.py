@@ -175,6 +175,29 @@ class BaseOrderAdmin(admin.ModelAdmin):
         # منع إضافة طلبات يدويًا من لوحة الإدارة
         return False
 
+    def changelist_view(self, request, extra_context=None):
+        """
+        إضافة إحصائيات الطلبات إلى واجهة قائمة الطلبات
+        """
+        from django.db.models import Sum, Avg
+        
+        # حساب الإحصائيات
+        total_orders = Order.objects.count()
+        pending_orders = Order.objects.filter(status='pending').count()
+        total_revenue = Order.objects.filter(status='delivered').aggregate(total=Sum('total'))['total'] or 0
+        avg_order_value = Order.objects.filter(status='delivered').aggregate(avg=Avg('total'))['avg'] or 0
+        
+        # إضافة البيانات للـ context
+        extra_context = extra_context or {}
+        extra_context.update({
+            'total_orders': total_orders,
+            'pending_orders': pending_orders,
+            'total_revenue': f"{total_revenue:,.0f}",
+            'avg_order_value': f"{avg_order_value:,.0f}",
+        })
+        
+        return super().changelist_view(request, extra_context=extra_context)
+
 
 # Admin for New Orders (Pending only)
 class NewOrderAdmin(BaseOrderAdmin):
