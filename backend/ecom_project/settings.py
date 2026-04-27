@@ -265,7 +265,7 @@ else:
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
 
-# Chrome Compatibility Settings
+# Chrome and Edge Compatibility Settings
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_HTTPONLY = True
@@ -273,6 +273,11 @@ CSRF_COOKIE_HTTPONLY = False
 SESSION_COOKIE_DOMAIN = None
 SESSION_COOKIE_NAME = 'sessionid'
 CSRF_COOKIE_NAME = 'csrftoken'
+
+# Allow logout via GET request (Fixes logout hang)
+# Note: LOGOUT_ON_GET is deprecated in Django 5.0, using custom handling if needed
+# but for now we set the COOP header to allow cross-origin for HTTP
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 # Logging Configuration
 LOGGING = {
