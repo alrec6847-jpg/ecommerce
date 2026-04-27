@@ -120,11 +120,11 @@ const BannerSlider = () => {
               onClick={() => handleBannerClick(banner)}
             >
               <img
-                src={banner.image.startsWith('http') 
+                src={banner.image ? (banner.image.startsWith('http') 
                   ? banner.image 
                   : banner.image.startsWith('/media/') 
                     ? `http://167.86.98.95${banner.image}`
-                    : `http://167.86.98.95/media/${banner.image}`}
+                    : `http://167.86.98.95/media/${banner.image}`) : ''}
                 onLoad={() => console.log('Banner image loaded successfully')}
                 onError={(e) => {
                   console.error('Error loading banner image:', e, banner.image);
