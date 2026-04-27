@@ -34,7 +34,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD:-ecommerce_pass}
       - DB_HOST=db
       - DB_PORT=5432
-      - ALLOWED_HOSTS=167.86.98.95,localhost,127.0.0.1
+      - ALLOWED_HOSTS=167.86.98.95,riyadacompany.com,www.riyadacompany.com,localhost,127.0.0.1,web,frontend
       - SECRET_KEY=${SECRET_KEY:-django-insecure-prod-key-change-me}
     depends_on:
       db:

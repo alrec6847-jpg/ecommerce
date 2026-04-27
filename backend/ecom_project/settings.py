@@ -16,11 +16,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,167.86.98.95,riyadacompany.com,www.riyadacompany.com,web').split(',')
-# Ensure required hosts are always present
-for host in ['167.86.98.95', 'riyadacompany.com', 'www.riyadacompany.com']:
-    if host not in ALLOWED_HOSTS:
-        ALLOWED_HOSTS.append(host)
+ALLOWED_HOSTS = ['167.86.98.95', 'riyadacompany.com', 'www.riyadacompany.com', 'localhost', '127.0.0.1', 'web', 'frontend']
 
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [

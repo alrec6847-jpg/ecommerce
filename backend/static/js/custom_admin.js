@@ -74,6 +74,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     submitButtons.forEach(button => {
         button.addEventListener('click', function() {
+            // Don't disable button on login page to avoid "freeze" issues
+            if (window.location.pathname.includes('/login/')) {
+                return;
+            }
+            
             const form = this.closest('form');
             if (form && form.checkValidity()) {
                 this.disabled = true;

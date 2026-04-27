@@ -16,8 +16,14 @@ const BannerSlider = () => {
         setLoading(true);
         const response = await api.get(endpoints.banners);
         console.log('Banners data:', response.data);
-        setBanners(response.data);
-        setError(null);
+        if (Array.isArray(response.data)) {
+          setBanners(response.data);
+          setError(null);
+        } else {
+          console.error('Banners data is not an array:', response.data);
+          setBanners([]);
+          setError('Failed to load banners');
+        }
       } catch (err) {
         console.error('Error fetching banners:', err);
         setError('Failed to load banners');
