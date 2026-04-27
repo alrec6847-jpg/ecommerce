@@ -3,9 +3,10 @@ import * as axios from 'axios';
 // Create axios instance
 export const api = axios.default.create({
   baseURL: '/api',
-  timeout: 15000, // Increased timeout for slower connections
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json', // Force JSON response
   },
 });
 
