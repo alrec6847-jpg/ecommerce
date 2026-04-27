@@ -7,11 +7,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=${DB_NAME:-ecommerce_db}
-      - POSTGRES_USER=${DB_USER:-ecommerce_user}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-ecommerce_pass}
+      - POSTGRES_DB=ecommerce_db
+      - POSTGRES_USER=ecommerce_user
+      - POSTGRES_PASSWORD=ecommerce_pass
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-ecommerce_user} -d ${DB_NAME:-ecommerce_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ecommerce_user -d ecommerce_db"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,9 +29,9 @@ services:
       - "8000"
     environment:
       - DEBUG=False
-      - DB_NAME=${DB_NAME:-ecommerce_db}
-      - DB_USER=${DB_USER:-ecommerce_user}
-      - DB_PASSWORD=${DB_PASSWORD:-ecommerce_pass}
+      - DB_NAME=ecommerce_db
+      - DB_USER=ecommerce_user
+      - DB_PASSWORD=ecommerce_pass
       - DB_HOST=db
       - DB_PORT=5432
       - ALLOWED_HOSTS=167.86.98.95,riyadacompany.com,www.riyadacompany.com,localhost,127.0.0.1,web,frontend
